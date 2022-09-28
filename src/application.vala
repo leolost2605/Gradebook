@@ -1,6 +1,7 @@
 public class MyApp : Adw.Application {
     private int filter_type = 0;
     private int sort_type = 0;
+    private Settings settings = new Settings ("com.github.leolosttt.hello_gtk_vala");
 
     public MyApp() {
         Object (
@@ -9,10 +10,14 @@ public class MyApp : Adw.Application {
         );
     }
 
+
+
     public int sort_list (Gtk.ListBoxRow row1, Gtk.ListBoxRow row2) {
         //Adw.ExpanderRow awidget = row1.get_child ();
         return 0;
     }
+
+
 
     public bool filter_list (Gtk.ListBoxRow row) {
         //TO DO: replace with switch/case and first of all get it to work
@@ -31,6 +36,94 @@ public class MyApp : Adw.Application {
 
     }
 
+
+
+    public void write_to_file (File file, string write_data)
+    {
+        uint8[] write_bytes = (uint8[]) write_data.to_utf8 ();
+
+
+        try {
+            file.replace_contents (write_bytes, null, false, FileCreateFlags.NONE, null, null);
+        } catch (Error e) {
+            print ("Error: %s\n", e.message);
+        }
+    }
+
+    public string read_from_file (File file)
+    {
+        try {
+            string file_content = "";
+            uint8[] contents;
+            string etag_out;
+
+
+            file.load_contents (null, out contents, out etag_out);
+
+            file_content = (string) contents;
+
+            return file_content;
+        } catch (Error e) {
+            print ("Error: %s\n", e.message);
+        }
+        return "-1";
+    }
+
+
+
+    public Subject[] read_data () {
+        Subject[] subjects = new Subject[20];
+
+
+        for (int i = 0; i < subjects.length && FileUtils.test (@"savedata/subject$i/name", FileTest.EXISTS); i++) {
+            File namefile = File.new_for_path (@"savedata/subject$i/name");
+
+            subjects[i] = new Subject (read_from_file (namefile));
+
+            for (int j = 0; j < subjects[i].grades.length && FileUtils.test (@"savedata/subject$i/grade$j", FileTest.EXISTS); j++) {
+                File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
+
+                string grade_obj_string = read_from_file (gradefile);
+
+                try {
+                    //creating and loading Json Parser
+                    Json.Parser parser = new Json.Parser ();
+                    parser.load_from_data (grade_obj_string);
+
+                    //creating Json Node
+                    Json.Node grade_read_root = parser.get_root ();
+
+                    //deserialize
+                    subjects[i].grades[j] = Json.gobject_deserialize (typeof (Grade), grade_read_root) as Grade;
+                } catch (Error e) {
+                    print ("Error: %s", e.message);
+                }
+            }
+        }
+        return subjects;
+    }
+
+
+
+    public void write_data (Subject[] subjects) {
+        for (int i = 0; subjects[i] != null; i++) {
+            File namefile = File.new_for_path (@"savedata/subject$i/name");
+            write_to_file (namefile, subjects[i].name);
+
+            for (int j = 0; subjects[i].grades[j] != null; j++) {
+                File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
+
+                Json.Node grade_save_root = Json.gobject_serialize (subjects[i].grades[j]);
+
+                //generator for string conversion
+                Json.Generator generator = new Json.Generator ();
+                generator.set_root (grade_save_root);
+
+                write_to_file (gradefile, generator.to_data (null));
+            }
+        }
+    }
+
     protected override void activate () {
         var main_window = new Adw.ApplicationWindow (this) {
             default_height = 400,
@@ -39,23 +132,37 @@ public class MyApp : Adw.Application {
         };
 
         //Variables
-        Subject[] subjects = new Subject[20];
+        Subject[] subjects = this.read_data ();
         Gtk.Box[] subject_boxes = new Gtk.Box[20];
-        subjects[0] = new Subject ("Physical");
-        subjects[0].grades[0] = new Grade (15, "12.23.2033", "My first object grade");
 
+
+        //GSETTINGS STUFF
+        var myfirstsetting = settings.get_int ("myfirstkey");
+        print (myfirstsetting.to_string ());
+
+
+
+        //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
         //Declare main box
         var main_box = new Gtk.Box (VERTICAL, 1);
 
         //Create Header Bar and add to main box
         var header_bar = new Gtk.HeaderBar ();
+
+
         var header_label = new Gtk.Label ("Gradebook");
         header_bar.set_title_widget (header_label);
+
+
         var menu = new Gtk.MenuButton ();
         var testlabel = new Gtk.Label ("test");
         menu.set_popover (testlabel);
+
+
         header_bar.pack_end(menu);
         main_box.append(header_bar);
+
+        
 
         //Create a second horizontal box for the stack and add to main box
         var stack_box = new Gtk.Box (HORIZONTAL, 1);

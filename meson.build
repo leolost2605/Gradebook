@@ -9,7 +9,8 @@ executable(
     'src' / 'subject.vala',
     dependencies: [
         dependency('gtk4'),
-        dependency('libadwaita-1')
+        dependency('libadwaita-1'),
+        dependency('json-glib-1.0')
     ],
     install: true
 )
