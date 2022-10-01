@@ -10,6 +10,8 @@ executable(
     'src' / 'newgradebutton.vala',
     'src' / 'deletebutton.vala',
     'src' / 'new-grade-dialog.vala',
+    'src' / 'new-subject-dialog.vala',
+    'src' / 'delete-subject-button.vala',
     dependencies: [
         dependency('gtk4'),
         dependency('libadwaita-1', version: '1.1.4'),

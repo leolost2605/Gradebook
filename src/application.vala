@@ -6,6 +6,7 @@ public class MyApp : Adw.Application {
     private Gtk.Box[] subject_boxes;
     private Adw.ApplicationWindow main_window;
     private Gtk.Label[] avg;
+    private Gtk.Box main_box;
 
 
 
@@ -22,7 +23,8 @@ public class MyApp : Adw.Application {
         ActionEntry[] action_entries = {
             { "test", this.on_test_action },
             { "preferences", this.on_preferences_action },
-            { "about", this.on_about_action }
+            { "about", this.on_about_action },
+            { "newsubject", this.on_newsubject_action}
         };
         this.add_action_entries (action_entries, this);
     }
@@ -37,7 +39,21 @@ public class MyApp : Adw.Application {
 
 
 
-    public void on_prefrences_action () {
+    public void on_newsubject_action () {
+        var dialog = new NewSubjectDialog (main_window);
+        dialog.response.connect ((rid) => {
+            if(rid == Gtk.ResponseType.ACCEPT) {
+                new_subject (dialog.name_entry.get_text ());
+            }
+            dialog.destroy();
+        });
+        dialog.present ();
+    }
+
+
+
+
+    public void on_preferences_action () {
         print ("prefrences");
     }
 
@@ -95,7 +111,7 @@ public class MyApp : Adw.Application {
         try {
             file.replace_contents (write_bytes, null, false, FileCreateFlags.NONE, null, null);
         } catch (Error e) {
-            print ("Error: %s\n", e.message);
+            print (e.message);
         }
     }
 
@@ -130,31 +146,33 @@ public class MyApp : Adw.Application {
         for (int i = 0; i < subjects.length && FileUtils.test (@"savedata/subject$i/name", FileTest.EXISTS); i++) {
             File namefile = File.new_for_path (@"savedata/subject$i/name");
 
-            subjects[i] = new Subject (read_from_file (namefile));
+            if(read_from_file (namefile) != "") {
+                subjects[i] = new Subject (read_from_file (namefile));
 
-            for (int j = 0; j < subjects[i].grades.length && FileUtils.test (@"savedata/subject$i/grade$j", FileTest.EXISTS); j++) {
-                File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
+                for (int j = 0; j < subjects[i].grades.length && FileUtils.test (@"savedata/subject$i/grade$j", FileTest.EXISTS); j++) {
+                   File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
 
 
-                string grade_obj_string = read_from_file (gradefile);
+                   string grade_obj_string = read_from_file (gradefile);
 
-                if (grade_obj_string != "") {
-                    try {
+                    if (grade_obj_string != "") {
+                        try {
                         //creating and loading Json Parser
-                        Json.Parser parser = new Json.Parser ();
-                        parser.load_from_data (grade_obj_string);
+                            Json.Parser parser = new Json.Parser ();
+                            parser.load_from_data (grade_obj_string);
 
 
-                        //creating Json Node
-                        Json.Node grade_read_root = parser.get_root ();
+                            //creating Json Node
+                            Json.Node grade_read_root = parser.get_root ();
 
 
-                        //deserialize
-                        subjects[i].grades[j] = Json.gobject_deserialize (typeof (Grade), grade_read_root) as Grade;
+                            //deserialize
+                           subjects[i].grades[j] = Json.gobject_deserialize (typeof (Grade), grade_read_root) as Grade;
 
-                        
-                    } catch (Error e) {
-                    print ("Error: %s", e.message);
+
+                        } catch (Error e) {
+                        print ("Error: %s", e.message);
+                        }
                     }
                 }
             }
@@ -164,29 +182,58 @@ public class MyApp : Adw.Application {
 
 
 
-    public void write_data () {
-        for (int i = 0; subjects[i] != null; i++) {
+    async void write_data () throws ThreadError {
+        ThreadFunc<bool> run = () => {
+        for (int i = 0; i < subjects.length; i++) {
+            try {
+                File dirfile = File.new_for_path (@"savedata/subject$i");
+                dirfile.make_directory();
+            } catch (Error e) {
+                if(e.code == 2) {
+
+                } else {
+                    print (e.message);
+                }
+            }
+
             File namefile = File.new_for_path (@"savedata/subject$i/name");
 
-            write_to_file (namefile, subjects[i].name);
+            //print ("%s \n", subjects[i].name);
+            if(subjects[i] == null) {
+                write_to_file (namefile, "");
+                for (int j = 0; j < 20; j++) {
+                    File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
 
-
-            for (int j = 0; j < subjects[i].grades.length; j++) {
-                File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
-
-                if(subjects[i].grades[j] == null) {
                     write_to_file (gradefile, "");
-                } else {
-                    Json.Node grade_save_root = Json.gobject_serialize (subjects[i].grades[j]);
+                }
+            } else {
 
-                    //generator for string conversion
-                    Json.Generator generator = new Json.Generator ();
-                    generator.set_root (grade_save_root);
+                write_to_file (namefile, subjects[i].name);
 
-                    write_to_file (gradefile, generator.to_data (null));
+
+                for (int j = 0; j < subjects[i].grades.length; j++) {
+                    File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
+
+                    if(subjects[i].grades[j] == null) {
+                        write_to_file (gradefile, "");
+                    } else {
+                        Json.Node grade_save_root = Json.gobject_serialize (subjects[i].grades[j]);
+
+                        //generator for string conversion
+                        Json.Generator generator = new Json.Generator ();
+                        generator.set_root (grade_save_root);
+
+                        write_to_file (gradefile, generator.to_data (null));
+                   }
                 }
             }
         }
+        main_window.destroy();
+        return true;
+        };
+        new Thread<bool>("athread", run);
+
+        yield;
     }
 
 
@@ -208,8 +255,28 @@ public class MyApp : Adw.Application {
         if (worked == false) {
             print ("no more grades available");
         } else {
-            write_data ();
             window_grade_rows_ui (index);
+        }
+    }
+
+
+
+
+    public void new_subject (string name) {
+        bool worked = false;
+
+        for (int i = 0; i < subjects.length; i++) {
+            if (subjects[i] == null) {
+                subjects[i] = new Subject (name);
+                i = subjects.length;
+                worked = true;
+            }
+        }
+
+        if (worked == true) {
+            window_stack_ui (0);
+        } else {
+            print ("No more subjects available!");
         }
     }
 
@@ -232,25 +299,153 @@ public class MyApp : Adw.Application {
 
 
 
+    public void window_stack_ui (int index) {
+        if (main_box.get_last_child ().get_type () == typeof(Gtk.Box)) {
+            main_box.remove (main_box.get_last_child());
+        }
+        var stack_box = new Gtk.Box (HORIZONTAL, 0) {
+            vexpand = true,
+            hexpand = true
+        };
+        var stack = new Gtk.Stack ();
+        stack_box.append (stack);
+
+        //Create StackPages for every subject
+        for(int i = 0; subjects[i] != null; i++)
+        {
+            //SUBJECT BOX
+            subject_boxes[i] = new Gtk.Box (VERTICAL, 0) {
+                vexpand = true
+            };
+
+            
+            //TOP BOX
+            var top_box = new Gtk.Box (HORIZONTAL, 0) {
+                margin_start = 20,
+                margin_end = 20,
+                margin_top = 20,
+                height_request = 40,
+                hexpand = true,
+                homogeneous = true
+            };
+            subject_boxes[i].append (top_box);
+
+            //AVERAGE LABEL
+            var average_box = new Gtk.Box (HORIZONTAL, 10) {
+                halign = START
+            };
+            top_box.append (average_box);
+
+            var average_label = new Gtk.Label ("Your average:");
+            average_box.append (average_label);
+
+            avg[i] = new Gtk.Label ("0.00");
+            average_box.append (avg[i]);
+
+
+
+            //NEW GRADE BUTTON
+            var new_grade_button = new NewGradeButton (i);
+            new_grade_button.halign = END;
+            new_grade_button.label = "+ New";
+            new_grade_button.add_css_class ("suggested-action");
+
+            top_box.append (new_grade_button);
+
+
+            //FILL BOX
+            var fill_box = new Gtk.Box (VERTICAL, 0) {
+                margin_end = 20,
+                margin_start = 20,
+                vexpand = true,
+                hexpand = true
+            };
+            subject_boxes[i].append (fill_box);
+
+            //DELETE SUBJECT BUTTON
+            var bottom_box = new Gtk.Box (HORIZONTAL, 0) {
+                margin_end = 20,
+                margin_start = 20,
+                margin_bottom = 20,
+                hexpand = true,
+                homogeneous = true
+            };
+            subject_boxes[i].append (bottom_box);
+
+            var delete_subject_button = new DeleteSubjectButton (i) {
+                halign = END
+            };
+            delete_subject_button.add_css_class ("destructive-action");
+            bottom_box.append (delete_subject_button);
+
+
+            //CALL LISTBOX WITH GRADES
+            window_grade_rows_ui (i);
+
+
+            //add SUBJECT BOX to stackpage
+            stack.add_titled (subject_boxes[i], subjects[i].name, subjects[i].name);
+
+
+            //CONNECT BUTTONS
+            new_grade_button.clicked.connect (() => {
+                new_grade_dialog (new_grade_button.index);
+            });
+
+            delete_subject_button.clicked.connect (() => {
+                delete_subject (delete_subject_button.index);
+            });
+
+            
+        }
+
+        stack.set_visible_child_name (subjects[index].name);
+
+        //Create Stack Sidebar
+        var sidebar = new Gtk.StackSidebar ();
+        sidebar.set_stack (stack);
+        sidebar.width_request = 200;
+        stack_box.prepend(sidebar);
+
+        main_box.append (stack_box);
+    }
+    
+
+
+
+
     public void window_grade_rows_ui (int i) {
-        if (subject_boxes[i].get_last_child ().get_type () == typeof(Gtk.ListBox)) {
-            subject_boxes[i].remove (subject_boxes[i].get_last_child ());
+        if (subject_boxes[i].get_first_child ().get_next_sibling ().name == "GtkScrolledWindow") {
+            subject_boxes[i].remove (subject_boxes[i].get_first_child ().get_next_sibling ());
         }
         int average = 0;
         double number_of_grades = 0.0;
         double avg_calculated;
 
+        var scroller = new Gtk.ScrolledWindow () {
+            margin_bottom = 20,
+            margin_end = 20,
+            margin_start = 20,
+            margin_top = 10,
+            hexpand = true,
+            propagate_natural_height = true
+        };
+        subject_boxes[i].insert_child_after (scroller, subject_boxes[i].get_first_child ());
+
         //LIST BOX
         var list_box = new Gtk.ListBox ();
-        list_box.set_margin_top (10);
-        list_box.set_margin_end (20);
-        list_box.set_margin_start (20);
-        list_box.set_margin_bottom (20);
-        list_box.set_hexpand (true);
         list_box.add_css_class("boxed-list");
         list_box.set_show_separators (false);
         list_box.set_sort_func (sort_list);
         list_box.set_filter_func (filter_list);
+        scroller.set_child (list_box);
+
+        if (subjects[i].grades[0] == null) {
+            var action_row = new Adw.ActionRow () {
+                title = "You didn't add any grades yet!"
+            };
+            list_box.append (action_row);
+        }
 
         for(int j = 0; subjects[i].grades[j] != null; j++) {
             average += int.parse(subjects[i].grades[j].grade);
@@ -295,9 +490,6 @@ public class MyApp : Adw.Application {
             string average_string = "%.2f".printf (avg_calculated);
             avg[i].set_label (average_string);
         }
-        
-        //ADD LIST BOX TO SUBJECT BOX
-        subject_boxes[i].append (list_box);
     }
 
 
@@ -307,12 +499,32 @@ public class MyApp : Adw.Application {
         subjects[sub_index].grades[gra_index] = null;
 
 
-        for (int i = gra_index; i < subjects[sub_index].grades.length; i++) {
+        for (int i = gra_index; i < subjects[sub_index].grades.length - 1; i++) {
             subjects[sub_index].grades[i] = subjects[sub_index].grades[i + 1];
         }
-        
-        write_data ();
+
+        subjects[sub_index].grades[subjects[sub_index].grades.length - 1] = null;
+
         window_grade_rows_ui (sub_index);
+    }
+
+
+
+
+    public void delete_subject (int index) {
+        subjects[index] = null;
+
+        for (int i = index; i < subjects.length - 1; i++) {
+            subjects[i] = subjects[i + 1];
+        }
+
+        subjects[subjects.length - 1] = null;
+
+        if (subjects[index] != null) {
+            window_stack_ui (index);
+        } else {
+            window_stack_ui (index - 1);
+        }
     }
 
 
@@ -334,7 +546,7 @@ public class MyApp : Adw.Application {
 
         //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
         //Declare main box
-        var main_box = new Gtk.Box (VERTICAL, 1);
+        main_box = new Gtk.Box (VERTICAL, 1);
 
         //HEADER BAR
         var header_bar = new Gtk.HeaderBar ();
@@ -346,108 +558,51 @@ public class MyApp : Adw.Application {
         //MENU
         var menu_button = new Gtk.MenuButton ();
         var menu = new Menu ();
+        var menu_section1 = new Menu ();
+        var menu_section2 = new Menu ();
+        var menu_section3 = new Menu ();
+        menu.append_section (null, menu_section1);
+        menu.append_section (null, menu_section2);
+        menu.append_section (null, menu_section3);
 
+
+        var add_subject_item = new MenuItem ("+ Add a new subject", "app.newsubject");
+        menu_section1.append_item (add_subject_item);
 
         var test = new MenuItem ("Test", "app.test");
-        menu.append_item (test);
+        menu_section2.append_item (test);
 
-        var prefrences_item = new MenuItem ("Prefrences", "app.preferences");
-        menu.append_item (prefrences_item);
+        var preferences_item = new MenuItem ("Preferences", "app.preferences");
+        menu_section2.append_item (preferences_item);
 
         var about_item = new MenuItem ("About", "app.about");
-        menu.append_item (about_item);
+        menu_section3.append_item (about_item);
 
 
         var menu_popover = new Gtk.PopoverMenu.from_model (menu);
-
         menu_button.set_popover (menu_popover);
 
 
-        header_bar.pack_end(menu_button);
+        header_bar.pack_start(menu_button);
         main_box.append(header_bar);
 
 
-
-        //Create a second horizontal box for the stack and add to main box
-        var stack_box = new Gtk.Box (HORIZONTAL, 1);
-        stack_box.set_vexpand (true);
-        stack_box.set_hexpand (true);
-        main_box.append(stack_box);
-
-        //Create Stack
-        var stack = new Gtk.Stack ();
-        stack_box.append (stack);
-
-        //Create StackPages for every subject
-        for(int i = 0; subjects[i] != null; i++)
-        {
-            //SUBJECT BOX
-            subject_boxes[i] = new Gtk.Box (VERTICAL, 0);
-
-            
-            //TOP BOX
-            var top_box = new Gtk.Box (HORIZONTAL, 0) {
-                margin_start = 20,
-                margin_end = 20,
-                margin_top = 20,
-                height_request = 40,
-                hexpand = true,
-                homogeneous = true
-            };
-            subject_boxes[i].append (top_box);
-
-            //AVERAGE LABEL
-            var average_box = new Gtk.Box (HORIZONTAL, 10) {
-                halign = START
-            };
-            top_box.append (average_box);
-
-            var average_label = new Gtk.Label ("Your average:");
-            average_box.append (average_label);
-
-            avg[i] = new Gtk.Label ("0.00");
-            average_box.append (avg[i]);
-
-
-
-            //NEW GRADE BUTTON
-            var new_grade_button = new NewGradeButton (i);
-            new_grade_button.halign = END;
-            new_grade_button.label = "+ New";
-            new_grade_button.add_css_class ("suggested-action");
-
-            top_box.append (new_grade_button);
-
-
-
-            //CALL LISTBOX WITH GRADES
-            window_grade_rows_ui (i);
-
-
-            //add SUBJECT BOX to stackpage
-            stack.add_titled (subject_boxes[i], subjects[i].name, subjects[i].name);
-
-
-            //CONNECT NEW GRADE BUTTON
-            new_grade_button.clicked.connect (() => {
-                new_grade_dialog (new_grade_button.index);
-            });
-
-            
-        }
-
-        //Create Stack Sidebar
-        var sidebar = new Gtk.StackSidebar ();
-        sidebar.set_stack (stack);
-        sidebar.width_request = 200;
-        stack_box.prepend(sidebar);
-
+        window_stack_ui (0);
+        
         //PRESENT WINDOW
         main_window.set_content (main_box);
         main_window.present ();
 
+
         main_window.close_request.connect (() => {
-            this.quit ();
+            main_window.set_visible (false);
+            write_data.begin ( (obj, res) => {
+                try {
+                    write_data.end(res);
+                } catch (Error e) {
+                    print (e.message);
+                }
+            });
             return true;
         });
     }
