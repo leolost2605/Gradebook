@@ -7,9 +7,12 @@ executable(
     'src' / 'application.vala',
     'src' / 'grade.vala',
     'src' / 'subject.vala',
+    'src' / 'newgradebutton.vala',
+    'src' / 'deletebutton.vala',
+    'src' / 'new-grade-dialog.vala',
     dependencies: [
         dependency('gtk4'),
-        dependency('libadwaita-1'),
+        dependency('libadwaita-1', version: '1.1.4'),
         dependency('json-glib-1.0')
     ],
     install: true
