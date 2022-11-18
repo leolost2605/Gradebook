@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the valapp package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: valapp\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-02 10:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/application.vala:314
+msgid "It's empty in here..."
+msgstr ""
+
+#: src/application.vala:314
+msgid "You haven't added any subjects yet!"
+msgstr ""
+
+#: src/application.vala:343
+msgid "Your average:"
+msgstr ""
+
+#: src/application.vala:356
+msgid "+ New"
+msgstr ""
+
+#: src/application.vala:453
+msgid "You haven't added any grades yet!"
+msgstr ""
+
+#. edit button
+#: src/application.vala:475
+msgid "Edit"
+msgstr ""
+
+#. delete button
+#: src/application.vala:479
+msgid "Delete"
+msgstr ""
+
+#: src/application.vala:580
+msgid "Preferences"
+msgstr ""
+
+#: src/application.vala:583
+msgid "About Gradebook"
+msgstr ""
+
+#. NEW SUBJECT MENU
+#: src/application.vala:595
+msgid "Add a new subject"
+msgstr ""

@@ -43,7 +43,7 @@ public class MyApp : Adw.Application {
         var dialog = new NewSubjectDialog (main_window);
         dialog.response.connect ((rid) => {
             if(rid == Gtk.ResponseType.ACCEPT) {
-                new_subject (dialog.name_entry.get_text ());
+                new_subject (dialog.name_entry.get_text (), dialog.categories);
             }
             dialog.destroy();
         });
@@ -239,13 +239,13 @@ public class MyApp : Adw.Application {
 
 
 
-    public void new_grade (int index, string grade, int d, int m, int y, string note) {
+    public void new_grade (int index, string grade, int d, int m, int y, string note, int c) {
         bool worked = false;
 
 
         for (int i = 0; i < subjects[index].grades.length; i++) {
             if (subjects[index].grades[i] == null) {
-                subjects[index].grades[i] = new Grade (grade, d, m, y, note);
+                subjects[index].grades[i] = new Grade (grade, d, m, y, note, c);
                 i = subjects[index].grades.length;
                 worked = true;
             }
@@ -262,12 +262,12 @@ public class MyApp : Adw.Application {
 
 
 
-    public void new_subject (string name) {
+    public void new_subject (string name, Category[] c) {
         bool worked = false;
 
         for (int i = 0; i < subjects.length; i++) {
             if (subjects[i] == null) {
-                subjects[i] = new Subject (name);
+                subjects[i] = new Subject (name, c);
                 i = subjects.length;
                 worked = true;
             }
@@ -285,11 +285,25 @@ public class MyApp : Adw.Application {
 
     public void new_grade_dialog (int index) {
 
-        var dialog = new NewGradeDialog (main_window);
+        var dialog = new NewGradeDialog (main_window, subjects, index);
 
         dialog.response.connect ((response_id) => {
             if (response_id == Gtk.ResponseType.ACCEPT && dialog.set_variables ()) {
-                new_grade (index, dialog.get_grade (), dialog.get_day (), dialog.get_month (), dialog.get_year (), dialog.get_note ());
+                new_grade (index, dialog.get_grade (), dialog.get_day (), dialog.get_month (), dialog.get_year (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
+            }
+            dialog.destroy ();
+        });
+        dialog.present ();
+    }
+
+
+
+    public void edit_subject_dialog (int index) {
+        var dialog = new EditSubjectDialog (main_window, subjects[index]);
+
+        dialog.response.connect ((response_id) => {
+            if (response_id == Gtk.ResponseType.ACCEPT) {
+                subjects[index] = dialog.subject;
             }
             dialog.destroy ();
         });
@@ -309,6 +323,10 @@ public class MyApp : Adw.Application {
         };
         var stack = new Gtk.Stack ();
         stack_box.append (stack);
+
+        if(subjects[0] == null) {
+            stack.add_titled (new Gtk.Label (_("It's empty in here...")) {vexpand = true, hexpand = true}, "no_subjects_placeholder", _("You haven't added any subjects yet!"));
+        } else {
 
         //Create StackPages for every subject
         for(int i = 0; subjects[i] != null; i++)
@@ -336,7 +354,7 @@ public class MyApp : Adw.Application {
             };
             top_box.append (average_box);
 
-            var average_label = new Gtk.Label ("Your average:");
+            var average_label = new Gtk.Label (_("Your average:"));
             average_box.append (average_label);
 
             avg[i] = new Gtk.Label ("0.00");
@@ -345,9 +363,11 @@ public class MyApp : Adw.Application {
 
 
             //NEW GRADE BUTTON
-            var new_grade_button = new NewGradeButton (i);
+            var new_grade_button = new NewGradeButton (i) {
+                icon_name = "add-list-symbolic"
+            };
             new_grade_button.halign = END;
-            new_grade_button.label = "+ New";
+            new_grade_button.label = _("+ New");
             new_grade_button.add_css_class ("suggested-action");
 
             top_box.append (new_grade_button);
@@ -372,11 +392,15 @@ public class MyApp : Adw.Application {
             };
             subject_boxes[i].append (bottom_box);
 
-            var delete_subject_button = new DeleteSubjectButton (i) {
-                halign = END
-            };
+            var bottom_end_box = new Gtk.Box (HORIZONTAL, 0) {halign = END};
+            bottom_box.append (bottom_end_box);
+
+            var edit_subject_button = new EditSubjectButton (i) {margin_end = 20};
+            bottom_end_box.append (edit_subject_button);
+
+            var delete_subject_button = new DeleteSubjectButton (i);
             delete_subject_button.add_css_class ("destructive-action");
-            bottom_box.append (delete_subject_button);
+            bottom_end_box.append (delete_subject_button);
 
 
             //CALL LISTBOX WITH GRADES
@@ -396,10 +420,16 @@ public class MyApp : Adw.Application {
                 delete_subject (delete_subject_button.index);
             });
 
-            
+            edit_subject_button.clicked.connect (() => {
+                edit_subject_dialog (edit_subject_button.index);
+            });
+
+
         }
 
         stack.set_visible_child_name (subjects[index].name);
+
+        }
 
         //Create Stack Sidebar
         var sidebar = new Gtk.StackSidebar ();
@@ -418,9 +448,13 @@ public class MyApp : Adw.Application {
         if (subject_boxes[i].get_first_child ().get_next_sibling ().name == "GtkScrolledWindow") {
             subject_boxes[i].remove (subject_boxes[i].get_first_child ().get_next_sibling ());
         }
-        int average = 0;
-        double number_of_grades = 0.0;
-        double avg_calculated;
+
+
+        int[] average = new int[subjects[i].categories.length];
+        double[] number_of_grades = new double[subjects[i].categories.length];
+        double[] avg_calculated = new double[subjects[i].categories.length];
+        double final_avg = 0.00;
+
 
         var scroller = new Gtk.ScrolledWindow () {
             margin_bottom = 20,
@@ -442,21 +476,21 @@ public class MyApp : Adw.Application {
 
         if (subjects[i].grades[0] == null) {
             var action_row = new Adw.ActionRow () {
-                title = "You didn't add any grades yet!"
+                title = _("You haven't added any grades yet!")
             };
             list_box.append (action_row);
         }
 
         for(int j = 0; subjects[i].grades[j] != null; j++) {
-            average += int.parse(subjects[i].grades[j].grade);
-            number_of_grades++;
+            average[subjects[i].grades[j].cat] += int.parse(subjects[i].grades[j].grade);
+            number_of_grades[subjects[i].grades[j].cat]++;
 
 
 
             //expander row
             var expander_row = new Adw.ExpanderRow ();
             expander_row.set_title (subjects[i].grades[j].grade.to_string ());
-            expander_row.set_subtitle (subjects[i].grades[j].give_date ());
+            expander_row.set_subtitle (subjects[i].grades[j].give_date () + " (" + subjects[i].categories[subjects[i].grades[j].cat].name + ")");
 
 
             //SUBROW
@@ -464,11 +498,11 @@ public class MyApp : Adw.Application {
             subrow.set_title (subjects[i].grades[j].note);
 
             //edit button
-            var edit_button = new Gtk.Button.with_label ("Edit");
+            var edit_button = new Gtk.Button.with_label (_("Edit"));
             subrow.add_suffix (edit_button);
 
             //delete button
-            var delete_button = new DeleteButton ("Delete", i, j);
+            var delete_button = new DeleteButton (_("Delete"), i, j);
             subrow.add_suffix (delete_button);
 
 
@@ -485,9 +519,17 @@ public class MyApp : Adw.Application {
             });
         }
 
-        if(number_of_grades != 0) {
-            avg_calculated = average / number_of_grades;
-            string average_string = "%.2f".printf (avg_calculated);
+        double percentage_divider = 0;
+
+        for (int j = 0; j < subjects[i].categories.length && subjects[i].categories[j] != null; j++) {
+            if(number_of_grades[j] != 0) {
+                avg_calculated[j] = average[j] / number_of_grades[j];
+                final_avg += avg_calculated[j] * subjects[i].categories[j].percentage;
+                percentage_divider += subjects[i].categories[j].percentage;
+            }
+        }
+        if(percentage_divider != 0) {
+            string average_string = "%.2f".printf (final_avg / percentage_divider);
             avg[i].set_label (average_string);
         }
     }
@@ -534,7 +576,7 @@ public class MyApp : Adw.Application {
         main_window = new Adw.ApplicationWindow (this) {
             default_height = 600,
             default_width = 900,
-            title = "Hello World"
+            title = "Gradebook"
         };
 
         //Variables
@@ -547,50 +589,59 @@ public class MyApp : Adw.Application {
         //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
         //Declare main box
         main_box = new Gtk.Box (VERTICAL, 1);
+        main_window.set_content (main_box);
 
         //HEADER BAR
         var header_bar = new Gtk.HeaderBar ();
+        main_box.append(header_bar);
 
 
         var header_label = new Gtk.Label ("Gradebook");
         header_bar.set_title_widget (header_label);
 
-        //MENU
-        var menu_button = new Gtk.MenuButton ();
+        //PRIMARY MENU
+        var menu_button = new Gtk.MenuButton () {
+            icon_name = "open-menu-symbolic"
+        };
+        header_bar.pack_end(menu_button);
+
         var menu = new Menu ();
         var menu_section1 = new Menu ();
         var menu_section2 = new Menu ();
-        var menu_section3 = new Menu ();
         menu.append_section (null, menu_section1);
         menu.append_section (null, menu_section2);
-        menu.append_section (null, menu_section3);
 
+        var preferences_item = new MenuItem (_("Preferences"), "app.preferences");
+        menu_section1.append_item (preferences_item);
 
-        var add_subject_item = new MenuItem ("+ Add a new subject", "app.newsubject");
-        menu_section1.append_item (add_subject_item);
-
-        var test = new MenuItem ("Test", "app.test");
-        menu_section2.append_item (test);
-
-        var preferences_item = new MenuItem ("Preferences", "app.preferences");
-        menu_section2.append_item (preferences_item);
-
-        var about_item = new MenuItem ("About", "app.about");
-        menu_section3.append_item (about_item);
+        var about_item = new MenuItem (_("About Gradebook"), "app.about");
+        menu_section2.append_item (about_item);
 
 
         var menu_popover = new Gtk.PopoverMenu.from_model (menu);
         menu_button.set_popover (menu_popover);
 
 
-        header_bar.pack_start(menu_button);
-        main_box.append(header_bar);
+
+
+        //NEW SUBJECT MENU
+        var new_menu = new Menu ();
+        var add_subject_menu_item = new MenuItem (_("Add a new subject"), "app.newsubject");
+        new_menu.append_item (add_subject_menu_item);
+
+
+        var new_popover = new Gtk.PopoverMenu.from_model (new_menu);
+
+        var new_menu_button = new Gtk.MenuButton () {
+            popover = new_popover,
+            icon_name = "list-add-symbolic"
+        };
+        header_bar.pack_start (new_menu_button);
 
 
         window_stack_ui (0);
         
         //PRESENT WINDOW
-        main_window.set_content (main_box);
         main_window.present ();
 
 

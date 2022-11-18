@@ -11,12 +11,13 @@ public class NewGradeDialog : Gtk.Dialog {
     private Gtk.SpinButton grade_spinbutton;
     private Gtk.Entry entry;
     //private Adw.EntryRow note_entry;
+    public Adw.ComboRow choose_cat_row;
 
 
 
-    public NewGradeDialog (Adw.ApplicationWindow parent) {
+    public NewGradeDialog (Adw.ApplicationWindow parent, Subject[] subjects, int index) {
         Object (modal: true, transient_for: parent, title: ("New Grade"), use_header_bar: 1);
-        this.set_default_size (350, 450);
+        this.set_default_size (400, 560);
 
         //BUTTONS
         add_button ("Cancel", Gtk.ResponseType.CANCEL);
@@ -88,6 +89,32 @@ public class NewGradeDialog : Gtk.Dialog {
         date_picker_box.append (m_spinbutton);
         date_picker_box.append (new Gtk.Label ("/"));
         date_picker_box.append (y_spinbutton);
+
+        //CATEGORY
+        var cat_box = new Gtk.Box (VERTICAL, 0) {
+            margin_start = 20,
+            margin_end = 20,
+            margin_top = 20
+        };
+        dialog_main_box.append (cat_box);
+
+        cat_box.append (new Gtk.Label (_("Category:")) {height_request = 40});
+
+        var cat_model = new Gtk.StringList (null);
+        for (int i = 0; subjects[index].categories[i] != null; i++) {
+            cat_model.append (subjects[index].categories[i].name);
+        }
+
+        choose_cat_row = new Adw.ComboRow () {
+            title = "Choose a category:",
+            model = cat_model
+        };
+
+        var prefrences_group = new Adw.PreferencesGroup ();
+        prefrences_group.add(choose_cat_row);
+
+        cat_box.append (prefrences_group);
+
 
         //NOTE
         var entry_box = new Gtk.Box (VERTICAL, 0) {

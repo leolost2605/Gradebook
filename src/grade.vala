@@ -5,13 +5,15 @@ public class Grade : Object {
     public int day { get; set; }
     public int month { get; set; }
     public int year { get; set; }
+    public int cat { get; set; }
     
-    public Grade (string g, int d, int m, int y, string n) {
+    public Grade (string g, int d, int m, int y, string n, int c) {
         this.grade = g;
         this.day = d;
         this.month = m;
         this.year = y;
         this.note = n;
+        this.cat = c;
     }
 
     public string give_date () {
