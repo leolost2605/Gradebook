@@ -1,4 +1,4 @@
-public class Grade : Object {
+public class Grade : Object{
     public string grade { get; set; }
     public string date2 { get; set; }
     public string note { get; set; }

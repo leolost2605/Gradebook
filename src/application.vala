@@ -140,7 +140,7 @@ public class MyApp : Adw.Application {
 
 
 
-    public void read_data () {
+    public void read_data_old () {
         subjects = new Subject[number_of_subjects];
 
         for (int i = 0; i < subjects.length && FileUtils.test (@"savedata/subject$i/name", FileTest.EXISTS); i++) {
@@ -180,9 +180,38 @@ public class MyApp : Adw.Application {
     }
 
 
+    public void read_data() {
+            subjects = new Subject[number_of_subjects];
+
+            for (int i = 0; i < subjects.length && FileUtils.test (@"savedata/subjectsave$i", FileTest.EXISTS); i++) {
+                    File file = File.new_for_path (@"savedata/subjectsave$i");
+
+                    var parser = new SubjectParser();
+                    Subject sub = parser.to_object(read_from_file(file));
+                    subjects[i] = sub;
+                }
+
+        }
+
+    public void write_data () {
+        int z = 0;
+            for (int i = 0; i < subjects.length && subjects[i] != null; i++) {
+                    var parser = new SubjectParser ();
+                    File file = File.new_for_path (@"savedata/subjectsave$i");
+
+                    write_to_file (file, parser.to_string(subjects[i]));
+                    z = i + 1;
+                }
+            for (int i = z; i < subjects.length && FileUtils.test (@"savedata/subjectsave$i", FileTest.EXISTS); i++) {
+                    File file = File.new_for_path (@"savedata/subjectsave$i");
+
+                    file.delete ();
+                }
+            main_window.destroy();
+        }
 
 
-    async void write_data () throws ThreadError {
+    async void write_data_old () throws ThreadError {
         ThreadFunc<bool> run = () => {
         for (int i = 0; i < subjects.length; i++) {
             try {
@@ -197,6 +226,7 @@ public class MyApp : Adw.Application {
             }
 
             File namefile = File.new_for_path (@"savedata/subject$i/name");
+            File catfile = File.new_for_path (@"savedata/subject$i/cat");
 
             //print ("%s \n", subjects[i].name);
             if(subjects[i] == null) {
@@ -210,6 +240,9 @@ public class MyApp : Adw.Application {
 
                 write_to_file (namefile, subjects[i].name);
 
+                var parser = new SubjectParser ();
+
+                write_to_file(catfile, parser.to_string(subjects[i]));
 
                 for (int j = 0; j < subjects[i].grades.length; j++) {
                     File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
@@ -267,7 +300,8 @@ public class MyApp : Adw.Application {
 
         for (int i = 0; i < subjects.length; i++) {
             if (subjects[i] == null) {
-                subjects[i] = new Subject (name, c);
+                subjects[i] = new Subject (name);
+                subjects[i].categories = c;
                 i = subjects.length;
                 worked = true;
             }
@@ -285,6 +319,7 @@ public class MyApp : Adw.Application {
 
     public void new_grade_dialog (int index) {
 
+        if(subjects[index].categories[0] != null){
         var dialog = new NewGradeDialog (main_window, subjects, index);
 
         dialog.response.connect ((response_id) => {
@@ -294,6 +329,9 @@ public class MyApp : Adw.Application {
             dialog.destroy ();
         });
         dialog.present ();
+        } else {
+                print("Error: this subjects has not categories!");
+            }
     }
 
 
@@ -647,13 +685,14 @@ public class MyApp : Adw.Application {
 
         main_window.close_request.connect (() => {
             main_window.set_visible (false);
-            write_data.begin ( (obj, res) => {
+            /*write_data.begin ( (obj, res) => {
                 try {
                     write_data.end(res);
                 } catch (Error e) {
                     print (e.message);
                 }
-            });
+            });*/
+            write_data();
             return true;
         });
     }

@@ -22,9 +22,10 @@ executable(
     'src' / 'edit-subject-button.vala',
     'src' / 'edit-subject-dialog.vala',
     'src' / 'add-category-dialog.vala',
+    'src' / 'subject-parser.vala',
     dependencies: [
         dependency('gtk4'),
-        dependency('libadwaita-1', version: '1.1.4'),
+        dependency('libadwaita-1', version: '1.2.0'),
         dependency('json-glib-1.0')
     ],
     install: true
