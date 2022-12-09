@@ -1,5 +1,5 @@
 # project name and programming language
-project('valapp', 'vala', 'c')
+project('io.github.leolost2605.gradebook', 'vala', 'c')
 
 # Include the translations module
 i18n = import('i18n')
@@ -25,10 +25,20 @@ executable(
     'src' / 'subject-parser.vala',
     dependencies: [
         dependency('gtk4'),
-        dependency('libadwaita-1', version: '1.2.0'),
+        dependency('libadwaita-1'),
         dependency('json-glib-1.0')
     ],
     install: true
+)
+
+install_data (
+	'data' / 'io.github.leolost2605.gradebook.desktop',
+	install_dir: get_option('datadir') / 'applications'
+)
+
+install_data (
+	'data' / 'io.github.leolost2605.gradebook.metainfo.xml',
+	install_dir: get_option('datadir') / 'metainfo'
 )
 
 subdir ('po')

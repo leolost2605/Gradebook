@@ -146,8 +146,8 @@ public class MyApp : Adw.Application {
     public void read_data() {
             subjects = new Subject[number_of_subjects];
 
-            for (int i = 0; i < subjects.length && FileUtils.test (@"savedata/subjectsave$i", FileTest.EXISTS); i++) {
-                    File file = File.new_for_path (@"savedata/subjectsave$i");
+            for (int i = 0; i < subjects.length && FileUtils.test (Environment.get_home_dir() + @"/.config/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
+                    File file = File.new_for_path (Environment.get_home_dir() + @"/.config/gradebook/savedata/subjectsave$i");
 
                     var parser = new SubjectParser();
                     Subject sub = parser.to_object(read_from_file(file));
@@ -158,15 +158,23 @@ public class MyApp : Adw.Application {
 
     public void write_data () {
         int z = 0;
+            File dir = File.new_for_path(Environment.get_home_dir() + @"/.config/gradebook/savedata/");
+            if(!dir.query_exists ()) {
+                try {
+                    dir.make_directory_with_parents();
+                    } catch (Error e) {
+                            print(e.message);
+                        }
+                }
             for (int i = 0; i < subjects.length && subjects[i] != null; i++) {
                     var parser = new SubjectParser ();
-                    File file = File.new_for_path (@"savedata/subjectsave$i");
+                    File file = File.new_for_path (Environment.get_home_dir() + @"/.config/gradebook/savedata/subjectsave$i");
 
                     write_to_file (file, parser.to_string(subjects[i]));
                     z = i + 1;
                 }
-            for (int i = z; i < subjects.length && FileUtils.test (@"savedata/subjectsave$i", FileTest.EXISTS); i++) {
-                    File file = File.new_for_path (@"savedata/subjectsave$i");
+            for (int i = z; i < subjects.length && FileUtils.test (Environment.get_home_dir() + @"/.config/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
+                    File file = File.new_for_path (Environment.get_home_dir() + @"/.config/gradebook/savedata/subjectsave$i");
 
                     try {
                         file.delete ();
