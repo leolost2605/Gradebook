@@ -1,7 +1,0 @@
-<schemalist gettext-domain="valapp">
-    <schema id="com.github.leolosttt.hello_gtk_vala" path="/com/github/leolosttt/">
-        <key name="myfirstkey" type="i">
-            <default>1000</default>
-        </key>
-    </schema>
-</schemalist>
