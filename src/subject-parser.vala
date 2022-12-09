@@ -5,8 +5,16 @@ public class SubjectParser : Object {
     public SubjectParser () {}
 
     public Subject to_object (string str) {
-            var regex_for_main = new Regex ("%");
-            var regex_for_sub = new Regex ("#");
+        Regex regex_for_main;
+        Regex regex_for_sub;
+
+            try {
+                regex_for_main = new Regex ("%");
+                regex_for_sub = new Regex ("#");
+            } catch (Error e) {
+                print(e.message);
+                return null;
+            }
 
             var subject_string_arr = new string[3];
             var cat_string_arr = new string[10];

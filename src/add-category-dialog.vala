@@ -45,7 +45,7 @@ public class AddCategoryDialog : Gtk.Dialog {
         var percentage_label = new Gtk.Label ("Weight of the category, in percentage:") {height_request = 40};
         percentage_entry_box.append (percentage_label);
 
-        var percentage_adjustment = new Gtk.Adjustment (0, 0, 100, 0.5, 0, 0);
+        var percentage_adjustment = new Gtk.Adjustment (0, 0, 100, 1, 0, 0);
         percentage_spinbutton = new Gtk.SpinButton (percentage_adjustment, 1, 2) {
             orientation = VERTICAL
         };

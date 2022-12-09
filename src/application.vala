@@ -1,6 +1,4 @@
 public class MyApp : Adw.Application {
-    private int filter_type = 0;
-    private int sort_type = 0;
     private int number_of_subjects = 20;
     private Subject[] subjects;
     private Gtk.Box[] subject_boxes;
@@ -23,6 +21,7 @@ public class MyApp : Adw.Application {
         ActionEntry[] action_entries = {
             { "test", this.on_test_action },
             { "preferences", this.on_preferences_action },
+            { "help", this.on_help_action },
             { "about", this.on_about_action },
             { "newsubject", this.on_newsubject_action}
         };
@@ -35,6 +34,11 @@ public class MyApp : Adw.Application {
     public void on_test_action () {
         print ("test_action");
     }
+
+
+    public void on_help_action () {
+            Gtk.show_uri(main_window, "https://google.com", 0);
+        }
 
 
 
@@ -61,12 +65,13 @@ public class MyApp : Adw.Application {
 
 
     public void on_about_action () {
-        var about_window = new Gtk.AboutDialog () {
-            //authors = "Leonhard Kargl",
-            program_name = "Gradebook",
-            comments = "My first project",
-            copyright = "GPL something",
+        var about_window = new Adw.AboutWindow () {
+            developer_name = "Leonhard Kargl",
+            application_name = "Gradebook",
+            comments = "A simple app to keep track of your grades!",
+            version = "0.2",
             license_type = GPL_3_0,
+            website = "https://github.com/leolost2605/Gradebook",
             modal = true,
             transient_for = main_window
         };
@@ -75,15 +80,15 @@ public class MyApp : Adw.Application {
 
 
 
-
+    /*
     public int sort_list (Gtk.ListBoxRow row1, Gtk.ListBoxRow row2) {
         //Adw.ExpanderRow awidget = row1.get_child ();
         return 0;
-    }
+    }*/
 
 
 
-
+    /*
     public bool filter_list (Gtk.ListBoxRow row) {
         //TO DO: replace with switch/case and first of all get it to work
         if(filter_type == 0) {
@@ -99,7 +104,7 @@ public class MyApp : Adw.Application {
             return true;
         }
 
-    }
+    }*/
 
 
 
@@ -138,48 +143,6 @@ public class MyApp : Adw.Application {
     }
 
 
-
-
-    public void read_data_old () {
-        subjects = new Subject[number_of_subjects];
-
-        for (int i = 0; i < subjects.length && FileUtils.test (@"savedata/subject$i/name", FileTest.EXISTS); i++) {
-            File namefile = File.new_for_path (@"savedata/subject$i/name");
-
-            if(read_from_file (namefile) != "") {
-                subjects[i] = new Subject (read_from_file (namefile));
-
-                for (int j = 0; j < subjects[i].grades.length && FileUtils.test (@"savedata/subject$i/grade$j", FileTest.EXISTS); j++) {
-                   File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
-
-
-                   string grade_obj_string = read_from_file (gradefile);
-
-                    if (grade_obj_string != "") {
-                        try {
-                        //creating and loading Json Parser
-                            Json.Parser parser = new Json.Parser ();
-                            parser.load_from_data (grade_obj_string);
-
-
-                            //creating Json Node
-                            Json.Node grade_read_root = parser.get_root ();
-
-
-                            //deserialize
-                           subjects[i].grades[j] = Json.gobject_deserialize (typeof (Grade), grade_read_root) as Grade;
-
-
-                        } catch (Error e) {
-                        print ("Error: %s", e.message);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
     public void read_data() {
             subjects = new Subject[number_of_subjects];
 
@@ -205,70 +168,14 @@ public class MyApp : Adw.Application {
             for (int i = z; i < subjects.length && FileUtils.test (@"savedata/subjectsave$i", FileTest.EXISTS); i++) {
                     File file = File.new_for_path (@"savedata/subjectsave$i");
 
-                    file.delete ();
+                    try {
+                        file.delete ();
+                    } catch (Error e) {
+                            print(e.message);
+                    }
                 }
             main_window.destroy();
         }
-
-
-    async void write_data_old () throws ThreadError {
-        ThreadFunc<bool> run = () => {
-        for (int i = 0; i < subjects.length; i++) {
-            try {
-                File dirfile = File.new_for_path (@"savedata/subject$i");
-                dirfile.make_directory();
-            } catch (Error e) {
-                if(e.code == 2) {
-
-                } else {
-                    print (e.message);
-                }
-            }
-
-            File namefile = File.new_for_path (@"savedata/subject$i/name");
-            File catfile = File.new_for_path (@"savedata/subject$i/cat");
-
-            //print ("%s \n", subjects[i].name);
-            if(subjects[i] == null) {
-                write_to_file (namefile, "");
-                for (int j = 0; j < 20; j++) {
-                    File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
-
-                    write_to_file (gradefile, "");
-                }
-            } else {
-
-                write_to_file (namefile, subjects[i].name);
-
-                var parser = new SubjectParser ();
-
-                write_to_file(catfile, parser.to_string(subjects[i]));
-
-                for (int j = 0; j < subjects[i].grades.length; j++) {
-                    File gradefile = File.new_for_path (@"savedata/subject$i/grade$j");
-
-                    if(subjects[i].grades[j] == null) {
-                        write_to_file (gradefile, "");
-                    } else {
-                        Json.Node grade_save_root = Json.gobject_serialize (subjects[i].grades[j]);
-
-                        //generator for string conversion
-                        Json.Generator generator = new Json.Generator ();
-                        generator.set_root (grade_save_root);
-
-                        write_to_file (gradefile, generator.to_data (null));
-                   }
-                }
-            }
-        }
-        main_window.destroy();
-        return true;
-        };
-        new Thread<bool>("athread", run);
-
-        yield;
-    }
-
 
 
 
@@ -330,7 +237,7 @@ public class MyApp : Adw.Application {
         });
         dialog.present ();
         } else {
-                print("Error: this subjects has not categories!");
+                print("Error: this subjects has no categories!");
             }
     }
 
@@ -363,7 +270,7 @@ public class MyApp : Adw.Application {
         stack_box.append (stack);
 
         if(subjects[0] == null) {
-            stack.add_titled (new Gtk.Label (_("It's empty in here...")) {vexpand = true, hexpand = true}, "no_subjects_placeholder", _("You haven't added any subjects yet!"));
+            stack.add_titled (new Gtk.Label (_("It's empty in here...\n \nAdd new subjects using the + in the top left corner!")) {vexpand = true, hexpand = true}, "no_subjects_placeholder", _("You haven't added any subjects yet!"));
         } else {
 
         //Create StackPages for every subject
@@ -508,8 +415,8 @@ public class MyApp : Adw.Application {
         var list_box = new Gtk.ListBox ();
         list_box.add_css_class("boxed-list");
         list_box.set_show_separators (false);
-        list_box.set_sort_func (sort_list);
-        list_box.set_filter_func (filter_list);
+        //list_box.set_sort_func (sort_list);
+        //list_box.set_filter_func (filter_list);
         scroller.set_child (list_box);
 
         if (subjects[i].grades[0] == null) {
@@ -649,7 +556,7 @@ public class MyApp : Adw.Application {
         menu.append_section (null, menu_section1);
         menu.append_section (null, menu_section2);
 
-        var preferences_item = new MenuItem (_("Preferences"), "app.preferences");
+        var preferences_item = new MenuItem (_("Help"), "app.help");
         menu_section1.append_item (preferences_item);
 
         var about_item = new MenuItem (_("About Gradebook"), "app.about");
@@ -685,13 +592,6 @@ public class MyApp : Adw.Application {
 
         main_window.close_request.connect (() => {
             main_window.set_visible (false);
-            /*write_data.begin ( (obj, res) => {
-                try {
-                    write_data.end(res);
-                } catch (Error e) {
-                    print (e.message);
-                }
-            });*/
             write_data();
             return true;
         });
