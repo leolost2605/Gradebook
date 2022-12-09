@@ -6,6 +6,6 @@ Name=Gradebook
 Comment=A simple tool to keep track of your grades!
 Categories=Utility;GNOME;
 
-Icon=gradebook
+Icon=io.github.leolost2605.gradebook.svg
 Exec=io.github.leolost2605.gradebook
 Terminal=false

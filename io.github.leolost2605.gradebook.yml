@@ -1,0 +1,19 @@
+app-id: io.github.leolost2605.gradebook
+
+runtime: org.gnome.Platform
+runtime-version: '43'
+sdk: org.gnome.Sdk
+
+command: io.github.leolost2605.gradebook
+
+finish-args:
+  - '--share=ipc'
+  - '--socket=fallback-x11'
+  - '--socket=wayland'
+
+modules:
+  - name: gradebook
+    buildsystem: meson
+    sources:
+      - type: dir
+        path: .
