@@ -40,7 +40,7 @@ public class NewGradeDialog : Gtk.Dialog {
 
         grade_box.append (new Gtk.Label ("Grade:") {height_request = 40});
 
-        var grade_adjustment = new Gtk.Adjustment (0, 0, 15, 1, 0, 0);
+        var grade_adjustment = new Gtk.Adjustment (0, 0, 100, 1, 0, 0);
         grade_spinbutton = new Gtk.SpinButton (grade_adjustment, 1, 0) {
             orientation = VERTICAL
         };
