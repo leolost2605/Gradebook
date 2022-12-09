@@ -10,7 +10,7 @@ public class MyApp : Adw.Application {
 
     public MyApp() {
         Object (
-            application_id: "tech.landwatch.gradebook",
+            application_id: "io.github.leolost2605.gradebook",
             flags: ApplicationFlags.FLAGS_NONE
         );
     }

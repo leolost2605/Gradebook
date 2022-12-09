@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=Gradebook
+Comment=A simple tool to keep track of your grades!
+Categories=Utility;GNOME;
+
+Icon=gradebook
+Exec=io.github.leolost2605.gradebook
+Terminal=false

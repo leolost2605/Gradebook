@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.leolost2605.gradebook</id>
+  
+  <name>Gradebook</name>
+  <summary>A simple tool to keep track of your grades!</summary>
+  
+  <metadata_license>CC-BY-4.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  
+  <description>
+    <p>
+      A simple tool to keep track of your grades! It supports numerical grading systems as well as percentage grades.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">io.github.leolost2605.gradebook.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/leolost2605/Gradebook/blob/main/Start.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/leolost2605/Gradebook/blob/main/Subject.png</image>
+    </screenshot>
+  </screenshots>
+</component>
