@@ -4,7 +4,7 @@ Type=Application
 
 Name=Gradebook
 Comment=A simple tool to keep track of your grades!
-Categories=Utility;GNOME;
+Categories=Education;
 
 Icon=io.github.leolost2605.gradebook.svg
 Exec=io.github.leolost2605.gradebook
