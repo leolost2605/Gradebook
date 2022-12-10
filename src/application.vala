@@ -37,7 +37,7 @@ public class MyApp : Adw.Application {
 
 
     public void on_help_action () {
-            Gtk.show_uri(main_window, "https://google.com", 0);
+            Gtk.show_uri(main_window, "https://github.com/leolost2605/Gradebook/wiki", 0);
         }
 
 
