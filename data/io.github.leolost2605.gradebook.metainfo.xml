@@ -17,10 +17,12 @@
   <launchable type="desktop-id">io.github.leolost2605.gradebook.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/main/Start.png</image>
+      <caption>The start page of the app</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/9878070b5b1ac6021c459f0cb472b6ffaba02fcd/data/start.png</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/main/Subject.png</image>
+      <caption>Example for a subject with its grades</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/9878070b5b1ac6021c459f0cb472b6ffaba02fcd/data/subject.png</image>
     </screenshot>
   </screenshots>
 
