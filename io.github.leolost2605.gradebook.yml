@@ -15,6 +15,5 @@ modules:
   - name: gradebook
     buildsystem: meson
     sources:
-      - type: git
-        url: https://github.com/leolost2605/Gradebook.git
-        commit: dae52b1
+      - type: dir
+        path: .
