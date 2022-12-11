@@ -14,6 +14,8 @@
     </p>
   </description>
   
+  <developer_name>Leonhard Kargl</developer_name>
+
   <launchable type="desktop-id">io.github.leolost2605.gradebook.desktop</launchable>
   <screenshots>
     <screenshot type="default">
@@ -22,7 +24,7 @@
     </screenshot>
     <screenshot>
       <caption>Example for a subject with its grades</caption>
-      <image>https://github.com/leolost2605/Gradebook/blob/c2e259cd8a5b875f45669d46eeef4daa89b65fc7/data/subject-elementary-light.png</image>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/c2e259cd8a5b875f45669d46eeef4daa89b65fc7/data/subject-elementary-light.png</image>
     </screenshot>
   </screenshots>
 
