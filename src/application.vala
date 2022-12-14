@@ -364,7 +364,9 @@ public class MyApp : Adw.Application {
             var bottom_end_box = new Gtk.Box (HORIZONTAL, 0) {halign = END};
             bottom_box.append (bottom_end_box);
 
-            var edit_subject_button = new EditSubjectButton (i) {margin_end = 20};
+            var edit_subject_button = new EditSubjectButton (i) {
+                    icon_name = "document-edit-symbolic"
+                };
             bottom_end_box.append (edit_subject_button);
 
 

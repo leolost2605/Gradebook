@@ -48,7 +48,12 @@ public class EditSubjectDialog : Gtk.Dialog {
         };
         bottom_box.append (new_cat_button);
 
+
+        main_box.append(new Gtk.Separator(HORIZONTAL));
+
+
         var bottom_delete_box = new Gtk.Box (HORIZONTAL, 0) {
+            margin_top = 20,
             margin_start = 20,
             margin_end = 20,
             margin_bottom = 20,
@@ -63,7 +68,23 @@ public class EditSubjectDialog : Gtk.Dialog {
         bottom_delete_box.append(subject_delete_button);
 
         subject_delete_button.clicked.connect (() => {
-                subject = null;
+                string n = s.name;
+                var message_dialog = new Adw.MessageDialog(this, @"Are you sure you want to delete $n?", null);
+                message_dialog.add_response("0", "Cancel");
+                message_dialog.add_response("1", "Yes");
+                message_dialog.set_response_appearance("1", DESTRUCTIVE);
+                message_dialog.present();
+                message_dialog.response.connect ((id) => {
+                        switch (id) {
+                            case "0":
+                                break;
+                            case "1":
+                                subject = null;
+
+                                this.response(Gtk.ResponseType.ACCEPT);
+                                break;
+                            }
+                    });
             });
 
         new_cat_button.clicked.connect (() => {
