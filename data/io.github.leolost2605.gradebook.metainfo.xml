@@ -20,11 +20,11 @@
   <screenshots>
     <screenshot type="default">
       <caption>The start page of the app</caption>
-      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/c2e259cd8a5b875f45669d46eeef4daa89b65fc7/data/start-elementary-light.png</image>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/1fbefa95eb502e44567d82b6db146e1fb9c0e3e8/data/start.png</image>
     </screenshot>
     <screenshot>
       <caption>Example for a subject with its grades</caption>
-      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/c2e259cd8a5b875f45669d46eeef4daa89b65fc7/data/subject-elementary-light.png</image>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/1fbefa95eb502e44567d82b6db146e1fb9c0e3e8/data/subject.png</image>
     </screenshot>
   </screenshots>
 
@@ -33,7 +33,7 @@
     <description>
       <p>Initial release!</p>
       <ul>
-        <li>Version 1.0.2 of the Gradebook just released!</li>
+        <li>Version 1.0.3 of the Gradebook just released!</li>
       </ul>
     </description>
   </release>
