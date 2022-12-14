@@ -23,7 +23,7 @@ public class MyApp : Adw.Application {
             { "preferences", this.on_preferences_action },
             { "help", this.on_help_action },
             { "about", this.on_about_action },
-            { "newsubject", this.on_newsubject_action}
+            { "newsubject", this.on_newsubject_action},
         };
         this.add_action_entries (action_entries, this);
     }
@@ -252,11 +252,27 @@ public class MyApp : Adw.Application {
 
 
     public void edit_subject_dialog (int index) {
-        var dialog = new EditSubjectDialog (main_window, subjects[index]);
+        var dialog = new EditSubjectDialog (main_window, subjects[index], this);
 
         dialog.response.connect ((response_id) => {
             if (response_id == Gtk.ResponseType.ACCEPT) {
-                subjects[index] = dialog.subject;
+                if(dialog.subject != null) {
+                        subjects[index] = dialog.subject;
+                } else {
+                    subjects[index] = null;
+
+                    for (int i = index; i < subjects.length - 1; i++) {
+                        subjects[i] = subjects[i + 1];
+                    }
+
+                    subjects[subjects.length - 1] = null;
+
+                    if (subjects[index] != null) {
+                        window_stack_ui (index);
+                    } else {
+                        window_stack_ui (index - 1);
+                    }
+                }
             }
             dialog.destroy ();
         });
@@ -351,10 +367,6 @@ public class MyApp : Adw.Application {
             var edit_subject_button = new EditSubjectButton (i) {margin_end = 20};
             bottom_end_box.append (edit_subject_button);
 
-            var delete_subject_button = new DeleteSubjectButton (i);
-            delete_subject_button.add_css_class ("destructive-action");
-            bottom_end_box.append (delete_subject_button);
-
 
             //CALL LISTBOX WITH GRADES
             window_grade_rows_ui (i);
@@ -367,10 +379,6 @@ public class MyApp : Adw.Application {
             //CONNECT BUTTONS
             new_grade_button.clicked.connect (() => {
                 new_grade_dialog (new_grade_button.index);
-            });
-
-            delete_subject_button.clicked.connect (() => {
-                delete_subject (delete_subject_button.index);
             });
 
             edit_subject_button.clicked.connect (() => {
@@ -502,27 +510,6 @@ public class MyApp : Adw.Application {
 
         window_grade_rows_ui (sub_index);
     }
-
-
-
-
-    public void delete_subject (int index) {
-        subjects[index] = null;
-
-        for (int i = index; i < subjects.length - 1; i++) {
-            subjects[i] = subjects[i + 1];
-        }
-
-        subjects[subjects.length - 1] = null;
-
-        if (subjects[index] != null) {
-            window_stack_ui (index);
-        } else {
-            window_stack_ui (index - 1);
-        }
-    }
-
-
 
 
     protected override void activate () {

@@ -2,7 +2,7 @@ public class EditSubjectDialog : Gtk.Dialog {
     public Subject subject;
     public Gtk.ScrolledWindow scroll_container;
 
-    public EditSubjectDialog (Adw.ApplicationWindow parent, Subject s) {
+    public EditSubjectDialog (Adw.ApplicationWindow parent, Subject s, Adw.Application app) {
         Object (
             modal: true,
             title: "Edit Subject",
@@ -47,6 +47,24 @@ public class EditSubjectDialog : Gtk.Dialog {
             halign = END
         };
         bottom_box.append (new_cat_button);
+
+        var bottom_delete_box = new Gtk.Box (HORIZONTAL, 0) {
+            margin_start = 20,
+            margin_end = 20,
+            margin_bottom = 20,
+            homogeneous = true
+        };
+        main_box.append(bottom_delete_box);
+
+        var subject_delete_button = new Gtk.Button.with_label("Delete subject") {
+                halign = END
+            };
+        subject_delete_button.add_css_class("destructive-action");
+        bottom_delete_box.append(subject_delete_button);
+
+        subject_delete_button.clicked.connect (() => {
+                subject = null;
+            });
 
         new_cat_button.clicked.connect (() => {
             var dialog = new AddCategoryDialog (this);
