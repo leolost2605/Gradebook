@@ -5,15 +5,15 @@ public class AddCategoryDialog : Gtk.Dialog {
     public AddCategoryDialog (Gtk.Window parent) {
         Object (
             modal: true,
-            title: "Add new Category",
+            title: _("Add new Category"),
             use_header_bar: 1,
             transient_for: parent,
             default_height: 300,
             default_width: 400
         );
 
-        this.add_button ("Cancel", Gtk.ResponseType.CANCEL);
-        this.add_button ("Apply", Gtk.ResponseType.ACCEPT).add_css_class ("suggested-action");
+        this.add_button (_("Cancel"), Gtk.ResponseType.CANCEL);
+        this.add_button (_("Apply"), Gtk.ResponseType.ACCEPT).add_css_class ("suggested-action");
 
         this.set_response_sensitive (Gtk.ResponseType.ACCEPT, false);
 
@@ -27,7 +27,7 @@ public class AddCategoryDialog : Gtk.Dialog {
         };
         main_box.append (name_entry_box);
 
-        var name_label = new Gtk.Label ("Name of the category:") {height_request = 40};
+        var name_label = new Gtk.Label (_("Name of the category:")) {height_request = 40};
         name_entry_box.append (name_label);
 
         name_entry = new Gtk.Entry ();
@@ -42,7 +42,7 @@ public class AddCategoryDialog : Gtk.Dialog {
         };
         main_box.append (percentage_entry_box);
 
-        var percentage_label = new Gtk.Label ("Weight of the category, in percentage:") {height_request = 40};
+        var percentage_label = new Gtk.Label (_("Weight of the category, in percentage:")) {height_request = 40};
         percentage_entry_box.append (percentage_label);
 
         var percentage_adjustment = new Gtk.Adjustment (0, 0, 100, 1, 0, 0);

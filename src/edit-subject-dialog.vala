@@ -5,7 +5,7 @@ public class EditSubjectDialog : Gtk.Dialog {
     public EditSubjectDialog (Adw.ApplicationWindow parent, Subject s, Adw.Application app) {
         Object (
             modal: true,
-            title: "Edit Subject",
+            title: _("Edit Subject"),
             use_header_bar: 1,
             transient_for: parent,
             default_height: 500,
@@ -14,8 +14,8 @@ public class EditSubjectDialog : Gtk.Dialog {
 
         subject = s;
 
-        this.add_button ("Cancel", Gtk.ResponseType.CANCEL);
-        this.add_button ("Apply", Gtk.ResponseType.ACCEPT).add_css_class ("suggested-action");
+        this.add_button (_("Cancel"), Gtk.ResponseType.CANCEL);
+        this.add_button (_("Apply"), Gtk.ResponseType.ACCEPT).add_css_class ("suggested-action");
 
         //this.set_response_sensitive (Gtk.ResponseType.ACCEPT, false);
 
@@ -43,7 +43,7 @@ public class EditSubjectDialog : Gtk.Dialog {
             homogeneous = true
         };
         main_box.append(bottom_box);
-        var new_cat_button = new Gtk.Button.with_label ("Add a new category") {
+        var new_cat_button = new Gtk.Button.with_label (_("Add a new category")) {
             halign = END
         };
         bottom_box.append (new_cat_button);
@@ -61,7 +61,7 @@ public class EditSubjectDialog : Gtk.Dialog {
         };
         main_box.append(bottom_delete_box);
 
-        var subject_delete_button = new Gtk.Button.with_label("Delete subject") {
+        var subject_delete_button = new Gtk.Button.with_label(_("Delete subject")) {
                 halign = END
             };
         subject_delete_button.add_css_class("destructive-action");
@@ -69,9 +69,10 @@ public class EditSubjectDialog : Gtk.Dialog {
 
         subject_delete_button.clicked.connect (() => {
                 string n = s.name;
-                var message_dialog = new Adw.MessageDialog(this, @"Are you sure you want to delete $n?", null);
-                message_dialog.add_response("0", "Cancel");
-                message_dialog.add_response("1", "Yes");
+                ///TRANSLATORS: $n is the name of a school subject
+                var message_dialog = new Adw.MessageDialog(this, _(@"Are you sure you want to delete $n?"), null);
+                message_dialog.add_response("0", _("Cancel"));
+                message_dialog.add_response("1", _("Yes"));
                 message_dialog.set_response_appearance("1", DESTRUCTIVE);
                 message_dialog.present();
                 message_dialog.response.connect ((id) => {

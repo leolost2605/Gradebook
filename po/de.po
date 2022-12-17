@@ -1,49 +1,132 @@
-#: src/application.vala:297
-msgid ""
-"It's empty in here...\n"
-" \n"
-"Add new subjects using the + in the top left corner!"
+#: src/application.vala:71
+msgid "A simple app to keep track of your grades!"
 msgstr ""
 
-#: src/application.vala:297
+#: src/application.vala:298
+msgid "It's empty in here..."
+msgstr "Hier ist es leer"
+
+#: src/application.vala:298
+msgid "Add new subjects using the + in the top left corner!"
+msgstr "Fuege ein neues Fach mit dem + hinzu"
+
+#: src/application.vala:299
 msgid "You haven't added any subjects yet!"
 msgstr "Du hast noch keine faecher hinzugefuegt"
 
-#: src/application.vala:326
+#: src/application.vala:328
 msgid "Your average:"
 msgstr "Dein Durchschnitt:"
 
-#: src/application.vala:339
+#: src/application.vala:341
 msgid "+ New"
 msgstr "+ Neu"
 
-#: src/application.vala:442
+#: src/application.vala:444
 msgid "You haven't added any grades yet!"
-msgstr ""
+msgstr "Du hast noch keine Noten hinzugefuegt"
 
-#. edit button
-#. var edit_button = new Gtk.Button.with_label (_("Edit"));
-#. subrow.add_suffix (edit_button);
 #. delete button
-#: src/application.vala:468
+#: src/application.vala:466
 msgid "Delete"
-msgstr ""
+msgstr "Loeschen"
 
-#: src/application.vala:556
+#: src/application.vala:554
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
-#: src/application.vala:559
+#: src/application.vala:557
 msgid "About Gradebook"
 msgstr "Ueber Gradebook"
 
 #. NEW SUBJECT MENU
-#: src/application.vala:571
+#: src/application.vala:569
 msgid "Add a new subject"
-msgstr ""
+msgstr "Neues Fach Hinzufuegen"
 
-#~ msgid "It's empty in here..."
-#~ msgstr "Hier ist es leer"
+#: src/new-subject-dialog.vala:9
+#, fuzzy
+msgid "New Subject"
+msgstr "Neues Fach Hinzufuegen"
+
+#. BUTTONS
+#. /TRANSLATORS: $n is the name of a school subject
+#: src/new-subject-dialog.vala:18 src/new-grade-dialog.vala:23
+#: src/add-category-dialog.vala:15 src/edit-subject-dialog.vala:17
+#: src/edit-subject-dialog.vala:74
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: src/new-subject-dialog.vala:19 src/new-grade-dialog.vala:24
+msgid "Add"
+msgstr "Hinzufuegen"
+
+#: src/new-subject-dialog.vala:35
+msgid "Name of the subject:"
+msgstr "Name des Fachs:"
+
+#: src/new-subject-dialog.vala:48 src/edit-subject-dialog.vala:25
+msgid "This subject's categories:"
+msgstr "Die Kategorien diese Fachs:"
+
+#: src/new-subject-dialog.vala:82 src/edit-subject-dialog.vala:46
+msgid "Add a new category"
+msgstr "Neue Kategorie hinzufuegen"
+
+#: src/new-grade-dialog.vala:19
+msgid "New Grade"
+msgstr "Neue Note"
+
+#: src/new-grade-dialog.vala:41
+msgid "Grade:"
+msgstr "Note:"
+
+#: src/new-grade-dialog.vala:61
+msgid "Date:"
+msgstr "Datum:"
+
+#: src/new-grade-dialog.vala:101
+msgid "Category:"
+msgstr "Kategorie:"
+
+#: src/new-grade-dialog.vala:109
+msgid "Choose a category:"
+msgstr "Waehle eine Kategorie:"
+
+#: src/new-grade-dialog.vala:127
+msgid "A note:"
+msgstr "Eine Notiz"
+
+#: src/add-category-dialog.vala:8
+#, fuzzy
+msgid "Add new Category"
+msgstr "Neue Kategorie hinzufuegen"
+
+#: src/add-category-dialog.vala:16 src/edit-subject-dialog.vala:18
+msgid "Apply"
+msgstr "Anwenden"
+
+#: src/add-category-dialog.vala:30
+#, fuzzy
+msgid "Name of the category:"
+msgstr "Name des Fachs:"
+
+#: src/add-category-dialog.vala:45
+msgid "Weight of the category, in percentage:"
+msgstr "Gewichtung der Kategorie in Prozent:"
+
+#: src/edit-subject-dialog.vala:8
+msgid "Edit Subject"
+msgstr "Fach bearbeiten"
+
+#: src/edit-subject-dialog.vala:64
+#, fuzzy
+msgid "Delete subject"
+msgstr "Name des Fachs:"
+
+#: src/edit-subject-dialog.vala:75
+msgid "Yes"
+msgstr "Ja"
 
 #~ msgid "Preferences"
 #~ msgstr "Einstellungen"

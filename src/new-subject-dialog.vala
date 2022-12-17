@@ -6,7 +6,7 @@ public class NewSubjectDialog : Gtk.Dialog {
     public NewSubjectDialog (Adw.ApplicationWindow parent) {
         Object (
             modal: true,
-            title: "New Subject",
+            title: _("New Subject"),
             use_header_bar: 1,
             transient_for: parent,
             default_height: 400,
@@ -15,8 +15,8 @@ public class NewSubjectDialog : Gtk.Dialog {
 
         categories = new Category[5];
 
-        this.add_button ("Cancel", Gtk.ResponseType.CANCEL);
-        this.add_button ("Add", Gtk.ResponseType.ACCEPT).add_css_class ("suggested-action");
+        this.add_button (_("Cancel"), Gtk.ResponseType.CANCEL);
+        this.add_button (_("Add"), Gtk.ResponseType.ACCEPT).add_css_class ("suggested-action");
 
         this.set_response_sensitive (Gtk.ResponseType.ACCEPT, false);
 
@@ -32,7 +32,7 @@ public class NewSubjectDialog : Gtk.Dialog {
         };
         main_box.append (name_entry_box);
 
-        var name_label = new Gtk.Label ("Name of the subject:");
+        var name_label = new Gtk.Label (_("Name of the subject:"));
         name_entry_box.append (name_label);
 
         name_entry = new Gtk.Entry () {
@@ -79,7 +79,7 @@ public class NewSubjectDialog : Gtk.Dialog {
             homogeneous = true
         };
         main_box.append(bottom_box);
-        var new_cat_button = new Gtk.Button.with_label ("Add a new category") {
+        var new_cat_button = new Gtk.Button.with_label (_("Add a new category")) {
             halign = END
         };
         bottom_box.append (new_cat_button);
