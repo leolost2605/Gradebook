@@ -1,0 +1,60 @@
+# ITALIAN TRANSLATION FOR GRADEBOOK.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the valapp package.
+# ALBANO BATTISTELLA <ALBANO_BATTISTELLA@HOTMAIL.COM>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: valapp\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-02 10:48+0200\n"
+"PO-Revision-Date: 2022-12-17 15:53+0200\n"
+"Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
+"Language-Team: Italian <LL@li.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/application.vala:314
+msgid "It's empty in here..."
+msgstr "Qui è vuoto..."
+
+#: src/application.vala:314
+msgid "You haven't added any subjects yet!"
+msgstr "Non hai ancora aggiunto argomenti!"
+
+#: src/application.vala:343
+msgid "Your average:"
+msgstr "La tua media:"
+
+#: src/application.vala:356
+msgid "+ New"
+msgstr "+ Nuovo"
+
+#: src/application.vala:453
+msgid "You haven't added any grades yet!"
+msgstr "Non hai ancora aggiunto alcun voto!"
+
+#. edit button
+#: src/application.vala:475
+msgid "Edit"
+msgstr "Modifica"
+
+#. delete button
+#: src/application.vala:479
+msgid "Delete"
+msgstr "Cancella"
+
+#: src/application.vala:580
+msgid "Preferences"
+msgstr "Preferenze"
+
+#: src/application.vala:583
+msgid "About Gradebook"
+msgstr "Informazioni su Gradebook"
+
+#. NEW SUBJECT MENU
+#: src/application.vala:595
+msgid "Add a new subject"
+msgstr "Aggiungi un nuovo argomento"
