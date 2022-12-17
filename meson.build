@@ -32,13 +32,13 @@ executable(
 )
 
 install_data (
-	'data' / 'io.github.leolost2605.gradebook.desktop',
-	install_dir: get_option('datadir') / 'applications'
+'data' / 'io.github.leolost2605.gradebook.desktop',
+install_dir: get_option('datadir') / 'applications'
 )
 
 install_data (
-	'data' / 'io.github.leolost2605.gradebook.metainfo.xml',
-	install_dir: get_option('datadir') / 'metainfo'
+'data' / 'io.github.leolost2605.gradebook.metainfo.xml',
+install_dir: get_option('datadir') / 'metainfo'
 )
 
 # Install our icons in all the required sizes
