@@ -22,7 +22,7 @@ public class NewGradeDialog : Gtk.Dialog {
         //BUTTONS
         add_button (_("Cancel"), Gtk.ResponseType.CANCEL);
         var accept_button = add_button (_("Add"), Gtk.ResponseType.ACCEPT);
-        accept_button.add_css_class ("suggested-action");
+        accept_button.add_css_class("suggested-action");
 
 
         var dialog_main_box = new Gtk.Box (VERTICAL, 0);

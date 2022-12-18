@@ -245,7 +245,10 @@ public class MyApp : Adw.Application {
         });
         dialog.present ();
         } else {
-                print("Error: this subjects has no categories!");
+                var ErrorDialog = new Adw.MessageDialog(main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
+                ErrorDialog.add_css_class("error");
+                ErrorDialog.add_response("ok", _("Ok"));
+                ErrorDialog.present();
             }
     }
 
