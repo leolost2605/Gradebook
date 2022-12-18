@@ -68,7 +68,7 @@ public class MyApp : Adw.Application {
         var about_window = new Adw.AboutWindow () {
             developer_name = "Leonhard Kargl",
             application_name = "Gradebook",
-            comments = "A simple app to keep track of your grades!",
+            comments = _("A simple app to keep track of your grades!"),
             version = "0.2",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
@@ -294,7 +294,9 @@ public class MyApp : Adw.Application {
         stack_box.append (stack);
 
         if(subjects[0] == null) {
-            stack.add_titled (new Gtk.Label (_("It's empty in here...\n \nAdd new subjects using the + in the top left corner!")) {vexpand = true, hexpand = true}, "no_subjects_placeholder", _("You haven't added any subjects yet!"));
+            var placeholderlabel = new Gtk.Label("") {vexpand = true, hexpand = true};
+            placeholderlabel.set_text(_("It's empty in here...")  + "\n \n" + _("Add new subjects using the + in the top left corner!"));
+            stack.add_titled (placeholderlabel , "no_subjects_placeholder", _("You haven't added any subjects yet!"));
         } else {
 
         //Create StackPages for every subject
@@ -459,10 +461,6 @@ public class MyApp : Adw.Application {
             //SUBROW
             var subrow = new Adw.ActionRow ();
             subrow.set_title (subjects[i].grades[j].note);
-
-            //edit button
-            //var edit_button = new Gtk.Button.with_label (_("Edit"));
-            //subrow.add_suffix (edit_button);
 
             //delete button
             var delete_button = new DeleteButton (_("Delete"), i, j);

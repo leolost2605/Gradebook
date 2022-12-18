@@ -16,12 +16,12 @@ public class NewGradeDialog : Gtk.Dialog {
 
 
     public NewGradeDialog (Adw.ApplicationWindow parent, Subject[] subjects, int index) {
-        Object (modal: true, transient_for: parent, title: ("New Grade"), use_header_bar: 1);
+        Object (modal: true, transient_for: parent, title: (_("New Grade")), use_header_bar: 1);
         this.set_default_size (400, 560);
 
         //BUTTONS
-        add_button ("Cancel", Gtk.ResponseType.CANCEL);
-        var accept_button = add_button ("Add", Gtk.ResponseType.ACCEPT);
+        add_button (_("Cancel"), Gtk.ResponseType.CANCEL);
+        var accept_button = add_button (_("Add"), Gtk.ResponseType.ACCEPT);
         accept_button.add_css_class ("suggested-action");
 
 
@@ -38,7 +38,7 @@ public class NewGradeDialog : Gtk.Dialog {
             margin_end = 20
         };
 
-        grade_box.append (new Gtk.Label ("Grade:") {height_request = 40});
+        grade_box.append (new Gtk.Label (_("Grade:")) {height_request = 40});
 
         var grade_adjustment = new Gtk.Adjustment (0, 0, 100, 1, 0, 0);
         grade_spinbutton = new Gtk.SpinButton (grade_adjustment, 1, 0) {
@@ -58,7 +58,7 @@ public class NewGradeDialog : Gtk.Dialog {
         };
         dialog_main_box.append (date_box);
 
-        date_box.append (new Gtk.Label ("Date:") {height_request = 30});
+        date_box.append (new Gtk.Label (_("Date:")) {height_request = 30});
 
 
         var date_picker_box = new Gtk.Box (HORIZONTAL, 20) {
@@ -106,7 +106,7 @@ public class NewGradeDialog : Gtk.Dialog {
         }
 
         choose_cat_row = new Adw.ComboRow () {
-            title = "Choose a category:",
+            title = _("Choose a category:"),
             model = cat_model
         };
 
@@ -124,7 +124,7 @@ public class NewGradeDialog : Gtk.Dialog {
         };
         dialog_main_box.append (entry_box);
 
-        entry_box.append (new Gtk.Label ("A note:") {height_request = 30});
+        entry_box.append (new Gtk.Label (_("A note:")) {height_request = 30});
 
         entry = new Gtk.Entry() {
             has_frame = true
