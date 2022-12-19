@@ -7,140 +7,155 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-17 16:31+0100\n"
-"PO-Revision-Date: 2022-12-18 19:37+0800\n"
+"POT-Creation-Date: 2022-12-19 13:06+0800\n"
+"PO-Revision-Date: 2022-12-19 13:08+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ../src\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: src/application.vala:71
-msgid "A simple app to keep track of your grades!"
-msgstr "Простое приложение для отслеживания оценок!"
-
-#: src/application.vala:298
-msgid "It's empty in here..."
-msgstr "Здесь пусто..."
-
-#: src/application.vala:298
-msgid "Add new subjects using the + in the top left corner!"
-msgstr "Добавляйте новые предметы с помощью + в левом верхнем углу!"
-
-#: src/application.vala:299
-msgid "You haven't added any subjects yet!"
-msgstr "Вы еще не добавили ни одного предмета!"
-
-#: src/application.vala:328
-msgid "Your average:"
-msgstr "Ваш средний уровень:"
-
-#: src/application.vala:341
-msgid "+ New"
-msgstr "+ Новый"
-
-#: src/application.vala:444
-msgid "You haven't added any grades yet!"
-msgstr "Вы еще не добавили ни одной оценки!"
-
-#. delete button
-#: src/application.vala:466
-msgid "Delete"
-msgstr "Удалить"
-
-#: src/application.vala:554
-msgid "Help"
-msgstr "Помощь"
-
-#: src/application.vala:557
-msgid "About Gradebook"
-msgstr "О Gradebook"
-
-#. NEW SUBJECT MENU
-#: src/application.vala:569
-msgid "Add a new subject"
-msgstr "Добавить новый предмет"
-
-#: src/new-subject-dialog.vala:9
-msgid "New Subject"
-msgstr "Новый предмет"
-
-#. BUTTONS
-#. /TRANSLATORS: $n is the name of a school subject
-#: src/new-subject-dialog.vala:18 src/new-grade-dialog.vala:23
-#: src/add-category-dialog.vala:15 src/edit-subject-dialog.vala:17
-#: src/edit-subject-dialog.vala:74
-msgid "Cancel"
-msgstr "Отмена"
-
-#: src/new-subject-dialog.vala:19 src/new-grade-dialog.vala:24
-msgid "Add"
-msgstr "Добавить"
-
-#: src/new-subject-dialog.vala:35
-msgid "Name of the subject:"
-msgstr "Название предмета:"
-
-#: src/new-subject-dialog.vala:48 src/edit-subject-dialog.vala:25
-msgid "This subject's categories:"
-msgstr "Категории этого предмета:"
-
-#: src/new-subject-dialog.vala:82 src/edit-subject-dialog.vala:46
-msgid "Add a new category"
-msgstr "Добавить новую категорию"
-
-#: src/new-grade-dialog.vala:19
-msgid "New Grade"
-msgstr "Новая оценка"
-
-#: src/new-grade-dialog.vala:41
-msgid "Grade:"
-msgstr "Оценка:"
-
-#: src/new-grade-dialog.vala:61
-msgid "Date:"
-msgstr "Дата:"
-
-#: src/new-grade-dialog.vala:101
-msgid "Category:"
-msgstr "Категория:"
-
-#: src/new-grade-dialog.vala:109
-msgid "Choose a category:"
-msgstr "Выберите категорию:"
-
-#: src/new-grade-dialog.vala:127
-msgid "A note:"
-msgstr "Заметка:"
-
-#: src/add-category-dialog.vala:8
+#: add-category-dialog.vala:8
 msgid "Add new Category"
 msgstr "Добавить новую категорию"
 
-#: src/add-category-dialog.vala:16 src/edit-subject-dialog.vala:18
+#. TRANSLATORS: $n is the name of a school subject
+#: add-category-dialog.vala:15 edit-subject-dialog.vala:17
+#: edit-subject-dialog.vala:74 new-grade-dialog.vala:23
+#: new-subject-dialog.vala:18
+msgid "Cancel"
+msgstr "Отмена"
+
+#: add-category-dialog.vala:16 edit-subject-dialog.vala:18
 msgid "Apply"
 msgstr "Применить"
 
-#: src/add-category-dialog.vala:30
+#: add-category-dialog.vala:30
 msgid "Name of the category:"
 msgstr "Название категории:"
 
-#: src/add-category-dialog.vala:45
+#: add-category-dialog.vala:45
 msgid "Weight of the category, in percentage:"
 msgstr "Вес категории, в процентах:"
 
-#: src/edit-subject-dialog.vala:8
+#: application.vala:71
+msgid "A simple app to keep track of your grades!"
+msgstr "Простое приложение для отслеживания оценок!"
+
+#: application.vala:248
+msgid "Error"
+msgstr "Ошибка"
+
+#: application.vala:248
+msgid ""
+"This subject has no categories. Add at least one category in order to add a "
+"grade."
+msgstr ""
+"У этого предмета нет категорий. Добавьте хотя бы одну категорию, чтобы "
+"добавить оценку."
+
+#: application.vala:250
+msgid "Ok"
+msgstr "Ок"
+
+#: application.vala:301
+msgid "It's empty in here..."
+msgstr "Здесь пусто..."
+
+#: application.vala:301
+msgid "Add new subjects using the + in the top left corner!"
+msgstr "Добавляйте новые предметы с помощью + в левом верхнем углу!"
+
+#: application.vala:302
+msgid "You haven't added any subjects yet!"
+msgstr "Вы еще не добавили ни одного предмета!"
+
+#: application.vala:331
+msgid "Your average:"
+msgstr "Ваш средний уровень:"
+
+#: application.vala:344
+msgid "+ New"
+msgstr "+ Новый"
+
+#: application.vala:447
+msgid "You haven't added any grades yet!"
+msgstr "Вы еще не добавили ни одной оценки!"
+
+#: application.vala:469
+msgid "Delete"
+msgstr "Удалить"
+
+#: application.vala:557
+msgid "Help"
+msgstr "Помощь"
+
+#: application.vala:560
+msgid "About Gradebook"
+msgstr "О Gradebook"
+
+#: application.vala:572
+msgid "Add a new subject"
+msgstr "Добавить новый предмет"
+
+#: edit-subject-dialog.vala:8
 msgid "Edit Subject"
 msgstr "Редактировать предмет"
 
-#: src/edit-subject-dialog.vala:64
+#: edit-subject-dialog.vala:25 new-subject-dialog.vala:48
+msgid "This subject's categories:"
+msgstr "Категории этого предмета:"
+
+#: edit-subject-dialog.vala:46 new-subject-dialog.vala:82
+msgid "Add a new category"
+msgstr "Добавить новую категорию"
+
+#: edit-subject-dialog.vala:64
 msgid "Delete subject"
 msgstr "Удалить предмет"
 
-#: src/edit-subject-dialog.vala:75
+#: edit-subject-dialog.vala:75
 msgid "Yes"
 msgstr "Да"
+
+#: new-grade-dialog.vala:19
+msgid "New Grade"
+msgstr "Новая оценка"
+
+#: new-grade-dialog.vala:24 new-subject-dialog.vala:19
+msgid "Add"
+msgstr "Добавить"
+
+#: new-grade-dialog.vala:41
+msgid "Grade:"
+msgstr "Оценка:"
+
+#: new-grade-dialog.vala:61
+msgid "Date:"
+msgstr "Дата:"
+
+#: new-grade-dialog.vala:101
+msgid "Category:"
+msgstr "Категория:"
+
+#: new-grade-dialog.vala:109
+msgid "Choose a category:"
+msgstr "Выберите категорию:"
+
+#: new-grade-dialog.vala:127
+msgid "A note:"
+msgstr "Заметка:"
+
+#: new-subject-dialog.vala:9
+msgid "New Subject"
+msgstr "Новый предмет"
+
+#: new-subject-dialog.vala:35
+msgid "Name of the subject:"
+msgstr "Название предмета:"
