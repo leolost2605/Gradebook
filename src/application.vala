@@ -72,6 +72,7 @@ public class MyApp : Adw.Application {
             version = "0.2",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
+            issue_url = "https://github.com/leolost2605/Gradebook/issues",
             modal = true,
             transient_for = main_window
         };
