@@ -35,6 +35,11 @@
       <ul>
         <li>Version 1.1.1 of the Gradebook just released!</li>
       </ul>
+      <p>Changes:</p>
+      <ul>
+        <li>Translations for additional languages was added</li>
+        <li>Some minor UI improvements</li>
+      </ul>
     </description>
   </release>
   </releases>
