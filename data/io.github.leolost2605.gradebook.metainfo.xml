@@ -29,11 +29,11 @@
   </screenshots>
 
   <releases>
-  <release version="1.0.2" date="2022-12-11" urgency="high">
+  <release version="1.1.1" date="2022-12-25" urgency="medium">
     <description>
-      <p>Initial release!</p>
+      <p>Version 1.1.1</p>
       <ul>
-        <li>Version 1.0.3 of the Gradebook just released!</li>
+        <li>Version 1.1.1 of the Gradebook just released!</li>
       </ul>
     </description>
   </release>

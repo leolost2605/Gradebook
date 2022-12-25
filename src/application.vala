@@ -69,7 +69,7 @@ public class MyApp : Adw.Application {
             developer_name = "Leonhard Kargl",
             application_name = "Gradebook",
             comments = _("A simple app to keep track of your grades!"),
-            version = "0.2",
+            version = "1.1.1",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
             issue_url = "https://github.com/leolost2605/Gradebook/issues",
