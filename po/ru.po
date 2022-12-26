@@ -39,7 +39,7 @@ msgstr ""
 
 #: src/application.vala:251
 msgid "Ok"
-msgstr "Ок"
+msgstr "Оk"
 
 #: src/application.vala:302
 msgid "It's empty in here..."
