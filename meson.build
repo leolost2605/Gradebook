@@ -4,7 +4,7 @@ project('io.github.leolost2605.gradebook', 'vala', 'c')
 subdir ('po')
 
 add_project_arguments(
-    ['--vapidir', meson.current_source_dir() / 'vapi'],
+    ['--vapidir', meson.current_source_dir()],
     language: 'vala'
 )
 
