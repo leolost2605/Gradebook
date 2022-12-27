@@ -3,6 +3,31 @@ project('io.github.leolost2605.gradebook', 'vala', 'c')
 
 subdir ('po')
 
+conf = configuration_data()
+# Get the package data directory under Meson
+pkgdatadir = join_paths([ get_option('prefix'),
+                          get_option('datadir'),
+                          meson.project_name() ])
+conf.set_quoted('APP_ID', meson.project_name())
+conf.set_quoted('VERSION', meson.project_version())
+conf.set_quoted('PKGDATADIR', pkgdatadir)
+conf.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+
+# Other configs
+conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())
+add_global_arguments('-DDATADIR="' + get_option('datadir') + '"', language: 'c')
+configure_file(output: 'config.h', configuration: conf)
+config_h_dir = include_directories('.')
+
+# Arguments for C
+c_args = [
+  '-include', 'config.h',
+  '-w'
+]
+
+# Arguments for Vala
+vala_args = ['--target-glib=2.50', meson.source_root() + '/src/config.vapi']
+
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install
 executable(
     meson.project_name(),
@@ -24,6 +49,7 @@ executable(
         dependency('libadwaita-1'),
         dependency('json-glib-1.0')
     ],
+    c_args: c_args, vala_args: vala_args,
     install: true
 )
 

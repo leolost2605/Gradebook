@@ -39,7 +39,7 @@ msgstr ""
 
 #: src/application.vala:251
 msgid "Ok"
-msgstr "Ок"
+msgstr "Ok"
 
 #: src/application.vala:302
 msgid "It's empty in here..."
@@ -59,7 +59,7 @@ msgstr "Ваш средний уровень:"
 
 #: src/application.vala:345
 msgid "+ New"
-msgstr "+ Новый"
+msgstr "+ Новая"
 
 #: src/application.vala:448
 msgid "You haven't added any grades yet!"
