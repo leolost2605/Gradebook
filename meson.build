@@ -3,11 +3,6 @@ project('io.github.leolost2605.gradebook', 'vala', 'c')
 
 subdir ('po')
 
-add_project_arguments(
-    ['--vapidir', meson.current_source_dir()],
-    language: 'vala'
-)
-
 conf = configuration_data()
 # Get the package data directory under Meson
 pkgdatadir = join_paths([ get_option('prefix'),
