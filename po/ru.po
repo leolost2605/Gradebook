@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-25 13:47+0100\n"
+"POT-Creation-Date: 2022-12-27 19:49+0100\n"
 "PO-Revision-Date: 2022-12-19 13:08+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,15 +21,19 @@ msgstr ""
 "X-Poedit-Basepath: ../src\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/application.vala:71
+#: src/application.vala:72
+msgid "translator-credits"
+msgstr ""
+
+#: src/application.vala:74
 msgid "A simple app to keep track of your grades!"
 msgstr "Простое приложение для отслеживания оценок!"
 
-#: src/application.vala:249
+#: src/application.vala:252
 msgid "Error"
 msgstr "Ошибка"
 
-#: src/application.vala:249
+#: src/application.vala:252
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
@@ -37,49 +41,49 @@ msgstr ""
 "У этого предмета нет категорий. Добавьте хотя бы одну категорию, чтобы "
 "добавить оценку."
 
-#: src/application.vala:251
+#: src/application.vala:254
 msgid "Ok"
 msgstr "Ok"
 
-#: src/application.vala:302
+#: src/application.vala:305
 msgid "It's empty in here..."
 msgstr "Здесь пусто..."
 
-#: src/application.vala:302
+#: src/application.vala:305
 msgid "Add new subjects using the + in the top left corner!"
 msgstr "Добавляйте новые предметы с помощью + в левом верхнем углу!"
 
-#: src/application.vala:303
+#: src/application.vala:306
 msgid "You haven't added any subjects yet!"
 msgstr "Вы еще не добавили ни одного предмета!"
 
-#: src/application.vala:332
+#: src/application.vala:335
 msgid "Your average:"
 msgstr "Ваш средний уровень:"
 
-#: src/application.vala:345
+#: src/application.vala:348
 msgid "+ New"
 msgstr "+ Новая"
 
-#: src/application.vala:448
+#: src/application.vala:451
 msgid "You haven't added any grades yet!"
 msgstr "Вы еще не добавили ни одной оценки!"
 
 #. delete button
-#: src/application.vala:470
+#: src/application.vala:473
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/application.vala:558
+#: src/application.vala:561
 msgid "Help"
 msgstr "Помощь"
 
-#: src/application.vala:561
+#: src/application.vala:564
 msgid "About Gradebook"
 msgstr "О Gradebook"
 
 #. NEW SUBJECT MENU
-#: src/application.vala:573
+#: src/application.vala:576
 msgid "Add a new subject"
 msgstr "Добавить новый предмет"
 

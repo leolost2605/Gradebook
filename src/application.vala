@@ -67,6 +67,9 @@ public class MyApp : Adw.Application {
     public void on_about_action () {
         var about_window = new Adw.AboutWindow () {
             developer_name = "Leonhard Kargl",
+            developers = {"Leonhard Kargl", "ConfusedAlex"},
+            artists = {"Brage Fuglseth"},
+            translator_credits = _("translator-credits"),
             application_name = "Gradebook",
             comments = _("A simple app to keep track of your grades!"),
             version = "1.1.1",

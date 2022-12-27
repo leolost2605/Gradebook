@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-25 13:47+0100\n"
+"POT-Creation-Date: 2022-12-27 19:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,63 +17,67 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/application.vala:71
+#: src/application.vala:72
+msgid "translator-credits"
+msgstr ""
+
+#: src/application.vala:74
 msgid "A simple app to keep track of your grades!"
 msgstr ""
 
-#: src/application.vala:249
+#: src/application.vala:252
 msgid "Error"
 msgstr ""
 
-#: src/application.vala:249
+#: src/application.vala:252
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
 msgstr ""
 
-#: src/application.vala:251
+#: src/application.vala:254
 msgid "Ok"
 msgstr ""
 
-#: src/application.vala:302
+#: src/application.vala:305
 msgid "It's empty in here..."
 msgstr ""
 
-#: src/application.vala:302
+#: src/application.vala:305
 msgid "Add new subjects using the + in the top left corner!"
 msgstr ""
 
-#: src/application.vala:303
+#: src/application.vala:306
 msgid "You haven't added any subjects yet!"
 msgstr ""
 
-#: src/application.vala:332
+#: src/application.vala:335
 msgid "Your average:"
 msgstr ""
 
-#: src/application.vala:345
+#: src/application.vala:348
 msgid "+ New"
 msgstr ""
 
-#: src/application.vala:448
+#: src/application.vala:451
 msgid "You haven't added any grades yet!"
 msgstr ""
 
 #. delete button
-#: src/application.vala:470
+#: src/application.vala:473
 msgid "Delete"
 msgstr ""
 
-#: src/application.vala:558
+#: src/application.vala:561
 msgid "Help"
 msgstr ""
 
-#: src/application.vala:561
+#: src/application.vala:564
 msgid "About Gradebook"
 msgstr ""
 
 #. NEW SUBJECT MENU
-#: src/application.vala:573
+#: src/application.vala:576
 msgid "Add a new subject"
 msgstr ""
 
