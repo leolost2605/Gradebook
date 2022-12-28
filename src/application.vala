@@ -71,6 +71,7 @@ public class MyApp : Adw.Application {
             artists = {"Brage Fuglseth"},
             translator_credits = _("translator-credits"),
             application_name = "Gradebook",
+            application_icon = "io.github.leolost2605.gradebook",
             comments = _("A simple app to keep track of your grades!"),
             version = "1.1.1",
             license_type = GPL_3_0,
