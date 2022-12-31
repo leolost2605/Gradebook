@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-27 19:49+0100\n"
-"PO-Revision-Date: 2022-12-27 19:53+0100\n"
+"PO-Revision-Date: 2022-12-30 10:15+0100\n"
 "Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
 "Language: it_IT\n"
@@ -34,7 +34,7 @@ msgid ""
 "grade."
 msgstr ""
 "Questo argomento non ha categorie. Aggiungi almeno una categoria per "
-"aggiungere un "
+"aggiungere un voto."
 
 #: src/application.vala:254
 msgid "Ok"
@@ -42,7 +42,7 @@ msgstr "Ok"
 
 #: src/application.vala:305
 msgid "It's empty in here..."
-msgstr "Qui  vuoto..."
+msgstr "Qui è vuoto..."
 
 #: src/application.vala:305
 msgid "Add new subjects using the + in the top left corner!"
@@ -112,7 +112,7 @@ msgstr "Aggiungi una nuova categoria"
 
 #: src/new-grade-dialog.vala:19
 msgid "New Grade"
-msgstr "Nuovo voto"
+msgstr "Nuovo Voto"
 
 #: src/new-grade-dialog.vala:41
 msgid "Grade:"
