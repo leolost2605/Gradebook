@@ -1,0 +1,166 @@
+# Turkish translation of io.github.leolost2605.gradebook
+# Copyright (C) 2023 io.github.leolost2605.gradebook's COPYRIGHT HOLDER
+# This file is distributed under the same license as the io.github.leolost2605.gradebook package.
+#
+# Sabri Ünal <libreajans@gmail.com, 2019, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: io.github.leolost2605.gradebook\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-27 19:49+0100\n"
+"PO-Revision-Date: 2023-06-14 10:49+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"Language-Team: Turkish <takim@gnome.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#: src/application.vala:72
+msgid "translator-credits"
+msgstr "Sabri Ünal <libreajans@gmail.com>"
+
+#: src/application.vala:74
+msgid "A simple app to keep track of your grades!"
+msgstr ""
+"Notlarınızı (mezuniyet puanlarınızı) takip etmek için basit bir uygulama!"
+
+#: src/application.vala:252
+msgid "Error"
+msgstr "Hata"
+
+#: src/application.vala:252
+msgid ""
+"This subject has no categories. Add at least one category in order to add a "
+"grade."
+msgstr ""
+"Bu konunun kategorisi yok. Not eklemek için en az bir kategori ekleyin."
+
+#: src/application.vala:254
+msgid "Ok"
+msgstr "Tamam"
+
+#: src/application.vala:305
+msgid "It's empty in here..."
+msgstr "Burası Boş"
+
+#: src/application.vala:305
+msgid "Add new subjects using the + in the top left corner!"
+msgstr "Sol üst köşedeki + işaretini kullanarak yeni konu ekleyin!"
+
+#: src/application.vala:306
+msgid "You haven't added any subjects yet!"
+msgstr "Henüz hiçbir konu eklenmemiş"
+
+#: src/application.vala:335
+msgid "Your average:"
+msgstr "Ortalamanız:"
+
+#: src/application.vala:348
+msgid "+ New"
+msgstr "+ Yeni"
+
+#: src/application.vala:451
+msgid "You haven't added any grades yet!"
+msgstr "Henüz hiç not eklemediniz!"
+
+#. delete button
+#: src/application.vala:473
+msgid "Delete"
+msgstr "Sil"
+
+#: src/application.vala:561
+msgid "Help"
+msgstr "Yardım"
+
+#: src/application.vala:564
+msgid "About Gradebook"
+msgstr "Gradebook Hakkında"
+
+#. NEW SUBJECT MENU
+#: src/application.vala:576
+msgid "Add a new subject"
+msgstr "Yeni konu ekle"
+
+#: src/new-subject-dialog.vala:9
+msgid "New Subject"
+msgstr "Yeni Konu"
+
+#. BUTTONS
+#. /TRANSLATORS: $n is the name of a school subject
+#: src/new-subject-dialog.vala:18 src/new-grade-dialog.vala:23
+#: src/add-category-dialog.vala:15 src/edit-subject-dialog.vala:17
+#: src/edit-subject-dialog.vala:74
+msgid "Cancel"
+msgstr "İptal"
+
+#: src/new-subject-dialog.vala:19 src/new-grade-dialog.vala:24
+msgid "Add"
+msgstr "Ekle"
+
+#: src/new-subject-dialog.vala:35
+msgid "Name of the subject:"
+msgstr "Konunun adı:"
+
+#: src/new-subject-dialog.vala:48 src/edit-subject-dialog.vala:25
+msgid "This subject's categories:"
+msgstr "Bu konunun kategorisi:"
+
+#: src/new-subject-dialog.vala:82 src/edit-subject-dialog.vala:46
+msgid "Add a new category"
+msgstr "Yeni kategori ekle"
+
+#: src/new-grade-dialog.vala:19
+msgid "New Grade"
+msgstr "Yeni Not"
+
+#: src/new-grade-dialog.vala:41
+msgid "Grade:"
+msgstr "Not:"
+
+#: src/new-grade-dialog.vala:61
+msgid "Date:"
+msgstr "Tarih:"
+
+#: src/new-grade-dialog.vala:101
+msgid "Category:"
+msgstr "Kategori:"
+
+#: src/new-grade-dialog.vala:109
+msgid "Choose a category:"
+msgstr "Kategori seçiniz:"
+
+#: src/new-grade-dialog.vala:127
+msgid "A note:"
+msgstr "Not:"
+
+#: src/add-category-dialog.vala:8
+msgid "Add new Category"
+msgstr "Yeni Kategori Ekle"
+
+#: src/add-category-dialog.vala:16 src/edit-subject-dialog.vala:18
+msgid "Apply"
+msgstr "Uygula"
+
+#: src/add-category-dialog.vala:30
+msgid "Name of the category:"
+msgstr "Kategori adı:"
+
+#: src/add-category-dialog.vala:45
+msgid "Weight of the category, in percentage:"
+msgstr "Kategorinin ağırlığı, yüzde olarak:"
+
+#: src/edit-subject-dialog.vala:8
+msgid "Edit Subject"
+msgstr "Konuyu Düzenle"
+
+#: src/edit-subject-dialog.vala:64
+msgid "Delete subject"
+msgstr "Konuyu sil"
+
+#: src/edit-subject-dialog.vala:75
+msgid "Yes"
+msgstr "Evet"
