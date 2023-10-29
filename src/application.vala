@@ -1,14 +1,15 @@
 public class MyApp : Adw.Application {
     private int number_of_subjects = 20;
     private Subject[] subjects;
-    private Gtk.Box[] subject_boxes;
+    private Adw.ToolbarView[] subject_boxes;
     private Adw.ApplicationWindow main_window;
     private Gtk.Label[] avg;
     private Adw.OverlaySplitView main_box;
-    private Adw.ToolbarView stack_box;
     private Adw.HeaderBar header_bar;
     private Gtk.ToggleButton toggle_button;
     private Adw.Breakpoint bpoint;
+ private Gtk.Box[] nyabox;
+    private Gtk.Stack stack;
  private EditSubjectButton edit_subject_button;
 
 
@@ -49,11 +50,12 @@ public class MyApp : Adw.Application {
 
     public void on_newsubject_action () {
         var dialog = new NewSubjectDialog (main_window);
-        dialog.response.connect ((rid) => {
-            if(rid == Gtk.ResponseType.ACCEPT) {
-                new_subject (dialog.name_entry.get_text (), dialog.categories);
+        dialog.close_request.connect (() => {
+            if(dialog.accept) {
+                new_subject (dialog.name_entry_box.get_text (), dialog.categories);
             }
             dialog.destroy();
+ 	    return true;
         });
         dialog.present ();
     }
@@ -291,13 +293,73 @@ public class MyApp : Adw.Application {
         /*if (stack_box.get_last_child ().get_type () == typeof(Adw.ToolbarView)) {
             stack_box.remove (stack_box.get_last_child());
         }*/
-        stack_box = new Adw.ToolbarView ();
-        var stack = new Gtk.Stack ();
-        stack_box.set_content (stack);
+        stack = new Gtk.Stack ();
 
- 	header_bar = new Adw.HeaderBar ();
+	debug (subjects[0].name);
+        if (subjects[0].name == null) {
+		var stack_box = new Adw.ToolbarView ();
+		var header_bar = new Adw.HeaderBar ();
 
- 	//PRIMARY MENU
+		//PRIMARY MENU
+        	var menu_button = new Gtk.MenuButton () {
+        	    icon_name = "open-menu-symbolic"
+        	};
+        	header_bar.pack_end(menu_button);
+
+        	var menu = new Menu ();
+        	var menu_section1 = new Menu ();
+        	var menu_section2 = new Menu ();
+        	menu.append_section (null, menu_section1);
+        	menu.append_section (null, menu_section2);
+
+        	var preferences_item = new MenuItem (_("_Help"), "app.help");
+        	menu_section1.append_item (preferences_item);
+
+        	var about_item = new MenuItem (_("_About Gradebook"), "app.about");
+        	menu_section2.append_item (about_item);
+
+
+        	var menu_popover = new Gtk.PopoverMenu.from_model (menu);
+        	menu_button.set_popover (menu_popover);
+
+ 		toggle_button = new Gtk.ToggleButton () {
+			icon_name =  "dock-left-symbolic",
+			tooltip_text = _("Toggle Sidebar"),
+			visible = false
+		};
+		toggle_button.bind_property ("active", main_box, "show_sidebar", BindingFlags.BIDIRECTIONAL);
+		bpoint.add_setter (toggle_button, "visible", true);
+
+		header_bar.pack_start (toggle_button);
+
+        	var new_menu_button = new Gtk.Button () {
+        	    icon_name = "list-add-symbolic",
+        	    action_name = "app.newsubject",
+        	    tooltip_text = _("Add a New Subject")
+        	};
+
+        	header_bar.pack_start (new_menu_button);
+
+        	stack_box.add_top_bar (header_bar);
+
+        	 var placeholderlabel = new Adw.StatusPage() {
+			vexpand = true,
+			hexpand = true,
+			title = _("No Subjects"),
+			description =  _("Add new subjects using the + in the top left corner")
+		    };
+    		stack_box.set_content (placeholderlabel);
+        	    stack.add_titled (stack_box , "no_subjects_placeholder", _("Gradebook"));
+        } else {
+
+        //Create StackPages for every subject
+        for(int i = 0; subjects[i] != null; i++)
+        {
+
+	subject_boxes[i] = new Adw.ToolbarView ();
+	var header_bar = new Adw.HeaderBar ();
+
+			//PRIMARY MENU
         var menu_button = new Gtk.MenuButton () {
             icon_name = "open-menu-symbolic"
         };
@@ -337,28 +399,16 @@ public class MyApp : Adw.Application {
 
         header_bar.pack_start (new_menu_button);
 
-        stack_box.add_top_bar (header_bar);
-
-        if(subjects[0] == null) {
-            var placeholderlabel = new Adw.StatusPage() {
-		vexpand = true,
-		hexpand = true,
-		title = _("No Subjects"),
-		description =  _("Add new subjects using the + in the top left corner")};
-            stack.add_titled (placeholderlabel , "no_subjects_placeholder", _("No subjects"));
-        } else {
-
 	// edit subject button
 	edit_subject_button = new EditSubjectButton () {
             icon_name = "document-edit-symbolic"
         };
  	header_bar.pack_end (edit_subject_button);
 
-        //Create StackPages for every subject
-        for(int i = 0; subjects[i] != null; i++)
-        {
+	subject_boxes[i].add_top_bar (header_bar);
+
             //SUBJECT BOX
-            subject_boxes[i] = new Gtk.Box (VERTICAL, 0) {
+            var nyttbox = new Gtk.Box (VERTICAL, 0) {
                 vexpand = true
             };
 
@@ -372,7 +422,7 @@ public class MyApp : Adw.Application {
                 hexpand = true,
                 homogeneous = true
             };
-            subject_boxes[i].append (top_box);
+            nyttbox.append (top_box);
 
             //AVERAGE LABEL
             var average_box = new Gtk.Box (HORIZONTAL, 10) {
@@ -400,8 +450,8 @@ public class MyApp : Adw.Application {
             top_box.append (new_grade_button);
 
 
-            //FILL BOX
-            /*var fill_box = new Gtk.Box (VERTICAL, 0) {
+            /*//FILL BOX
+            var fill_box = new Gtk.Box (VERTICAL, 0) {
                 margin_end = 20,
                 margin_start = 20,
                 vexpand = true,
@@ -420,10 +470,13 @@ public class MyApp : Adw.Application {
             subject_boxes[i].append (bottom_box);
 
             var bottom_end_box = new Gtk.Box (HORIZONTAL, 0) {halign = END};
-            bottom_box.append (bottom_end_box);
+            bottom_box.append (bottom_end_box);*/
 
             //CALL LISTBOX WITH GRADES
-            window_grade_rows_ui (i);*/
+
+            subject_boxes[i].set_content (nyttbox);
+            window_grade_rows_ui (i, nyttbox);
+ 	    nyabox[i] = nyttbox;
 
 
             //add SUBJECT BOX to stackpage
@@ -460,17 +513,18 @@ public class MyApp : Adw.Application {
  	box.set_content (sw);
         main_box.set_sidebar (box);
 
-        main_box.set_content (stack_box);
+        main_box.set_content (stack);
     }
     
 
 
 
 
-    public void window_grade_rows_ui (int i) {
-        if (subject_boxes[i].get_first_child ().get_next_sibling ().name == "GtkScrolledWindow") {
-            subject_boxes[i].remove (subject_boxes[i].get_first_child ().get_next_sibling ());
-        }
+    public Gtk.Box window_grade_rows_ui (int i, Gtk.Box? nyttbox = null) {
+	nyttbox = nyttbox ?? nyabox[i];
+        if (nyttbox.get_first_child ().get_next_sibling ().name == "GtkScrolledWindow") {
+            nyttbox.remove (nyttbox.get_first_child ().get_next_sibling ());
+	}
 
 
         int[] average = new int[subjects[i].categories.length];
@@ -487,7 +541,7 @@ public class MyApp : Adw.Application {
             hexpand = true,
             vexpand = true,
         };
-        subject_boxes[i].insert_child_after (scroller, subject_boxes[i].get_first_child ());
+        nyttbox.append (scroller);
 
         //LIST BOX
 
@@ -497,7 +551,7 @@ public class MyApp : Adw.Application {
                 description = _("Add new grades by clicking the “New Grade…” button.")
             };
  	    scroller.set_child (adw_page);
- 		return;
+ 	    return nyttbox;
         } else {
 
 	var list_box = new Gtk.ListBox ();
@@ -555,6 +609,7 @@ public class MyApp : Adw.Application {
             avg[i].set_label (average_string);
         }
 
+	 return nyttbox;
         }
     }
 
@@ -586,7 +641,8 @@ public class MyApp : Adw.Application {
 
         //Variables
         read_data ();
-        subject_boxes = new Gtk.Box[number_of_subjects];
+        subject_boxes = new Adw.ToolbarView[number_of_subjects];
+ 	nyabox = new Gtk.Box[number_of_subjects];
         avg = new Gtk.Label[number_of_subjects];
 
         //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
