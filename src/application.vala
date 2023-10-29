@@ -4,7 +4,9 @@ public class MyApp : Adw.Application {
     private Gtk.Box[] subject_boxes;
     private Adw.ApplicationWindow main_window;
     private Gtk.Label[] avg;
-    private Gtk.Box main_box;
+    private Adw.OverlaySplitView main_box;
+    private Adw.ToolbarView stack_box;
+    private Adw.HeaderBar header_bar;
 
 
 
@@ -20,7 +22,6 @@ public class MyApp : Adw.Application {
     construct {
         ActionEntry[] action_entries = {
             { "test", this.on_test_action },
-            { "preferences", this.on_preferences_action },
             { "help", this.on_help_action },
             { "about", this.on_about_action },
             { "newsubject", this.on_newsubject_action},
@@ -57,20 +58,13 @@ public class MyApp : Adw.Application {
 
 
 
-    public void on_preferences_action () {
-        print ("prefrences");
-    }
-
-
-
-
     public void on_about_action () {
         var about_window = new Adw.AboutWindow () {
             developer_name = "Leonhard Kargl",
-            developers = {"Leonhard Kargl", "ConfusedAlex"},
+            developers = {"Leonhard Kargl", "ConfusedAlex", "skøldis <gradebook@turtle.garden>"},
             artists = {"Brage Fuglseth"},
             translator_credits = _("translator-credits"),
-            application_name = "Gradebook",
+            application_name = _("Gradebook"),
             application_icon = "io.github.leolost2605.gradebook",
             comments = _("A simple app to keep track of your grades!"),
             version = "1.1.1",
@@ -252,7 +246,7 @@ public class MyApp : Adw.Application {
         } else {
                 var ErrorDialog = new Adw.MessageDialog(main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
                 ErrorDialog.add_css_class("error");
-                ErrorDialog.add_response("ok", _("Ok"));
+                ErrorDialog.add_response("ok", _("OK"));
                 ErrorDialog.present();
             }
     }
@@ -291,20 +285,54 @@ public class MyApp : Adw.Application {
 
 
     public void window_stack_ui (int index) {
-        if (main_box.get_last_child ().get_type () == typeof(Gtk.Box)) {
-            main_box.remove (main_box.get_last_child());
-        }
-        var stack_box = new Gtk.Box (HORIZONTAL, 0) {
-            vexpand = true,
-            hexpand = true
-        };
+        /*if (stack_box.get_last_child ().get_type () == typeof(Adw.ToolbarView)) {
+            stack_box.remove (stack_box.get_last_child());
+        }*/
+        stack_box = new Adw.ToolbarView ();
         var stack = new Gtk.Stack ();
-        stack_box.append (stack);
+        stack_box.set_content (stack);
+
+ 	header_bar = new Adw.HeaderBar ();
+
+ 	//PRIMARY MENU
+        var menu_button = new Gtk.MenuButton () {
+            icon_name = "open-menu-symbolic"
+        };
+        header_bar.pack_end(menu_button);
+
+        var menu = new Menu ();
+        var menu_section1 = new Menu ();
+        var menu_section2 = new Menu ();
+        menu.append_section (null, menu_section1);
+        menu.append_section (null, menu_section2);
+
+        var preferences_item = new MenuItem (_("_Help"), "app.help");
+        menu_section1.append_item (preferences_item);
+
+        var about_item = new MenuItem (_("_About Gradebook"), "app.about");
+        menu_section2.append_item (about_item);
+
+
+        var menu_popover = new Gtk.PopoverMenu.from_model (menu);
+        menu_button.set_popover (menu_popover);
+
+        var new_menu_button = new Gtk.Button () {
+            icon_name = "list-add-symbolic",
+            action_name = "app.newsubject",
+            tooltip_text = _("Add a New Subject")
+        };
+
+        header_bar.pack_start (new_menu_button);
+
+        stack_box.add_top_bar (header_bar);
 
         if(subjects[0] == null) {
-            var placeholderlabel = new Gtk.Label("") {vexpand = true, hexpand = true};
-            placeholderlabel.set_text(_("It's empty in here...")  + "\n \n" + _("Add new subjects using the + in the top left corner!"));
-            stack.add_titled (placeholderlabel , "no_subjects_placeholder", _("You haven't added any subjects yet!"));
+            var placeholderlabel = new Adw.StatusPage() {
+		vexpand = true,
+		hexpand = true,
+		title = _("No Subjects"),
+		description =  _("Add new subjects using the + in the top left corner")};
+            stack.add_titled (placeholderlabel , "no_subjects_placeholder", _("No subjects"));
         } else {
 
         //Create StackPages for every subject
@@ -346,8 +374,9 @@ public class MyApp : Adw.Application {
                 icon_name = "add-list-symbolic"
             };
             new_grade_button.halign = END;
-            new_grade_button.label = _("+ New");
+            new_grade_button.label = _("New Grade…");
             new_grade_button.add_css_class ("suggested-action");
+ 	    new_grade_button.add_css_class ("pill");
 
             top_box.append (new_grade_button);
 
@@ -405,12 +434,17 @@ public class MyApp : Adw.Application {
         }
 
         //Create Stack Sidebar
+        var box = new Adw.ToolbarView () {width_request = 200};
+ 	var hb = new Adw.HeaderBar () {hexpand = true};
+ 	var sw = new Gtk.ScrolledWindow () {vexpand = true};
         var sidebar = new Gtk.StackSidebar ();
         sidebar.set_stack (stack);
-        sidebar.width_request = 200;
-        stack_box.prepend(sidebar);
+ 	sw.set_child (sidebar);
+ 	box.add_top_bar (hb);
+ 	box.set_content (sw);
+        main_box.set_sidebar (box);
 
-        main_box.append (stack_box);
+        main_box.set_content (stack_box);
     }
     
 
@@ -449,7 +483,7 @@ public class MyApp : Adw.Application {
 
         if (subjects[i].grades[0] == null) {
             var action_row = new Adw.ActionRow () {
-                title = _("You haven't added any grades yet!")
+                title = _("No Grades")
             };
             list_box.append (action_row);
         }
@@ -524,7 +558,7 @@ public class MyApp : Adw.Application {
         main_window = new Adw.ApplicationWindow (this) {
             default_height = 600,
             default_width = 900,
-            title = "Gradebook"
+            title = _("Gradebook")
         };
 
         //Variables
@@ -536,58 +570,10 @@ public class MyApp : Adw.Application {
 
         //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
         //Declare main box
-        main_box = new Gtk.Box (VERTICAL, 1);
+        main_box = new Adw.OverlaySplitView ();
         main_window.set_content (main_box);
 
-        //HEADER BAR
-        var header_bar = new Gtk.HeaderBar ();
-        main_box.append(header_bar);
-
-
-        var header_label = new Gtk.Label ("Gradebook");
-        header_bar.set_title_widget (header_label);
-
-        //PRIMARY MENU
-        var menu_button = new Gtk.MenuButton () {
-            icon_name = "open-menu-symbolic"
-        };
-        header_bar.pack_end(menu_button);
-
-        var menu = new Menu ();
-        var menu_section1 = new Menu ();
-        var menu_section2 = new Menu ();
-        menu.append_section (null, menu_section1);
-        menu.append_section (null, menu_section2);
-
-        var preferences_item = new MenuItem (_("Help"), "app.help");
-        menu_section1.append_item (preferences_item);
-
-        var about_item = new MenuItem (_("About Gradebook"), "app.about");
-        menu_section2.append_item (about_item);
-
-
-        var menu_popover = new Gtk.PopoverMenu.from_model (menu);
-        menu_button.set_popover (menu_popover);
-
-
-
-
-        //NEW SUBJECT MENU
-        var new_menu = new Menu ();
-        var add_subject_menu_item = new MenuItem (_("Add a new subject"), "app.newsubject");
-        new_menu.append_item (add_subject_menu_item);
-
-
-        var new_popover = new Gtk.PopoverMenu.from_model (new_menu);
-
-        var new_menu_button = new Gtk.MenuButton () {
-            popover = new_popover,
-            icon_name = "list-add-symbolic"
-        };
-        header_bar.pack_start (new_menu_button);
-
-
-        window_stack_ui (0);
+ 	window_stack_ui (0);
         
         //PRESENT WINDOW
         main_window.present ();
