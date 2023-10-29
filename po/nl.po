@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-27 19:49+0100\n"
+"POT-Creation-Date: 2023-10-29 15:41+0100\n"
 "PO-Revision-Date: 2022-12-22 16:48+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch\n"
@@ -17,69 +17,83 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 22.12.0\n"
 
-#: src/application.vala:72
+#: src/application.vala:66
 msgid "translator-credits"
 msgstr ""
 
-#: src/application.vala:74
-msgid "A simple app to keep track of your grades!"
+#: src/application.vala:67 src/application.vala:561
+#, fuzzy
+msgid "Gradebook"
+msgstr "Over Gradebook"
+
+#: src/application.vala:69
+#, fuzzy
+msgid "Keep track of your grades"
 msgstr "Een eenvoudige toepassing voor het bijhouden van je cijfers!"
 
-#: src/application.vala:252
+#: src/application.vala:247
 msgid "Error"
 msgstr ""
 
-#: src/application.vala:252
+#: src/application.vala:247
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
 msgstr ""
 
-#: src/application.vala:254
-msgid "Ok"
+#: src/application.vala:249
+msgid "OK"
 msgstr ""
 
-#: src/application.vala:305
-msgid "It's empty in here..."
-msgstr "Er valt hier nog niks te zien…"
-
-#: src/application.vala:305
-msgid "Add new subjects using the + in the top left corner!"
-msgstr "Klik op de plusknop (‘+’) linksboven om een vak toe te voegen."
-
-#: src/application.vala:306
-msgid "You haven't added any subjects yet!"
-msgstr "Je hebt nog geen vakken toegevoegd!"
-
-#: src/application.vala:335
-msgid "Your average:"
-msgstr "Mijn gemiddelde:"
-
-#: src/application.vala:348
-msgid "+ New"
-msgstr "+ Nieuw"
-
-#: src/application.vala:451
-msgid "You haven't added any grades yet!"
-msgstr "Je hebt nog geen cijfers toegevoegd!"
-
-#. delete button
-#: src/application.vala:473
-msgid "Delete"
-msgstr "Verwijderen"
-
-#: src/application.vala:561
-msgid "Help"
+#: src/application.vala:309
+#, fuzzy
+msgid "_Help"
 msgstr "Hulp"
 
-#: src/application.vala:564
-msgid "About Gradebook"
+#: src/application.vala:312
+#, fuzzy
+msgid "_About Gradebook"
 msgstr "Over Gradebook"
 
-#. NEW SUBJECT MENU
-#: src/application.vala:576
-msgid "Add a new subject"
+#: src/application.vala:322
+#, fuzzy
+msgid "Add a New Subject"
 msgstr "Vak toevoegen"
+
+#: src/application.vala:333
+#, fuzzy
+msgid "No Subjects"
+msgstr "Nieuw vak"
+
+#: src/application.vala:334
+#, fuzzy
+msgid "Add new subjects using the + in the top left corner"
+msgstr "Klik op de plusknop (‘+’) linksboven om een vak toe te voegen."
+
+#: src/application.vala:335
+#, fuzzy
+msgid "No subjects"
+msgstr "Nieuw vak"
+
+#: src/application.vala:364
+#, fuzzy
+msgid "Average:"
+msgstr "Mijn gemiddelde:"
+
+#: src/application.vala:377
+#, fuzzy
+msgid "New Grade…"
+msgstr "Nieuw cijfer"
+
+#: src/application.vala:486
+#, fuzzy
+msgid "No Grades"
+msgstr "Nieuw cijfer"
+
+#. delete button
+#: src/application.vala:508
+msgid "Delete"
+msgstr "Verwijderen"
 
 #: src/new-subject-dialog.vala:9
 msgid "New Subject"
@@ -160,3 +174,15 @@ msgstr "Vak verwijderen"
 #: src/edit-subject-dialog.vala:75
 msgid "Yes"
 msgstr "Ja"
+
+#~ msgid "It's empty in here..."
+#~ msgstr "Er valt hier nog niks te zien…"
+
+#~ msgid "You haven't added any subjects yet!"
+#~ msgstr "Je hebt nog geen vakken toegevoegd!"
+
+#~ msgid "+ New"
+#~ msgstr "+ Nieuw"
+
+#~ msgid "You haven't added any grades yet!"
+#~ msgstr "Je hebt nog geen cijfers toegevoegd!"

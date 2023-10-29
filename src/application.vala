@@ -7,6 +7,9 @@ public class MyApp : Adw.Application {
     private Adw.OverlaySplitView main_box;
     private Adw.ToolbarView stack_box;
     private Adw.HeaderBar header_bar;
+    private Gtk.ToggleButton toggle_button;
+    private Adw.Breakpoint bpoint;
+ private EditSubjectButton edit_subject_button;
 
 
 
@@ -66,7 +69,7 @@ public class MyApp : Adw.Application {
             translator_credits = _("translator-credits"),
             application_name = _("Gradebook"),
             application_icon = "io.github.leolost2605.gradebook",
-            comments = _("A simple app to keep track of your grades!"),
+            comments = _("Keep track of your grades"),
             version = "1.1.1",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
@@ -316,6 +319,16 @@ public class MyApp : Adw.Application {
         var menu_popover = new Gtk.PopoverMenu.from_model (menu);
         menu_button.set_popover (menu_popover);
 
+ 	toggle_button = new Gtk.ToggleButton () {
+		icon_name =  "dock-left-symbolic",
+		tooltip_text = _("Toggle Sidebar"),
+		visible = false
+	};
+	toggle_button.bind_property ("active", main_box, "show_sidebar", BindingFlags.BIDIRECTIONAL);
+	bpoint.add_setter (toggle_button, "visible", true);
+
+	header_bar.pack_start (toggle_button);
+
         var new_menu_button = new Gtk.Button () {
             icon_name = "list-add-symbolic",
             action_name = "app.newsubject",
@@ -334,6 +347,12 @@ public class MyApp : Adw.Application {
 		description =  _("Add new subjects using the + in the top left corner")};
             stack.add_titled (placeholderlabel , "no_subjects_placeholder", _("No subjects"));
         } else {
+
+	// edit subject button
+	edit_subject_button = new EditSubjectButton () {
+            icon_name = "document-edit-symbolic"
+        };
+ 	header_bar.pack_end (edit_subject_button);
 
         //Create StackPages for every subject
         for(int i = 0; subjects[i] != null; i++)
@@ -361,7 +380,7 @@ public class MyApp : Adw.Application {
             };
             top_box.append (average_box);
 
-            var average_label = new Gtk.Label (_("Your average:"));
+            var average_label = new Gtk.Label (_("Average:"));
             average_box.append (average_label);
 
             avg[i] = new Gtk.Label ("0.00");
@@ -382,7 +401,7 @@ public class MyApp : Adw.Application {
 
 
             //FILL BOX
-            var fill_box = new Gtk.Box (VERTICAL, 0) {
+            /*var fill_box = new Gtk.Box (VERTICAL, 0) {
                 margin_end = 20,
                 margin_start = 20,
                 vexpand = true,
@@ -403,14 +422,8 @@ public class MyApp : Adw.Application {
             var bottom_end_box = new Gtk.Box (HORIZONTAL, 0) {halign = END};
             bottom_box.append (bottom_end_box);
 
-            var edit_subject_button = new EditSubjectButton (i) {
-                    icon_name = "document-edit-symbolic"
-                };
-            bottom_end_box.append (edit_subject_button);
-
-
             //CALL LISTBOX WITH GRADES
-            window_grade_rows_ui (i);
+            window_grade_rows_ui (i);*/
 
 
             //add SUBJECT BOX to stackpage
@@ -421,6 +434,8 @@ public class MyApp : Adw.Application {
             new_grade_button.clicked.connect (() => {
                 new_grade_dialog (new_grade_button.index);
             });
+
+ 	    edit_subject_button.index = i;
 
             edit_subject_button.clicked.connect (() => {
                 edit_subject_dialog (edit_subject_button.index);
@@ -434,10 +449,11 @@ public class MyApp : Adw.Application {
         }
 
         //Create Stack Sidebar
-        var box = new Adw.ToolbarView () {width_request = 200};
+        var box = new Adw.ToolbarView ();
  	var hb = new Adw.HeaderBar () {hexpand = true};
  	var sw = new Gtk.ScrolledWindow () {vexpand = true};
         var sidebar = new Gtk.StackSidebar ();
+ 	sidebar.set_css_classes ({ "" });
         sidebar.set_stack (stack);
  	sw.set_child (sidebar);
  	box.add_top_bar (hb);
@@ -469,24 +485,27 @@ public class MyApp : Adw.Application {
             margin_start = 20,
             margin_top = 10,
             hexpand = true,
-            propagate_natural_height = true
+            vexpand = true,
         };
         subject_boxes[i].insert_child_after (scroller, subject_boxes[i].get_first_child ());
 
         //LIST BOX
-        var list_box = new Gtk.ListBox ();
+
+        if (subjects[i].grades[0] == null) {
+            var adw_page = new Adw.StatusPage () {
+                title = _("No Grades"),
+                description = _("Add new grades by clicking the “New Grade…” button.")
+            };
+ 	    scroller.set_child (adw_page);
+ 		return;
+        } else {
+
+	var list_box = new Gtk.ListBox ();
         list_box.add_css_class("boxed-list");
         list_box.set_show_separators (false);
         //list_box.set_sort_func (sort_list);
         //list_box.set_filter_func (filter_list);
         scroller.set_child (list_box);
-
-        if (subjects[i].grades[0] == null) {
-            var action_row = new Adw.ActionRow () {
-                title = _("No Grades")
-            };
-            list_box.append (action_row);
-        }
 
         for(int j = 0; subjects[i].grades[j] != null; j++) {
             average[subjects[i].grades[j].cat] += int.parse(subjects[i].grades[j].grade);
@@ -535,6 +554,8 @@ public class MyApp : Adw.Application {
             string average_string = "%.2f".printf (final_avg / percentage_divider);
             avg[i].set_label (average_string);
         }
+
+        }
     }
 
 
@@ -558,6 +579,8 @@ public class MyApp : Adw.Application {
         main_window = new Adw.ApplicationWindow (this) {
             default_height = 600,
             default_width = 900,
+            width_request = 360,
+            height_request = 360,
             title = _("Gradebook")
         };
 
@@ -566,12 +589,15 @@ public class MyApp : Adw.Application {
         subject_boxes = new Gtk.Box[number_of_subjects];
         avg = new Gtk.Label[number_of_subjects];
 
-
-
         //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
         //Declare main box
         main_box = new Adw.OverlaySplitView ();
         main_window.set_content (main_box);
+
+ 	bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 500px"));
+ 	bpoint.add_setter (main_box, "show_sidebar", false);
+	bpoint.add_setter (main_box, "collapsed", true);
+ 	main_window.add_breakpoint (bpoint);
 
  	window_stack_ui (0);
         

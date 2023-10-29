@@ -78,3 +78,9 @@ foreach i : icon_sizes
         rename: meson.project_name() + '.svg'
     )
 endforeach
+
+install_data(
+        'data' / 'dock-left-symbolic.svg',
+        install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'symbolic' / 'apps',
+        rename: 'dock-left-symbolic.svg'
+    )
