@@ -71,7 +71,6 @@ public class MyApp : Adw.Application {
             translator_credits = _("translator-credits"),
             application_name = _("Gradebook"),
             application_icon = "io.github.leolost2605.gradebook",
-            comments = _("Keep track of your grades"),
             version = "1.1.1",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
@@ -191,13 +190,12 @@ public class MyApp : Adw.Application {
 
 
 
-    public void new_grade (int index, string grade, int d, int m, int y, string note, int c) {
+    public void new_grade (int index, string grade, string note, int c) {
         bool worked = false;
-
 
         for (int i = 0; i < subjects[index].grades.length; i++) {
             if (subjects[index].grades[i] == null) {
-                subjects[index].grades[i] = new Grade (grade, d, m, y, note, c);
+                subjects[index].grades[i] = new Grade (grade, note, c);
                 i = subjects[index].grades.length;
                 worked = true;
             }
@@ -242,8 +240,9 @@ public class MyApp : Adw.Application {
         var dialog = new NewGradeDialog (main_window, subjects, index);
 
         dialog.response.connect ((response_id) => {
-            if (response_id == Gtk.ResponseType.ACCEPT && dialog.set_variables ()) {
-                new_grade (index, dialog.get_grade (), dialog.get_day (), dialog.get_month (), dialog.get_year (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
+            if (response_id == "add") {
+		dialog.set_variables ();
+                new_grade (index, dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
             }
             dialog.destroy ();
         });
@@ -347,7 +346,7 @@ public class MyApp : Adw.Application {
 			vexpand = true,
 			hexpand = true,
 			title = _("No Subjects"),
-			description =  _("Add new subjects using the + in the top left corner")
+			description =  _("Add new subjects using the “+” button in the top left corner.")
 		    };
     		stack_box.set_content (placeholderlabel);
         	    stack.add_titled (stack_box , "no_subjects_placeholder", _("Gradebook"));
@@ -410,15 +409,24 @@ public class MyApp : Adw.Application {
 
             //SUBJECT BOX
             var nyttbox = new Gtk.Box (VERTICAL, 0) {
-                vexpand = true
+                vexpand = true,
+                margin_start = 1,
+                margin_end = 1
             };
-
+	    var gtk_sw = new Gtk.ScrolledWindow ();
+    	    var adw_c = new Adw.Clamp () {
+		margin_start = 19,
+		margin_end = 19,
+		margin_top = 20,
+		margin_bottom = 20,
+		maximum_size = 600,
+		tightening_threshold = 400
+	    };
+    	    gtk_sw.set_child (adw_c);
+            adw_c.set_child (nyttbox);
             
             //TOP BOX
             var top_box = new Gtk.Box (HORIZONTAL, 0) {
-                margin_start = 20,
-                margin_end = 20,
-                margin_top = 20,
                 height_request = 40,
                 hexpand = true,
                 homogeneous = true
@@ -431,10 +439,10 @@ public class MyApp : Adw.Application {
             };
             top_box.append (average_box);
 
-            var average_label = new Gtk.Label (_("Average:"));
+            var average_label = new Gtk.Label (_("Average:")) { css_classes = { "title-3" } };
             average_box.append (average_label);
 
-            avg[i] = new Gtk.Label ("0.00");
+            avg[i] = new Gtk.Label ("0.00") { css_classes = { "title-3" } };
             average_box.append (avg[i]);
 
 
@@ -475,7 +483,7 @@ public class MyApp : Adw.Application {
 
             //CALL LISTBOX WITH GRADES
 
-            subject_boxes[i].set_content (nyttbox);
+            subject_boxes[i].set_content (gtk_sw);
             window_grade_rows_ui (i, nyttbox);
  	    nyabox[i] = nyttbox;
 
@@ -523,7 +531,7 @@ public class MyApp : Adw.Application {
 
     public Gtk.Box window_grade_rows_ui (int i, Gtk.Box? nyttbox = null) {
 	nyttbox = nyttbox ?? nyabox[i];
-        if (nyttbox.get_first_child ().get_next_sibling ().name == "GtkScrolledWindow") {
+        if ((nyttbox.get_first_child ().get_next_sibling ().name == "GtkListBox") || (nyttbox.get_first_child ().get_next_sibling ().name == "AdwStatusPage")) {
             nyttbox.remove (nyttbox.get_first_child ().get_next_sibling ());
 	}
 
@@ -533,34 +541,22 @@ public class MyApp : Adw.Application {
         double[] avg_calculated = new double[subjects[i].categories.length];
         double final_avg = 0.00;
 
-
-        var scroller = new Gtk.ScrolledWindow () {
-            margin_bottom = 20,
-            margin_end = 20,
-            margin_start = 20,
-            margin_top = 10,
-            hexpand = true,
-            vexpand = true,
-        };
-        nyttbox.append (scroller);
-
         //LIST BOX
-
         if (subjects[i].grades[0] == null) {
             var adw_page = new Adw.StatusPage () {
                 title = _("No Grades"),
-                description = _("Add new grades by clicking the “New Grade…” button.")
+                description = _("Add new grades by clicking the “New Grade…” button."),
+                vexpand = true
             };
- 	    scroller.set_child (adw_page);
+ 	    nyttbox.append (adw_page);
  	    return nyttbox;
         } else {
 
-	var list_box = new Gtk.ListBox ();
+	var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
         list_box.add_css_class("boxed-list");
-        list_box.set_show_separators (false);
         //list_box.set_sort_func (sort_list);
         //list_box.set_filter_func (filter_list);
-        scroller.set_child (list_box);
+        nyttbox.append (list_box);
 
         for(int j = 0; subjects[i].grades[j] != null; j++) {
             average[subjects[i].grades[j].cat] += int.parse(subjects[i].grades[j].grade);
@@ -569,30 +565,42 @@ public class MyApp : Adw.Application {
 
 
             //expander row
-            var expander_row = new Adw.ExpanderRow ();
+            var expander_row = new Adw.ActionRow ();
             expander_row.set_title (subjects[i].grades[j].grade.to_string ());
-            expander_row.set_subtitle (subjects[i].grades[j].give_date () + " (" + subjects[i].categories[subjects[i].grades[j].cat].name + ")");
-
-
-            //SUBROW
-            var subrow = new Adw.ActionRow ();
-            subrow.set_title (subjects[i].grades[j].note);
-
-            //delete button
-            var delete_button = new DeleteButton (_("Delete"), i, j);
-            subrow.add_suffix (delete_button);
+ 	    if (subjects[i].grades[j].note == "") {
+		expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name);
+	    } else {
+            	expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name + " — " + subjects[i].grades[j].note);
+            }
+            var delete_button = new DeleteButton (i, j);
+            expander_row.add_suffix (delete_button);
 
 
 
             //put everything together
-            expander_row.add_row (subrow);
             list_box.append (expander_row);
 
 
 
             //CONNECT BUTTONS
             delete_button.clicked.connect (() => {
-                delete_grade (delete_button.subject_index, delete_button.grade_index);
+		Adw.MessageDialog msg = new Adw.MessageDialog (
+			main_window,
+			_("Delete Grade?"),
+			_("If you delete this grade, its information will be deleted permanently.")
+		);
+		msg.add_response ("cancel", _("Cancel"));
+                msg.add_response ("delete", _("Delete"));
+		msg.set_response_appearance ("delete", DESTRUCTIVE);
+		msg.set_close_response ("cancel");
+		msg.response.connect ((response) => {
+			if (response == "delete") {
+				delete_grade (delete_button.subject_index, delete_button.grade_index);
+			}
+			msg.destroy ();
+		});
+
+		msg.present ();
             });
         }
 
@@ -651,7 +659,7 @@ public class MyApp : Adw.Application {
         main_box = new Adw.OverlaySplitView ();
         main_window.set_content (main_box);
 
- 	bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 500px"));
+ 	bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 530px"));
  	bpoint.add_setter (main_box, "show_sidebar", false);
 	bpoint.add_setter (main_box, "collapsed", true);
  	main_window.add_breakpoint (bpoint);

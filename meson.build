@@ -84,3 +84,8 @@ install_data(
         install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'symbolic' / 'apps',
         rename: 'dock-left-symbolic.svg'
     )
+install_data(
+        'data' / 'user-trash-symbolic.svg',
+        install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'symbolic' / 'apps',
+        rename: 'user-trash-symbolic.svg'
+    )

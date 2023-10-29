@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 15:41+0100\n"
+"POT-Creation-Date: 2023-10-29 23:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,149 +17,151 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/application.vala:66
+#: src/application.vala:71
 msgid "translator-credits"
 msgstr ""
 
-#: src/application.vala:67 src/application.vala:561
+#: src/application.vala:72 src/application.vala:352 src/application.vala:648
 msgid "Gradebook"
 msgstr ""
 
-#: src/application.vala:69
-msgid "Keep track of your grades"
-msgstr ""
-
-#: src/application.vala:247
+#: src/application.vala:251
 msgid "Error"
 msgstr ""
 
-#: src/application.vala:247
+#: src/application.vala:251
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
 msgstr ""
 
-#: src/application.vala:249
+#: src/application.vala:253
 msgid "OK"
 msgstr ""
 
-#: src/application.vala:309
+#: src/application.vala:315 src/application.vala:374
 msgid "_Help"
 msgstr ""
 
-#: src/application.vala:312
+#: src/application.vala:318 src/application.vala:377
 msgid "_About Gradebook"
 msgstr ""
 
-#: src/application.vala:322
+#: src/application.vala:327 src/application.vala:386
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: src/application.vala:338 src/application.vala:397
 msgid "Add a New Subject"
 msgstr ""
 
-#: src/application.vala:333
+#: src/application.vala:348
 msgid "No Subjects"
 msgstr ""
 
-#: src/application.vala:334
-msgid "Add new subjects using the + in the top left corner"
+#: src/application.vala:349
+msgid "Add new subjects using the “+” button in the top left corner."
 msgstr ""
 
-#: src/application.vala:335
-msgid "No subjects"
-msgstr ""
-
-#: src/application.vala:364
+#: src/application.vala:442
 msgid "Average:"
 msgstr ""
 
-#: src/application.vala:377
+#: src/application.vala:455
 msgid "New Grade…"
 msgstr ""
 
-#: src/application.vala:486
+#: src/application.vala:547
 msgid "No Grades"
 msgstr ""
 
-#. delete button
-#: src/application.vala:508
-msgid "Delete"
+#: src/application.vala:548
+msgid "Add new grades by clicking the “New Grade…” button."
 msgstr ""
 
-#: src/new-subject-dialog.vala:9
-msgid "New Subject"
+#: src/application.vala:589
+msgid "Delete Grade?"
+msgstr ""
+
+#: src/application.vala:590
+msgid "If you delete this grade, its information will be deleted permanently."
 msgstr ""
 
 #. BUTTONS
-#. /TRANSLATORS: $n is the name of a school subject
-#: src/new-subject-dialog.vala:18 src/new-grade-dialog.vala:23
-#: src/add-category-dialog.vala:15 src/edit-subject-dialog.vala:17
-#: src/edit-subject-dialog.vala:74
+#: src/application.vala:592 src/new-subject-dialog.vala:29
+#: src/new-grade-dialog.vala:17 src/add-category-dialog.vala:12
+#: src/edit-subject-dialog.vala:33 src/edit-subject-dialog.vala:79
 msgid "Cancel"
 msgstr ""
 
-#: src/new-subject-dialog.vala:19 src/new-grade-dialog.vala:24
+#: src/application.vala:593 src/edit-subject-dialog.vala:80
+msgid "Delete"
+msgstr ""
+
+#: src/new-subject-dialog.vala:11
+msgid "New Subject"
+msgstr ""
+
+#: src/new-subject-dialog.vala:35 src/edit-subject-dialog.vala:39
+msgid "Save"
+msgstr ""
+
+#: src/new-subject-dialog.vala:68
+msgid "Subject Title"
+msgstr ""
+
+#: src/new-subject-dialog.vala:124 src/edit-subject-dialog.vala:138
+msgid "Subject Categories"
+msgstr ""
+
+#: src/new-subject-dialog.vala:129 src/add-category-dialog.vala:7
+#: src/edit-subject-dialog.vala:143
+msgid "Add New Category"
+msgstr ""
+
+#: src/new-grade-dialog.vala:11
+msgid "Add New Grade"
+msgstr ""
+
+#: src/new-grade-dialog.vala:18 src/add-category-dialog.vala:13
 msgid "Add"
 msgstr ""
 
-#: src/new-subject-dialog.vala:35
-msgid "Name of the subject:"
+#: src/new-grade-dialog.vala:32
+msgid "Grade"
 msgstr ""
 
-#: src/new-subject-dialog.vala:48 src/edit-subject-dialog.vala:25
-msgid "This subject's categories:"
+#: src/new-grade-dialog.vala:35
+msgid "Category"
 msgstr ""
 
-#: src/new-subject-dialog.vala:82 src/edit-subject-dialog.vala:46
-msgid "Add a new category"
+#: src/new-grade-dialog.vala:40
+msgid "Note"
 msgstr ""
 
-#: src/new-grade-dialog.vala:19
-msgid "New Grade"
+#: src/add-category-dialog.vala:22
+msgid "Category Name"
 msgstr ""
 
-#: src/new-grade-dialog.vala:41
-msgid "Grade:"
+#: src/add-category-dialog.vala:27
+msgid "Category Percent"
 msgstr ""
 
-#: src/new-grade-dialog.vala:61
-msgid "Date:"
-msgstr ""
-
-#: src/new-grade-dialog.vala:101
-msgid "Category:"
-msgstr ""
-
-#: src/new-grade-dialog.vala:109
-msgid "Choose a category:"
-msgstr ""
-
-#: src/new-grade-dialog.vala:127
-msgid "A note:"
-msgstr ""
-
-#: src/add-category-dialog.vala:8
-msgid "Add new Category"
-msgstr ""
-
-#: src/add-category-dialog.vala:16 src/edit-subject-dialog.vala:18
-msgid "Apply"
-msgstr ""
-
-#: src/add-category-dialog.vala:30
-msgid "Name of the category:"
-msgstr ""
-
-#: src/add-category-dialog.vala:45
-msgid "Weight of the category, in percentage:"
-msgstr ""
-
-#: src/edit-subject-dialog.vala:8
+#: src/edit-subject-dialog.vala:13
 msgid "Edit Subject"
 msgstr ""
 
-#: src/edit-subject-dialog.vala:64
-msgid "Delete subject"
+#: src/edit-subject-dialog.vala:70
+msgid "Delete Subject…"
 msgstr ""
 
-#: src/edit-subject-dialog.vala:75
-msgid "Yes"
+#. /TRANSLATORS: %s is the name of a school subject
+#: src/edit-subject-dialog.vala:77
+#, c-format
+msgid "Delete %s?"
+msgstr ""
+
+#: src/edit-subject-dialog.vala:78
+#, c-format
+msgid "If you delete %s, its information will be deleted permanently."
 msgstr ""

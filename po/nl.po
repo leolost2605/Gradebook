@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 15:41+0100\n"
+"POT-Creation-Date: 2023-10-29 23:47+0100\n"
 "PO-Revision-Date: 2022-12-22 16:48+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch\n"
@@ -17,163 +17,207 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 22.12.0\n"
 
-#: src/application.vala:66
+#: src/application.vala:71
 msgid "translator-credits"
 msgstr ""
 
-#: src/application.vala:67 src/application.vala:561
+#: src/application.vala:72 src/application.vala:352 src/application.vala:648
 #, fuzzy
 msgid "Gradebook"
 msgstr "Over Gradebook"
 
-#: src/application.vala:69
-#, fuzzy
-msgid "Keep track of your grades"
-msgstr "Een eenvoudige toepassing voor het bijhouden van je cijfers!"
-
-#: src/application.vala:247
+#: src/application.vala:251
 msgid "Error"
 msgstr ""
 
-#: src/application.vala:247
+#: src/application.vala:251
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
 msgstr ""
 
-#: src/application.vala:249
+#: src/application.vala:253
 msgid "OK"
 msgstr ""
 
-#: src/application.vala:309
+#: src/application.vala:315 src/application.vala:374
 #, fuzzy
 msgid "_Help"
 msgstr "Hulp"
 
-#: src/application.vala:312
+#: src/application.vala:318 src/application.vala:377
 #, fuzzy
 msgid "_About Gradebook"
 msgstr "Over Gradebook"
 
-#: src/application.vala:322
+#: src/application.vala:327 src/application.vala:386
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: src/application.vala:338 src/application.vala:397
 #, fuzzy
 msgid "Add a New Subject"
 msgstr "Vak toevoegen"
 
-#: src/application.vala:333
+#: src/application.vala:348
 #, fuzzy
 msgid "No Subjects"
 msgstr "Nieuw vak"
 
-#: src/application.vala:334
+#: src/application.vala:349
 #, fuzzy
-msgid "Add new subjects using the + in the top left corner"
+msgid "Add new subjects using the “+” button in the top left corner."
 msgstr "Klik op de plusknop (‘+’) linksboven om een vak toe te voegen."
 
-#: src/application.vala:335
-#, fuzzy
-msgid "No subjects"
-msgstr "Nieuw vak"
-
-#: src/application.vala:364
+#: src/application.vala:442
 #, fuzzy
 msgid "Average:"
 msgstr "Mijn gemiddelde:"
 
-#: src/application.vala:377
+#: src/application.vala:455
 #, fuzzy
 msgid "New Grade…"
 msgstr "Nieuw cijfer"
 
-#: src/application.vala:486
+#: src/application.vala:547
 #, fuzzy
 msgid "No Grades"
 msgstr "Nieuw cijfer"
 
-#. delete button
-#: src/application.vala:508
-msgid "Delete"
-msgstr "Verwijderen"
+#: src/application.vala:548
+msgid "Add new grades by clicking the “New Grade…” button."
+msgstr ""
 
-#: src/new-subject-dialog.vala:9
-msgid "New Subject"
-msgstr "Nieuw vak"
+#: src/application.vala:589
+#, fuzzy
+msgid "Delete Grade?"
+msgstr "Nieuw cijfer"
+
+#: src/application.vala:590
+msgid "If you delete this grade, its information will be deleted permanently."
+msgstr ""
 
 #. BUTTONS
-#. /TRANSLATORS: $n is the name of a school subject
-#: src/new-subject-dialog.vala:18 src/new-grade-dialog.vala:23
-#: src/add-category-dialog.vala:15 src/edit-subject-dialog.vala:17
-#: src/edit-subject-dialog.vala:74
+#: src/application.vala:592 src/new-subject-dialog.vala:29
+#: src/new-grade-dialog.vala:17 src/add-category-dialog.vala:12
+#: src/edit-subject-dialog.vala:33 src/edit-subject-dialog.vala:79
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/new-subject-dialog.vala:19 src/new-grade-dialog.vala:24
+#: src/application.vala:593 src/edit-subject-dialog.vala:80
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: src/new-subject-dialog.vala:11
+msgid "New Subject"
+msgstr "Nieuw vak"
+
+#: src/new-subject-dialog.vala:35 src/edit-subject-dialog.vala:39
+msgid "Save"
+msgstr ""
+
+#: src/new-subject-dialog.vala:68
+msgid "Subject Title"
+msgstr ""
+
+#: src/new-subject-dialog.vala:124 src/edit-subject-dialog.vala:138
+#, fuzzy
+msgid "Subject Categories"
+msgstr "Categorieën van vak:"
+
+#: src/new-subject-dialog.vala:129 src/add-category-dialog.vala:7
+#: src/edit-subject-dialog.vala:143
+#, fuzzy
+msgid "Add New Category"
+msgstr "Categorie toevoegen"
+
+#: src/new-grade-dialog.vala:11
+#, fuzzy
+msgid "Add New Grade"
+msgstr "Nieuw cijfer"
+
+#: src/new-grade-dialog.vala:18 src/add-category-dialog.vala:13
 msgid "Add"
 msgstr "Toevoegen"
 
-#: src/new-subject-dialog.vala:35
-msgid "Name of the subject:"
-msgstr "Naam van vak:"
-
-#: src/new-subject-dialog.vala:48 src/edit-subject-dialog.vala:25
-msgid "This subject's categories:"
-msgstr "Categorieën van vak:"
-
-#: src/new-subject-dialog.vala:82 src/edit-subject-dialog.vala:46
-msgid "Add a new category"
-msgstr "Categorie toevoegen"
-
-#: src/new-grade-dialog.vala:19
-msgid "New Grade"
-msgstr "Nieuw cijfer"
-
-#: src/new-grade-dialog.vala:41
-msgid "Grade:"
+#: src/new-grade-dialog.vala:32
+#, fuzzy
+msgid "Grade"
 msgstr "Cijfer:"
 
-#: src/new-grade-dialog.vala:61
-msgid "Date:"
-msgstr "Datum:"
-
-#: src/new-grade-dialog.vala:101
-msgid "Category:"
+#: src/new-grade-dialog.vala:35
+#, fuzzy
+msgid "Category"
 msgstr "Categorie:"
 
-#: src/new-grade-dialog.vala:109
-msgid "Choose a category:"
-msgstr "Kies een categorie:"
+#: src/new-grade-dialog.vala:40
+msgid "Note"
+msgstr ""
 
-#: src/new-grade-dialog.vala:127
-msgid "A note:"
-msgstr "Aantekening:"
+#: src/add-category-dialog.vala:22
+#, fuzzy
+msgid "Category Name"
+msgstr "Categorie:"
 
-#: src/add-category-dialog.vala:8
-msgid "Add new Category"
-msgstr "Categorie toevoegen"
+#: src/add-category-dialog.vala:27
+#, fuzzy
+msgid "Category Percent"
+msgstr "Categorie:"
 
-#: src/add-category-dialog.vala:16 src/edit-subject-dialog.vala:18
-msgid "Apply"
-msgstr "Toepassen"
-
-#: src/add-category-dialog.vala:30
-msgid "Name of the category:"
-msgstr "Naam van categorie:"
-
-#: src/add-category-dialog.vala:45
-msgid "Weight of the category, in percentage:"
-msgstr "Prioriteit van categorie (in procenten):"
-
-#: src/edit-subject-dialog.vala:8
+#: src/edit-subject-dialog.vala:13
 msgid "Edit Subject"
 msgstr "Vak bewerken"
 
-#: src/edit-subject-dialog.vala:64
-msgid "Delete subject"
+#: src/edit-subject-dialog.vala:70
+#, fuzzy
+msgid "Delete Subject…"
 msgstr "Vak verwijderen"
 
-#: src/edit-subject-dialog.vala:75
-msgid "Yes"
-msgstr "Ja"
+#. /TRANSLATORS: %s is the name of a school subject
+#: src/edit-subject-dialog.vala:77
+#, fuzzy, c-format
+msgid "Delete %s?"
+msgstr "Verwijderen"
+
+#: src/edit-subject-dialog.vala:78
+#, c-format
+msgid "If you delete %s, its information will be deleted permanently."
+msgstr ""
+
+#, fuzzy
+#~ msgid "Keep track of your grades"
+#~ msgstr "Een eenvoudige toepassing voor het bijhouden van je cijfers!"
+
+#, fuzzy
+#~ msgid "No subjects"
+#~ msgstr "Nieuw vak"
+
+#~ msgid "Name of the subject:"
+#~ msgstr "Naam van vak:"
+
+#~ msgid "Add a new category"
+#~ msgstr "Categorie toevoegen"
+
+#~ msgid "Date:"
+#~ msgstr "Datum:"
+
+#~ msgid "Choose a category:"
+#~ msgstr "Kies een categorie:"
+
+#~ msgid "A note:"
+#~ msgstr "Aantekening:"
+
+#~ msgid "Apply"
+#~ msgstr "Toepassen"
+
+#~ msgid "Name of the category:"
+#~ msgstr "Naam van categorie:"
+
+#~ msgid "Weight of the category, in percentage:"
+#~ msgstr "Prioriteit van categorie (in procenten):"
+
+#~ msgid "Yes"
+#~ msgstr "Ja"
 
 #~ msgid "It's empty in here..."
 #~ msgstr "Er valt hier nog niks te zien…"

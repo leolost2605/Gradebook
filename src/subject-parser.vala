@@ -42,18 +42,12 @@ public class SubjectParser : Object {
             var grades = new Grade[grade_arr_size];
             int j2 = 0;
             for (int i = 0; i < grade_string_arr.length && grade_string_arr[j2] != null; i++) {
-                    grades[i] = new Grade ("", 0, 0, 0, "", 0);
+                    grades[i] = new Grade ("", "", 0);
                     grades[i].grade = grade_string_arr[j2];
                     j2++;
                     grades[i].note = grade_string_arr[j2];
                     j2++;
                     grades[i].cat = int.parse(grade_string_arr[j2]);
-                    j2++;
-                    grades[i].day = int.parse(grade_string_arr[j2]);
-                    j2++;
-                    grades[i].month = int.parse(grade_string_arr[j2]);
-                    j2++;
-                    grades[i].year = int.parse(grade_string_arr[j2]);
                     j2++;
                 }
 
@@ -81,9 +75,6 @@ public class SubjectParser : Object {
                     result = result + sub.grades[i].grade + "#";
                     result = result + sub.grades[i].note + "#";
                     result = result + sub.grades[i].cat.to_string() + "#";
-                    result = result + sub.grades[i].day.to_string() + "#";
-                    result = result + sub.grades[i].month.to_string() + "#";
-                    result = result + sub.grades[i].year.to_string();
                     if(sub.grades[i + 1] != null) {
                             result = result + "#";
                         }

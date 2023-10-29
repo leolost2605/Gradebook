@@ -74,10 +74,11 @@ public Subject subject;
         subject_delete_button.clicked.connect (() => {
                 string n = s.name;
                 ///TRANSLATORS: %s is the name of a school subject
-                var message_dialog = new Adw.MessageDialog(this, _("Are you sure you want to delete %s?").printf(n), null);
-                message_dialog.add_response("0", _("Cancel"));
-                message_dialog.add_response("1", _("Yes"));
-                message_dialog.set_response_appearance("1", DESTRUCTIVE);
+                var message_dialog = new Adw.MessageDialog(this, _("Delete %s?").printf(n), null);
+ 		message_dialog.set_body (_("If you delete %s, its information will be deleted permanently.").printf(n));
+                message_dialog.add_response ("0", _("Cancel"));
+                message_dialog.add_response ("1", _("Delete"));
+                message_dialog.set_response_appearance ("1", DESTRUCTIVE);
                 message_dialog.present();
                 message_dialog.response.connect ((id) => {
                         switch (id) {
