@@ -5,5 +5,6 @@ public class DeleteSubjectButton : Gtk.Button {
         label = "Delete this subject";
         index = i;
         halign = END;
+ 	vexpand = false;
     }
 }

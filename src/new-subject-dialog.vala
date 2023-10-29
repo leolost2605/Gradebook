@@ -134,8 +134,8 @@ public class NewSubjectDialog : Adw.Window {
             var dialog = new AddCategoryDialog (this);
 
             dialog.response.connect ((response_id) => {
-                if (response_id == Gtk.ResponseType.ACCEPT) {
-                    add_cat(dialog.name_entry.get_text(), dialog.percentage_spinbutton.get_value());
+                if (response_id == "add") {
+                    add_cat(dialog.name_entry.get_text(), dialog.percentage.get_value());
                 }
                 dialog.destroy ();
             });

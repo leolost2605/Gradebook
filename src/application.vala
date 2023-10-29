@@ -261,8 +261,8 @@ public class MyApp : Adw.Application {
     public void edit_subject_dialog (int index) {
         var dialog = new EditSubjectDialog (main_window, subjects[index], this);
 
-        dialog.response.connect ((response_id) => {
-            if (response_id == Gtk.ResponseType.ACCEPT) {
+        dialog.close_request.connect ((response_id) => {
+            if (dialog.accept) {
                 if(dialog.subject != null) {
                         subjects[index] = dialog.subject;
                 } else {
@@ -282,6 +282,7 @@ public class MyApp : Adw.Application {
                 }
             }
             dialog.destroy ();
+ 	    return true;
         });
         dialog.present ();
     }
