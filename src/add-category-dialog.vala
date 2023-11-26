@@ -22,6 +22,7 @@ public class AddCategoryDialog : Adw.MessageDialog {
 		title = _("Category Name")
 	};
 	lb.append (name_entry);
+
 	percentage = new Gtk.Adjustment (0, 0, 100, 1, 10, 1);
 	var percent = new Adw.SpinRow (percentage, 1, 2) {
 		title = _("Category Percent")

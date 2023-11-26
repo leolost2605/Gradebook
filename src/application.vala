@@ -8,9 +8,9 @@ public class MyApp : Adw.Application {
     private Adw.HeaderBar header_bar;
     private Gtk.ToggleButton toggle_button;
     private Adw.Breakpoint bpoint;
- private Gtk.Box[] nyabox;
+    private Gtk.Box[] nyabox;
     private Gtk.Stack stack;
- private EditSubjectButton edit_subject_button;
+    private EditSubjectButton edit_subject_button;
 
 
 

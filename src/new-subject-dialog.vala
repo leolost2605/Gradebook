@@ -6,15 +6,15 @@ public class NewSubjectDialog : Adw.Window {
     public bool accept;
 
     public NewSubjectDialog (Adw.ApplicationWindow parent) {
-        Object (
-            modal: true,
-            title: _("New Subject"),
-            transient_for: parent,
-            default_height: 400,
-            default_width: 500,
-            width_request: 360,
-            height_request: 360
-        );
+    Object (
+        modal: true,
+        title: _("New Subject"),
+        transient_for: parent,
+        default_height: 400,
+        default_width: 500,
+        width_request: 360,
+        height_request: 360
+    );
 
         categories = new Category[5];
 
