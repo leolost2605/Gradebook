@@ -24,8 +24,8 @@ public class NewGradeDialog : Adw.MessageDialog {
 
         //CATEGORY
         var cat_model = new Gtk.StringList (null);
-        for (int i = 0; subject.categories[i] != null; i++) {
-            cat_model.append (subject.categories[i].name);
+        foreach (var category in subject.categories_by_name.get_keys ()) {
+            cat_model.append (category);
         }
 
 	    grade_spinbutton = new Adw.SpinRow (grade_adjustment, 1, 2) {
