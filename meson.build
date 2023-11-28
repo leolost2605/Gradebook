@@ -40,7 +40,6 @@ executable(
     'src' / 'new-subject-dialog.vala',
     'src' / 'delete-subject-button.vala',
     'src' / 'category.vala',
-    'src' / 'edit-subject-button.vala',
     'src' / 'edit-subject-dialog.vala',
     'src' / 'add-category-dialog.vala',
     'src' / 'subject-manager.vala',

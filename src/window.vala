@@ -17,7 +17,14 @@ public class Window : Adw.ApplicationWindow {
     construct {
         stack = new Gtk.Stack ();
 
+        var new_subject_button = new Gtk.Button () {
+            icon_name = "list-add-symbolic",
+            action_name = "app.newsubject",
+            tooltip_text = _("Add a New Subject")
+        };
+
      	var header_bar = new Adw.HeaderBar () { hexpand = true };
+     	header_bar.pack_end (new_subject_button);
 
         var stack_sidebar = new Gtk.StackSidebar () {
             stack = stack
