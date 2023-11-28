@@ -43,7 +43,9 @@ executable(
     'src' / 'edit-subject-button.vala',
     'src' / 'edit-subject-dialog.vala',
     'src' / 'add-category-dialog.vala',
+    'src' / 'subject-page.vala',
     'src' / 'subject-parser.vala',
+    'src' / 'window.vala',
     dependencies: [
         dependency('gtk4'),
         dependency('libadwaita-1'),
