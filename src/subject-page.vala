@@ -103,13 +103,15 @@ public class SubjectPage : Gtk.Box {
             vexpand = true
         };
 
-	    var list_box = new Gtk.ListBox () {vexpand = true, margin_top = 20};
+	    var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
         list_box.add_css_class ("boxed-list");
-        list_box.set_placeholder (status_page);
         list_box.bind_model (subject.grades_model, widget_create_func);
-        //list_box.set_sort_func (sort_list);
-        //list_box.set_filter_func (filter_list);
-        nyttbox.append (list_box);
+
+        if (subject.grades_model.get_n_items () > 0) {
+            nyttbox.append (list_box);
+        } else {
+            nyttbox.append (status_page);
+        }
 
         var toolbar_view = new Adw.ToolbarView () {
             hexpand = true,
@@ -117,13 +119,7 @@ public class SubjectPage : Gtk.Box {
         };
         toolbar_view.add_top_bar (header_bar);
         append (toolbar_view);
-        // window_grade_rows_ui (i, nyttbox);
 
-        //add SUBJECT BOX to stackpage
-        // stack.add_titled (subject_boxes[i], subjects[i].name, subjects[i].name);
-
-
-        //CONNECT BUTTONS
         new_grade_button.clicked.connect (new_grade_dialog);
 
         edit_subject_button.clicked.connect (() => {
@@ -131,6 +127,13 @@ public class SubjectPage : Gtk.Box {
         });
 
         subject.grades_model.items_changed.connect (() => {
+            if (subject.grades_model.get_n_items () > 0 && nyttbox.get_last_child () == status_page) {
+                nyttbox.remove (status_page);
+                nyttbox.append (list_box);
+            } else if (subject.grades_model.get_n_items () == 0 && nyttbox.get_last_child () == list_box) {
+                nyttbox.remove (list_box);
+                nyttbox.append (status_page);
+            }
             // double percentage_divider = 0;
 
             // int i = 0;
@@ -149,7 +152,7 @@ public class SubjectPage : Gtk.Box {
     }
 
     public void new_grade_dialog () {
-        if (subject.categories[0] != null){
+        if (subject.categories_by_name.length > 0){
             var dialog = new NewGradeDialog ((Window) get_root (), subject);
 
             dialog.response.connect ((response_id) => {

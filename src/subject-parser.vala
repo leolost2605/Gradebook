@@ -13,25 +13,15 @@ public class SubjectParser : Object {
 
         // var cats = new Category[cat_arr_size];
         // int j1 = 0;
-        // for (int i = 0; i < cat_string_arr.length && cat_string_arr[j1] != null; i++) {
-        //     cats[i] = new Category ("", 0);
-        //     cats[i].name = cat_string_arr[j1];
-        //     j1++;
-        //     cats[i].percentage = int.parse (cat_string_arr[j1]);
-        //     j1++;
+        // for (int i = 0; i < cat_string_arr.length; i++) {
+        //     result_subject.categories_by_name[cat_string_arr[j1]] = new Category (cat_string_arr[j1++], int.parse (cat_string_arr[j1++]));
         // }
 
 
         // var grades = new Grade[grade_arr_size];
         // int j2 = 0;
-        // for (int i = 0; i < grade_string_arr.length && grade_string_arr[j2] != null; i++) {
-        //     grades[i] = new Grade ("", "", 0);
-        //     grades[i].grade = grade_string_arr[j2];
-        //     j2++;
-        //     grades[i].note = grade_string_arr[j2];
-        //     j2++;
-        //     grades[i].cat = int.parse (grade_string_arr[j2]);
-        //     j2++;
+        // for (int i = 0; i < grade_string_arr.length; i++) {
+        //     result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], int.parse (grade_string_arr[j2++])));
         // }
 
         // result_subject.categories = cats;
@@ -41,26 +31,31 @@ public class SubjectParser : Object {
     }
 
     public string to_string (Subject sub) {
-        string result;
+        string result = sub.name + "%";
 
-        result = sub.name + "%";
-
-        for (int i = 0; i < sub.categories.length && sub.categories[i] != null; i++) {
-            result = result + sub.categories[i].name + "#";
-            result = result + sub.categories[i].percentage.to_string ();
-            if (sub.categories[i + 1] != null) {
+        bool first = true;
+        foreach (var category in sub.categories_by_name.get_values ()) {
+            if (!first) {
                 result = result + "#";
+            } else {
+                first = false;
             }
+            result = result + category.name + "#";
+            result = result + category.percentage.to_string ();
         }
+
         result = result + "%";
 
-        for (int i = 0; i < sub.grades.length && sub.grades[i] != null; i++) {
-            result = result + sub.grades[i].grade + "#";
-            result = result + sub.grades[i].note + "#";
-            result = result + sub.grades[i].cat.to_string () + "#";
-            if (sub.grades[i + 1] != null) {
+        first = true;
+        for (int i = 0; i < sub.grades_model.get_n_items (); i++) {
+            if (!first) {
                 result = result + "#";
+            } else {
+                first = false;
             }
+            result = result + ((Grade) sub.grades_model.get_item (i)).grade + "#";
+            result = result + ((Grade) sub.grades_model.get_item (i)).note + "#";
+            result = result + ((Grade) sub.grades_model.get_item (i)).cat.to_string () + "#";
         }
 
         return result;

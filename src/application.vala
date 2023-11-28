@@ -184,72 +184,9 @@ public class MyApp : Adw.Application {
             main_window.destroy ();
         }
 
-
-
-    // public void new_grade (int index, string grade, string note, int c) {
-    //     bool worked = false;
-
-    //     for (int i = 0; i < subjects[index].grades.length; i++) {
-    //         if (subjects[index].grades[i] == null) {
-    //             subjects[index].grades[i] = new Grade (grade, note, c);
-    //             i = subjects[index].grades.length;
-    //             worked = true;
-    //         }
-    //     }
-
-
-    //     if (worked == false) {
-    //         print ("no more grades available");
-    //     } else {
-    //         window_grade_rows_ui (index);
-    //     }
-    // }
-
-
-
-
     public void new_subject (string name, Category[] c) {
-        bool worked = false;
-
-        for (int i = 0; i < subjects.length; i++) {
-            if (subjects[i] == null) {
-                subjects[i] = new Subject (name);
-                subjects[i].categories = c;
-                i = subjects.length;
-                worked = true;
-            }
-        }
-
-        if (worked == true) {
-            window_stack_ui (0);
-        } else {
-            print ("No more subjects available!");
-        }
+        SubjectManager.get_default ().new_subject (name, c);
     }
-
-
-
-
-  //   public void new_grade_dialog (int index) {
-  //       if (subjects[index].categories[0] != null){
-  //       var dialog = new NewGradeDialog (main_window, subjects, index);
-
-  //       dialog.response.connect ((response_id) => {
-  //           if (response_id == "add") {
-		// dialog.set_variables ();
-  //               new_grade (index, dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
-  //           }
-  //           dialog.destroy ();
-  //       });
-  //       dialog.present ();
-  //       } else {
-  //               var ErrorDialog = new Adw.MessageDialog (main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
-  //               ErrorDialog.add_css_class ("error");
-  //               ErrorDialog.add_response ("ok", _("OK"));
-  //               ErrorDialog.present ();
-  //           }
-  //   }
-
 
     public void window_stack_ui (int index) {}
  //        /*if (stack_box.get_last_child ().get_type () == typeof(Adw.ToolbarView)) {

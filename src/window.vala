@@ -53,5 +53,11 @@ public class Window : Adw.ApplicationWindow {
         foreach (var subject in subject_manager.subjects.get_values ()) {
             stack.add_titled (new SubjectPage (subject), subject.name, subject.name);
         }
+
+        close_request.connect (() => {
+            set_visible (false);
+            subject_manager.write_data ();
+            return true;
+        });
     }
 }
