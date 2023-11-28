@@ -1,10 +1,16 @@
 public class MyApp : Adw.Application {
     private int number_of_subjects = 20;
     private Subject[] subjects;
-    private Gtk.Box[] subject_boxes;
+    private Adw.ToolbarView[] subject_boxes;
     private Adw.ApplicationWindow main_window;
     private Gtk.Label[] avg;
-    private Gtk.Box main_box;
+    private Adw.OverlaySplitView main_box;
+    private Adw.HeaderBar header_bar;
+    private Gtk.ToggleButton toggle_button;
+    private Adw.Breakpoint bpoint;
+    private Gtk.Box[] nyabox;
+    private Gtk.Stack stack;
+    private EditSubjectButton edit_subject_button;
 
 
 
@@ -20,7 +26,6 @@ public class MyApp : Adw.Application {
     construct {
         ActionEntry[] action_entries = {
             { "test", this.on_test_action },
-            { "preferences", this.on_preferences_action },
             { "help", this.on_help_action },
             { "about", this.on_about_action },
             { "newsubject", this.on_newsubject_action},
@@ -45,20 +50,14 @@ public class MyApp : Adw.Application {
 
     public void on_newsubject_action () {
         var dialog = new NewSubjectDialog (main_window);
-        dialog.response.connect ((rid) => {
-            if(rid == Gtk.ResponseType.ACCEPT) {
-                new_subject (dialog.name_entry.get_text (), dialog.categories);
+        dialog.close_request.connect (() => {
+            if(dialog.accept) {
+                new_subject (dialog.name_entry_box.get_text (), dialog.categories);
             }
             dialog.destroy();
+ 	    return true;
         });
         dialog.present ();
-    }
-
-
-
-
-    public void on_preferences_action () {
-        print ("prefrences");
     }
 
 
@@ -67,12 +66,11 @@ public class MyApp : Adw.Application {
     public void on_about_action () {
         var about_window = new Adw.AboutWindow () {
             developer_name = "Leonhard Kargl",
-            developers = {"Leonhard Kargl", "ConfusedAlex"},
+            developers = {"Leonhard Kargl", "ConfusedAlex", "skøldis <gradebook@turtle.garden>"},
             artists = {"Brage Fuglseth"},
             translator_credits = _("translator-credits"),
-            application_name = "Gradebook",
+            application_name = _("Gradebook"),
             application_icon = "io.github.leolost2605.gradebook",
-            comments = _("A simple app to keep track of your grades!"),
             version = "1.1.1",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
@@ -192,13 +190,12 @@ public class MyApp : Adw.Application {
 
 
 
-    public void new_grade (int index, string grade, int d, int m, int y, string note, int c) {
+    public void new_grade (int index, string grade, string note, int c) {
         bool worked = false;
-
 
         for (int i = 0; i < subjects[index].grades.length; i++) {
             if (subjects[index].grades[i] == null) {
-                subjects[index].grades[i] = new Grade (grade, d, m, y, note, c);
+                subjects[index].grades[i] = new Grade (grade, note, c);
                 i = subjects[index].grades.length;
                 worked = true;
             }
@@ -243,8 +240,9 @@ public class MyApp : Adw.Application {
         var dialog = new NewGradeDialog (main_window, subjects, index);
 
         dialog.response.connect ((response_id) => {
-            if (response_id == Gtk.ResponseType.ACCEPT && dialog.set_variables ()) {
-                new_grade (index, dialog.get_grade (), dialog.get_day (), dialog.get_month (), dialog.get_year (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
+            if (response_id == "add") {
+		dialog.set_variables ();
+                new_grade (index, dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
             }
             dialog.destroy ();
         });
@@ -252,7 +250,7 @@ public class MyApp : Adw.Application {
         } else {
                 var ErrorDialog = new Adw.MessageDialog(main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
                 ErrorDialog.add_css_class("error");
-                ErrorDialog.add_response("ok", _("Ok"));
+                ErrorDialog.add_response("ok", _("OK"));
                 ErrorDialog.present();
             }
     }
@@ -262,8 +260,8 @@ public class MyApp : Adw.Application {
     public void edit_subject_dialog (int index) {
         var dialog = new EditSubjectDialog (main_window, subjects[index], this);
 
-        dialog.response.connect ((response_id) => {
-            if (response_id == Gtk.ResponseType.ACCEPT) {
+        dialog.close_request.connect ((response_id) => {
+            if (dialog.accept) {
                 if(dialog.subject != null) {
                         subjects[index] = dialog.subject;
                 } else {
@@ -283,6 +281,7 @@ public class MyApp : Adw.Application {
                 }
             }
             dialog.destroy ();
+ 	    return true;
         });
         dialog.present ();
     }
@@ -291,41 +290,148 @@ public class MyApp : Adw.Application {
 
 
     public void window_stack_ui (int index) {
-        if (main_box.get_last_child ().get_type () == typeof(Gtk.Box)) {
-            main_box.remove (main_box.get_last_child());
-        }
-        var stack_box = new Gtk.Box (HORIZONTAL, 0) {
-            vexpand = true,
-            hexpand = true
-        };
-        var stack = new Gtk.Stack ();
-        stack_box.append (stack);
+        /*if (stack_box.get_last_child ().get_type () == typeof(Adw.ToolbarView)) {
+            stack_box.remove (stack_box.get_last_child());
+        }*/
+        stack = new Gtk.Stack ();
 
-        if(subjects[0] == null) {
-            var placeholderlabel = new Gtk.Label("") {vexpand = true, hexpand = true};
-            placeholderlabel.set_text(_("It's empty in here...")  + "\n \n" + _("Add new subjects using the + in the top left corner!"));
-            stack.add_titled (placeholderlabel , "no_subjects_placeholder", _("You haven't added any subjects yet!"));
+	debug (subjects[0].name);
+        if (subjects[0].name == null) {
+		var stack_box = new Adw.ToolbarView ();
+		var header_bar = new Adw.HeaderBar ();
+
+		//PRIMARY MENU
+        	var menu_button = new Gtk.MenuButton () {
+        	    icon_name = "open-menu-symbolic"
+        	};
+        	header_bar.pack_end(menu_button);
+
+        	var menu = new Menu ();
+        	var menu_section1 = new Menu ();
+        	var menu_section2 = new Menu ();
+        	menu.append_section (null, menu_section1);
+        	menu.append_section (null, menu_section2);
+
+        	var preferences_item = new MenuItem (_("_Help"), "app.help");
+        	menu_section1.append_item (preferences_item);
+
+        	var about_item = new MenuItem (_("_About Gradebook"), "app.about");
+        	menu_section2.append_item (about_item);
+
+
+        	var menu_popover = new Gtk.PopoverMenu.from_model (menu);
+        	menu_button.set_popover (menu_popover);
+
+ 		toggle_button = new Gtk.ToggleButton () {
+			icon_name =  "dock-left-symbolic",
+			tooltip_text = _("Toggle Sidebar"),
+			visible = false
+		};
+		toggle_button.bind_property ("active", main_box, "show_sidebar", BindingFlags.BIDIRECTIONAL);
+		bpoint.add_setter (toggle_button, "visible", true);
+
+		header_bar.pack_start (toggle_button);
+
+        	var new_menu_button = new Gtk.Button () {
+        	    icon_name = "list-add-symbolic",
+        	    action_name = "app.newsubject",
+        	    tooltip_text = _("Add a New Subject")
+        	};
+
+        	header_bar.pack_start (new_menu_button);
+
+        	stack_box.add_top_bar (header_bar);
+
+        	 var placeholderlabel = new Adw.StatusPage() {
+			vexpand = true,
+			hexpand = true,
+			title = _("No Subjects"),
+			description =  _("Add new subjects using the “+” button in the top left corner.")
+		    };
+    		stack_box.set_content (placeholderlabel);
+        	    stack.add_titled (stack_box , "no_subjects_placeholder", _("Gradebook"));
         } else {
 
         //Create StackPages for every subject
         for(int i = 0; subjects[i] != null; i++)
         {
-            //SUBJECT BOX
-            subject_boxes[i] = new Gtk.Box (VERTICAL, 0) {
-                vexpand = true
-            };
 
+	subject_boxes[i] = new Adw.ToolbarView ();
+	var header_bar = new Adw.HeaderBar ();
+
+			//PRIMARY MENU
+        var menu_button = new Gtk.MenuButton () {
+            icon_name = "open-menu-symbolic"
+        };
+        header_bar.pack_end(menu_button);
+
+        var menu = new Menu ();
+        var menu_section1 = new Menu ();
+        var menu_section2 = new Menu ();
+        menu.append_section (null, menu_section1);
+        menu.append_section (null, menu_section2);
+
+        var preferences_item = new MenuItem (_("_Help"), "app.help");
+        menu_section1.append_item (preferences_item);
+
+        var about_item = new MenuItem (_("_About Gradebook"), "app.about");
+        menu_section2.append_item (about_item);
+
+
+        var menu_popover = new Gtk.PopoverMenu.from_model (menu);
+        menu_button.set_popover (menu_popover);
+
+ 	toggle_button = new Gtk.ToggleButton () {
+		icon_name =  "dock-left-symbolic",
+		tooltip_text = _("Toggle Sidebar"),
+		visible = false
+	};
+	toggle_button.bind_property ("active", main_box, "show_sidebar", BindingFlags.BIDIRECTIONAL);
+	bpoint.add_setter (toggle_button, "visible", true);
+
+	header_bar.pack_start (toggle_button);
+
+        var new_menu_button = new Gtk.Button () {
+            icon_name = "list-add-symbolic",
+            action_name = "app.newsubject",
+            tooltip_text = _("Add a New Subject")
+        };
+
+        header_bar.pack_start (new_menu_button);
+
+	// edit subject button
+	edit_subject_button = new EditSubjectButton () {
+            icon_name = "document-edit-symbolic"
+        };
+ 	header_bar.pack_end (edit_subject_button);
+
+	subject_boxes[i].add_top_bar (header_bar);
+
+            //SUBJECT BOX
+            var nyttbox = new Gtk.Box (VERTICAL, 0) {
+                vexpand = true,
+                margin_start = 1,
+                margin_end = 1
+            };
+	    var gtk_sw = new Gtk.ScrolledWindow ();
+    	    var adw_c = new Adw.Clamp () {
+		margin_start = 19,
+		margin_end = 19,
+		margin_top = 20,
+		margin_bottom = 20,
+		maximum_size = 600,
+		tightening_threshold = 400
+	    };
+    	    gtk_sw.set_child (adw_c);
+            adw_c.set_child (nyttbox);
             
             //TOP BOX
             var top_box = new Gtk.Box (HORIZONTAL, 0) {
-                margin_start = 20,
-                margin_end = 20,
-                margin_top = 20,
                 height_request = 40,
                 hexpand = true,
                 homogeneous = true
             };
-            subject_boxes[i].append (top_box);
+            nyttbox.append (top_box);
 
             //AVERAGE LABEL
             var average_box = new Gtk.Box (HORIZONTAL, 10) {
@@ -333,10 +439,10 @@ public class MyApp : Adw.Application {
             };
             top_box.append (average_box);
 
-            var average_label = new Gtk.Label (_("Your average:"));
+            var average_label = new Gtk.Label (_("Average:")) { css_classes = { "title-3" } };
             average_box.append (average_label);
 
-            avg[i] = new Gtk.Label ("0.00");
+            avg[i] = new Gtk.Label ("0.00") { css_classes = { "title-3" } };
             average_box.append (avg[i]);
 
 
@@ -346,13 +452,14 @@ public class MyApp : Adw.Application {
                 icon_name = "add-list-symbolic"
             };
             new_grade_button.halign = END;
-            new_grade_button.label = _("+ New");
+            new_grade_button.label = _("New Grade…");
             new_grade_button.add_css_class ("suggested-action");
+ 	    new_grade_button.add_css_class ("pill");
 
             top_box.append (new_grade_button);
 
 
-            //FILL BOX
+            /*//FILL BOX
             var fill_box = new Gtk.Box (VERTICAL, 0) {
                 margin_end = 20,
                 margin_start = 20,
@@ -372,16 +479,13 @@ public class MyApp : Adw.Application {
             subject_boxes[i].append (bottom_box);
 
             var bottom_end_box = new Gtk.Box (HORIZONTAL, 0) {halign = END};
-            bottom_box.append (bottom_end_box);
-
-            var edit_subject_button = new EditSubjectButton (i) {
-                    icon_name = "document-edit-symbolic"
-                };
-            bottom_end_box.append (edit_subject_button);
-
+            bottom_box.append (bottom_end_box);*/
 
             //CALL LISTBOX WITH GRADES
-            window_grade_rows_ui (i);
+
+            subject_boxes[i].set_content (gtk_sw);
+            window_grade_rows_ui (i, nyttbox);
+ 	    nyabox[i] = nyttbox;
 
 
             //add SUBJECT BOX to stackpage
@@ -392,6 +496,8 @@ public class MyApp : Adw.Application {
             new_grade_button.clicked.connect (() => {
                 new_grade_dialog (new_grade_button.index);
             });
+
+ 	    edit_subject_button.index = i;
 
             edit_subject_button.clicked.connect (() => {
                 edit_subject_dialog (edit_subject_button.index);
@@ -405,22 +511,29 @@ public class MyApp : Adw.Application {
         }
 
         //Create Stack Sidebar
+        var box = new Adw.ToolbarView ();
+ 	var hb = new Adw.HeaderBar () {hexpand = true};
+ 	var sw = new Gtk.ScrolledWindow () {vexpand = true};
         var sidebar = new Gtk.StackSidebar ();
+ 	sidebar.set_css_classes ({ "" });
         sidebar.set_stack (stack);
-        sidebar.width_request = 200;
-        stack_box.prepend(sidebar);
+ 	sw.set_child (sidebar);
+ 	box.add_top_bar (hb);
+ 	box.set_content (sw);
+        main_box.set_sidebar (box);
 
-        main_box.append (stack_box);
+        main_box.set_content (stack);
     }
     
 
 
 
 
-    public void window_grade_rows_ui (int i) {
-        if (subject_boxes[i].get_first_child ().get_next_sibling ().name == "GtkScrolledWindow") {
-            subject_boxes[i].remove (subject_boxes[i].get_first_child ().get_next_sibling ());
-        }
+    public Gtk.Box window_grade_rows_ui (int i, Gtk.Box? nyttbox = null) {
+	nyttbox = nyttbox ?? nyabox[i];
+        if ((nyttbox.get_first_child ().get_next_sibling ().name == "GtkListBox") || (nyttbox.get_first_child ().get_next_sibling ().name == "AdwStatusPage")) {
+            nyttbox.remove (nyttbox.get_first_child ().get_next_sibling ());
+	}
 
 
         int[] average = new int[subjects[i].categories.length];
@@ -428,31 +541,22 @@ public class MyApp : Adw.Application {
         double[] avg_calculated = new double[subjects[i].categories.length];
         double final_avg = 0.00;
 
-
-        var scroller = new Gtk.ScrolledWindow () {
-            margin_bottom = 20,
-            margin_end = 20,
-            margin_start = 20,
-            margin_top = 10,
-            hexpand = true,
-            propagate_natural_height = true
-        };
-        subject_boxes[i].insert_child_after (scroller, subject_boxes[i].get_first_child ());
-
         //LIST BOX
-        var list_box = new Gtk.ListBox ();
+        if (subjects[i].grades[0] == null) {
+            var adw_page = new Adw.StatusPage () {
+                title = _("No Grades"),
+                description = _("Add new grades by clicking the “New Grade…” button."),
+                vexpand = true
+            };
+ 	    nyttbox.append (adw_page);
+ 	    return nyttbox;
+        } else {
+
+	var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
         list_box.add_css_class("boxed-list");
-        list_box.set_show_separators (false);
         //list_box.set_sort_func (sort_list);
         //list_box.set_filter_func (filter_list);
-        scroller.set_child (list_box);
-
-        if (subjects[i].grades[0] == null) {
-            var action_row = new Adw.ActionRow () {
-                title = _("You haven't added any grades yet!")
-            };
-            list_box.append (action_row);
-        }
+        nyttbox.append (list_box);
 
         for(int j = 0; subjects[i].grades[j] != null; j++) {
             average[subjects[i].grades[j].cat] += int.parse(subjects[i].grades[j].grade);
@@ -461,30 +565,42 @@ public class MyApp : Adw.Application {
 
 
             //expander row
-            var expander_row = new Adw.ExpanderRow ();
+            var expander_row = new Adw.ActionRow ();
             expander_row.set_title (subjects[i].grades[j].grade.to_string ());
-            expander_row.set_subtitle (subjects[i].grades[j].give_date () + " (" + subjects[i].categories[subjects[i].grades[j].cat].name + ")");
-
-
-            //SUBROW
-            var subrow = new Adw.ActionRow ();
-            subrow.set_title (subjects[i].grades[j].note);
-
-            //delete button
-            var delete_button = new DeleteButton (_("Delete"), i, j);
-            subrow.add_suffix (delete_button);
+ 	    if (subjects[i].grades[j].note == "") {
+		expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name);
+	    } else {
+            	expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name + " — " + subjects[i].grades[j].note);
+            }
+            var delete_button = new DeleteButton (i, j);
+            expander_row.add_suffix (delete_button);
 
 
 
             //put everything together
-            expander_row.add_row (subrow);
             list_box.append (expander_row);
 
 
 
             //CONNECT BUTTONS
             delete_button.clicked.connect (() => {
-                delete_grade (delete_button.subject_index, delete_button.grade_index);
+		Adw.MessageDialog msg = new Adw.MessageDialog (
+			main_window,
+			_("Delete Grade?"),
+			_("If you delete this grade, its information will be deleted permanently.")
+		);
+		msg.add_response ("cancel", _("Cancel"));
+                msg.add_response ("delete", _("Delete"));
+		msg.set_response_appearance ("delete", DESTRUCTIVE);
+		msg.set_close_response ("cancel");
+		msg.response.connect ((response) => {
+			if (response == "delete") {
+				delete_grade (delete_button.subject_index, delete_button.grade_index);
+			}
+			msg.destroy ();
+		});
+
+		msg.present ();
             });
         }
 
@@ -500,6 +616,9 @@ public class MyApp : Adw.Application {
         if(percentage_divider != 0) {
             string average_string = "%.2f".printf (final_avg / percentage_divider);
             avg[i].set_label (average_string);
+        }
+
+	 return nyttbox;
         }
     }
 
@@ -524,70 +643,28 @@ public class MyApp : Adw.Application {
         main_window = new Adw.ApplicationWindow (this) {
             default_height = 600,
             default_width = 900,
-            title = "Gradebook"
+            width_request = 360,
+            height_request = 360,
+            title = _("Gradebook")
         };
 
         //Variables
         read_data ();
-        subject_boxes = new Gtk.Box[number_of_subjects];
+        subject_boxes = new Adw.ToolbarView[number_of_subjects];
+ 	nyabox = new Gtk.Box[number_of_subjects];
         avg = new Gtk.Label[number_of_subjects];
-
-
 
         //WINDOW UI -------------------------------------------------------------------------------------------------------------------------------
         //Declare main box
-        main_box = new Gtk.Box (VERTICAL, 1);
+        main_box = new Adw.OverlaySplitView ();
         main_window.set_content (main_box);
 
-        //HEADER BAR
-        var header_bar = new Gtk.HeaderBar ();
-        main_box.append(header_bar);
+ 	bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 530px"));
+ 	bpoint.add_setter (main_box, "show_sidebar", false);
+	bpoint.add_setter (main_box, "collapsed", true);
+ 	main_window.add_breakpoint (bpoint);
 
-
-        var header_label = new Gtk.Label ("Gradebook");
-        header_bar.set_title_widget (header_label);
-
-        //PRIMARY MENU
-        var menu_button = new Gtk.MenuButton () {
-            icon_name = "open-menu-symbolic"
-        };
-        header_bar.pack_end(menu_button);
-
-        var menu = new Menu ();
-        var menu_section1 = new Menu ();
-        var menu_section2 = new Menu ();
-        menu.append_section (null, menu_section1);
-        menu.append_section (null, menu_section2);
-
-        var preferences_item = new MenuItem (_("Help"), "app.help");
-        menu_section1.append_item (preferences_item);
-
-        var about_item = new MenuItem (_("About Gradebook"), "app.about");
-        menu_section2.append_item (about_item);
-
-
-        var menu_popover = new Gtk.PopoverMenu.from_model (menu);
-        menu_button.set_popover (menu_popover);
-
-
-
-
-        //NEW SUBJECT MENU
-        var new_menu = new Menu ();
-        var add_subject_menu_item = new MenuItem (_("Add a new subject"), "app.newsubject");
-        new_menu.append_item (add_subject_menu_item);
-
-
-        var new_popover = new Gtk.PopoverMenu.from_model (new_menu);
-
-        var new_menu_button = new Gtk.MenuButton () {
-            popover = new_popover,
-            icon_name = "list-add-symbolic"
-        };
-        header_bar.pack_start (new_menu_button);
-
-
-        window_stack_ui (0);
+ 	window_stack_ui (0);
         
         //PRESENT WINDOW
         main_window.present ();

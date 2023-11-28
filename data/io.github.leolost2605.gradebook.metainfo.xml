@@ -3,7 +3,7 @@
   <id>io.github.leolost2605.gradebook</id>
   
   <name>Gradebook</name>
-  <summary>A simple tool to keep track of your grades!</summary>
+  <summary>Keep track of your grades</summary>
   
   <metadata_license>CC-BY-4.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
@@ -20,11 +20,19 @@
   <screenshots>
     <screenshot type="default">
       <caption>The start page of the app</caption>
-      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/1fbefa95eb502e44567d82b6db146e1fb9c0e3e8/data/start.png</image>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/main/data/screenshot-empty.png</image>
     </screenshot>
     <screenshot>
-      <caption>Example for a subject with its grades</caption>
-      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/b4e4053b1afc01835b61a70158902eb03cca4a70/data/subject.png</image>
+      <caption>Example for a subject</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/main/data/screenshot-main.png</image>
+    </screenshot>
+     <screenshot>
+      <caption>Menu for the addition of a subject</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/main/data/screenshot-newsubject.png</image>
+    </screenshot>
+     <screenshot>
+      <caption>Gradebook showing its adaptive mode</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/Gradebook/main/data/screenshot-small.png</image>
     </screenshot>
   </screenshots>
 
