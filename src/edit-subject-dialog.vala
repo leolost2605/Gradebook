@@ -1,5 +1,4 @@
 public class EditSubjectDialog : Adw.Window {
-    public Category[] categories;
     public Gtk.Box main_box;
     public Adw.EntryRow name_entry_box;
     private Gtk.Button new_cat_button;
@@ -19,8 +18,6 @@ public class EditSubjectDialog : Adw.Window {
         );
 
  	    subject = s;
-
-        categories = new Category[5];
 
 	    var tbv = new Adw.ToolbarView ();
 	    this.set_content (tbv);
@@ -74,7 +71,7 @@ public class EditSubjectDialog : Adw.Window {
         subject_delete_button.clicked.connect (() => {
                 string n = s.name;
                 ///TRANSLATORS: %s is the name of a school subject
-                var message_dialog = new Adw.MessageDialog(    this, _("Delete %s?").printf(    n), null);
+                var message_dialog = new Adw.MessageDialog(this, _("Delete %s?").printf(    n), null);
  		        message_dialog.set_body (_("If you delete %s, its information will be deleted permanently.").printf(    n));
                 message_dialog.add_response ("0", _("Cancel"));
                 message_dialog.add_response ("1", _("Delete"));
@@ -86,7 +83,7 @@ public class EditSubjectDialog : Adw.Window {
                                 break;
                             case "1":
                                 subject = null;
- 				accept = true;
+ 				                accept = true;
                                 this.close ();
                                 break;
                             }
@@ -95,13 +92,8 @@ public class EditSubjectDialog : Adw.Window {
     }
 
     public void add_cat (string n, double p) {
-        for (int i = 0; i < categories.length; i++) {
-            if (categories[i] == null) {
-                categories[i] = new Category (n, p);
-                i = categories.length;
-                load_list ();
-            }
-        }
+        subject.categories_by_name[n] = new Category (n, p);
+        load_list ();
     }
 
     public void load_list () {
@@ -140,10 +132,10 @@ public class EditSubjectDialog : Adw.Window {
         main_box.append (cat_list_box);
  	    main_box.append (subject_delete_button);
 
-        for (int i = 0; i < subject.categories.length && subject.categories[i] != null; i++) {
+        foreach (var category in subject.categories_by_name.get_values ()) {
             var cat_row = new Adw.ActionRow () {
-                title = subject.categories[i].name,
-                subtitle = subject.categories[i].percentage.to_string () + "%"
+                title = category.name,
+                subtitle = category.percentage.to_string () + "%"
             };
             cat_list_box.add (cat_row);
         }
