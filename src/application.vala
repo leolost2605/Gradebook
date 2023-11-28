@@ -143,17 +143,17 @@ public class MyApp : Adw.Application {
 
 
     public void read_data () {
-            subjects = new Subject[number_of_subjects];
+        subjects = new Subject[number_of_subjects];
 
-            for (int i = 0; i < subjects.length && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
-                    File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
+        for (int i = 0; i < subjects.length && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
+            File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
 
-                    var parser = new SubjectParser ();
-                    Subject sub = parser.to_object (read_from_file (file));
-                    subjects[i] = sub;
-                }
-
+            var parser = new SubjectParser ();
+            Subject sub = parser.to_object (read_from_file (file));
+            subjects[i] = sub;
         }
+
+    }
 
     public void write_data () {
         int z = 0;
@@ -186,24 +186,24 @@ public class MyApp : Adw.Application {
 
 
 
-    public void new_grade (int index, string grade, string note, int c) {
-        bool worked = false;
+    // public void new_grade (int index, string grade, string note, int c) {
+    //     bool worked = false;
 
-        for (int i = 0; i < subjects[index].grades.length; i++) {
-            if (subjects[index].grades[i] == null) {
-                subjects[index].grades[i] = new Grade (grade, note, c);
-                i = subjects[index].grades.length;
-                worked = true;
-            }
-        }
+    //     for (int i = 0; i < subjects[index].grades.length; i++) {
+    //         if (subjects[index].grades[i] == null) {
+    //             subjects[index].grades[i] = new Grade (grade, note, c);
+    //             i = subjects[index].grades.length;
+    //             worked = true;
+    //         }
+    //     }
 
 
-        if (worked == false) {
-            print ("no more grades available");
-        } else {
-            window_grade_rows_ui (index);
-        }
-    }
+    //     if (worked == false) {
+    //         print ("no more grades available");
+    //     } else {
+    //         window_grade_rows_ui (index);
+    //     }
+    // }
 
 
 
@@ -230,59 +230,25 @@ public class MyApp : Adw.Application {
 
 
 
-    public void new_grade_dialog (int index) {
+  //   public void new_grade_dialog (int index) {
+  //       if (subjects[index].categories[0] != null){
+  //       var dialog = new NewGradeDialog (main_window, subjects, index);
 
-        if (subjects[index].categories[0] != null){
-        var dialog = new NewGradeDialog (main_window, subjects, index);
-
-        dialog.response.connect ((response_id) => {
-            if (response_id == "add") {
-		dialog.set_variables ();
-                new_grade (index, dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
-            }
-            dialog.destroy ();
-        });
-        dialog.present ();
-        } else {
-                var ErrorDialog = new Adw.MessageDialog (main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
-                ErrorDialog.add_css_class ("error");
-                ErrorDialog.add_response ("ok", _("OK"));
-                ErrorDialog.present ();
-            }
-    }
-
-
-
-    public void edit_subject_dialog (int index) {
-        var dialog = new EditSubjectDialog (main_window, subjects[index], this);
-
-        dialog.close_request.connect ((response_id) => {
-            if (dialog.accept) {
-                if (dialog.subject != null) {
-                        subjects[index] = dialog.subject;
-                } else {
-                    subjects[index] = null;
-
-                    for (int i = index; i < subjects.length - 1; i++) {
-                        subjects[i] = subjects[i + 1];
-                    }
-
-                    subjects[subjects.length - 1] = null;
-
-                    if (subjects[index] != null) {
-                        window_stack_ui (index);
-                    } else {
-                        window_stack_ui (index - 1);
-                    }
-                }
-            }
-            dialog.destroy ();
- 	    return true;
-        });
-        dialog.present ();
-    }
-
-
+  //       dialog.response.connect ((response_id) => {
+  //           if (response_id == "add") {
+		// dialog.set_variables ();
+  //               new_grade (index, dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
+  //           }
+  //           dialog.destroy ();
+  //       });
+  //       dialog.present ();
+  //       } else {
+  //               var ErrorDialog = new Adw.MessageDialog (main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
+  //               ErrorDialog.add_css_class ("error");
+  //               ErrorDialog.add_response ("ok", _("OK"));
+  //               ErrorDialog.present ();
+  //           }
+  //   }
 
 
     public void window_stack_ui (int index) {}

@@ -97,6 +97,20 @@ public class SubjectPage : Gtk.Box {
 
         top_box.append (new_grade_button);
 
+        var status_page = new Adw.StatusPage () {
+            title = _("No Grades"),
+            description = _("Add new grades by clicking the “New Grade…” button."),
+            vexpand = true
+        };
+
+	    var list_box = new Gtk.ListBox () {vexpand = true, margin_top = 20};
+        list_box.add_css_class ("boxed-list");
+        list_box.set_placeholder (status_page);
+        list_box.bind_model (subject.grades_model, widget_create_func);
+        //list_box.set_sort_func (sort_list);
+        //list_box.set_filter_func (filter_list);
+        nyttbox.append (list_box);
+
         var toolbar_view = new Adw.ToolbarView () {
             hexpand = true,
             content = gtk_sw
@@ -110,12 +124,185 @@ public class SubjectPage : Gtk.Box {
 
 
         //CONNECT BUTTONS
-        // new_grade_button.clicked.connect (() => {
-        //     // new_grade_dialog (new_grade_button.index);
-        // });
+        new_grade_button.clicked.connect (new_grade_dialog);
 
-        // edit_subject_button.clicked.connect (() => {
-        //     // edit_subject_dialog (edit_subject_button.index);
-        // });
+        edit_subject_button.clicked.connect (() => {
+            edit_subject_dialog ();
+        });
+
+        subject.grades_model.items_changed.connect (() => {
+            // double percentage_divider = 0;
+
+            // int i = 0;
+            // for (; i < subject.grades_model.get_n_items (), i++) {
+            //     if (number_of_grades[j] != 0) {
+            //         avg_calculated[j] = average[j] / number_of_grades[j];
+            //         final_avg += avg_calculated[j] * subjects[i].categories[j].percentage;
+            //         percentage_divider += subjects[i].categories[j].percentage;
+            //     }
+            // }
+            // if (percentage_divider != 0) {
+            //     string average_string = "%.2f".printf (final_avg / percentage_divider);
+            //     avg[i].set_label (average_string);
+            // }
+        });
     }
+
+    public void new_grade_dialog () {
+        if (subject.categories[0] != null){
+            var dialog = new NewGradeDialog ((Window) get_root (), subject);
+
+            dialog.response.connect ((response_id) => {
+                if (response_id == "add") {
+		            dialog.set_variables ();
+                    subject.new_grade (dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
+                }
+                dialog.destroy ();
+            });
+            dialog.present ();
+        } else {
+            var ErrorDialog = new Adw.MessageDialog ((Window) get_root (), _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
+            ErrorDialog.add_css_class ("error");
+            ErrorDialog.add_response ("ok", _("OK"));
+            ErrorDialog.present ();
+        }
+    }
+
+
+    public void edit_subject_dialog () {
+        new EditSubjectDialog ((Window) get_root (), subject).present ();
+    }
+
+    private static Gtk.Widget widget_create_func (Object obj) {
+        var grade = (Grade) obj;
+
+        var expander_row = new Adw.ActionRow ();
+        expander_row.set_title (grade.grade.to_string ());
+
+ 	    // if (subjects[i].grades[j].note == "") {
+		    // expander_row.set_subtitle (subject.categories[grade.cat].name);
+	    // } else {
+        	// expander_row.set_subtitle (subject.categories[grade.cat].name + " — " + grade.note);
+        // }
+
+        var delete_button = new Gtk.Button ();
+        expander_row.add_suffix (delete_button);
+
+        delete_button.clicked.connect (() => {
+		    Adw.MessageDialog msg = new Adw.MessageDialog (
+			    null, //TODO
+			    _("Delete Grade?"),
+			    _("If you delete this grade, its information will be deleted permanently.")
+		    );
+		    msg.add_response ("cancel", _("Cancel"));
+            msg.add_response ("delete", _("Delete"));
+		    msg.set_response_appearance ("delete", DESTRUCTIVE);
+		    msg.set_close_response ("cancel");
+		    msg.response.connect ((response) => {
+			    if (response == "delete") {
+				    // delete_grade (delete_button.subject_index, delete_button.grade_index);
+			    }
+			    msg.destroy ();
+		    });
+
+		    msg.present ();
+        });
+
+        return expander_row;
+    }
+
+
+
+ //    public Gtk.Box window_grade_rows_ui (int i, Gtk.Box? nyttbox = null) {
+	// nyttbox = nyttbox ?? nyabox[i];
+ //        if ((nyttbox.get_first_child ().get_next_sibling ().name == "GtkListBox") || (nyttbox.get_first_child ().get_next_sibling ().name == "AdwStatusPage")) {
+ //            nyttbox.remove (nyttbox.get_first_child ().get_next_sibling ());
+	// }
+
+
+ //        int[] average = new int[subjects[i].categories.length];
+ //        double[] number_of_grades = new double[subjects[i].categories.length];
+ //        double[] avg_calculated = new double[subjects[i].categories.length];
+ //        double final_avg = 0.00;
+
+ //        //LIST BOX
+ //        if (subjects[i].grades[0] == null) {
+ //            var adw_page = new Adw.StatusPage () {
+ //                title = _("No Grades"),
+ //                description = _("Add new grades by clicking the “New Grade…” button."),
+ //                vexpand = true
+ //            };
+ // 	    nyttbox.append (adw_page);
+ // 	    return nyttbox;
+ //        } else {
+
+	//     var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
+ //        list_box.add_css_class ("boxed-list");
+ //        //list_box.set_sort_func (sort_list);
+ //        //list_box.set_filter_func (filter_list);
+ //        nyttbox.append (list_box);
+
+ //        for (int j = 0; subjects[i].grades[j] != null; j++) {
+ //            average[subjects[i].grades[j].cat] += int.parse (subjects[i].grades[j].grade);
+ //            number_of_grades[subjects[i].grades[j].cat]++;
+
+
+
+ //            //expander row
+ //            var expander_row = new Adw.ActionRow ();
+ //            expander_row.set_title (subjects[i].grades[j].grade.to_string ());
+ // 	    if (subjects[i].grades[j].note == "") {
+	// 	expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name);
+	//     } else {
+ //            	expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name + " — " + subjects[i].grades[j].note);
+ //            }
+ //            var delete_button = new DeleteButton (i, j);
+ //            expander_row.add_suffix (delete_button);
+
+
+
+ //            //put everything together
+ //            list_box.append (expander_row);
+
+
+
+ //            //CONNECT BUTTONS
+ //            delete_button.clicked.connect (() => {
+	// 	Adw.MessageDialog msg = new Adw.MessageDialog (
+	// 		main_window,
+	// 		_("Delete Grade?"),
+	// 		_("If you delete this grade, its information will be deleted permanently.")
+	// 	);
+	// 	msg.add_response ("cancel", _("Cancel"));
+ //                msg.add_response ("delete", _("Delete"));
+	// 	msg.set_response_appearance ("delete", DESTRUCTIVE);
+	// 	msg.set_close_response ("cancel");
+	// 	msg.response.connect ((response) => {
+	// 		if (response == "delete") {
+	// 			delete_grade (delete_button.subject_index, delete_button.grade_index);
+	// 		}
+	// 		msg.destroy ();
+	// 	});
+
+	// 	msg.present ();
+ //            });
+ // //        }
+
+ //        double percentage_divider = 0;
+
+ //        for (int j = 0; j < subjects[i].categories.length && subjects[i].categories[j] != null; j++) {
+ //            if (number_of_grades[j] != 0) {
+ //                avg_calculated[j] = average[j] / number_of_grades[j];
+ //                final_avg += avg_calculated[j] * subjects[i].categories[j].percentage;
+ //                percentage_divider += subjects[i].categories[j].percentage;
+ //            }
+ //        }
+ //        if (percentage_divider != 0) {
+ //            string average_string = "%.2f".printf (final_avg / percentage_divider);
+ //            avg[i].set_label (average_string);
+ //        }
+
+	//  return nyttbox;
+ //        }
+ //    }
 }

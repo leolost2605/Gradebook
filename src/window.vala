@@ -46,6 +46,12 @@ public class Window : Adw.ApplicationWindow {
 
      	content = split_view;
 
-     	stack.add_titled (new SubjectPage (new Subject ("English")), "English", "English");
+     	var subject_manager = SubjectManager.get_default ();
+
+        subject_manager.read_data ();
+
+        foreach (var subject in subject_manager.subjects.get_values ()) {
+            stack.add_titled (new SubjectPage (subject), subject.name, subject.name);
+        }
     }
 }
