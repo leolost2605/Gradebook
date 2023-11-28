@@ -16,8 +16,8 @@ public class AddCategoryDialog : Adw.MessageDialog {
         this.set_response_enabled ("add", false);
  	this.set_close_response ("cancel");
 
-	var lb = new Gtk.ListBox() { css_classes = { "boxed-list" } };
-	name_entry = new Adw.EntryRow() {
+	var lb = new Gtk.ListBox () { css_classes = { "boxed-list" } };
+	name_entry = new Adw.EntryRow () {
 		input_hints = Gtk.InputHints.SPELLCHECK,
 		title = _("Category Name")
 	};

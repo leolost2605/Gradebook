@@ -14,7 +14,7 @@ public class MyApp : Adw.Application {
 
 
 
-    public MyApp() {
+    public MyApp () {
         Object (
             application_id: "io.github.leolost2605.gradebook",
             flags: ApplicationFlags.FLAGS_NONE
@@ -42,7 +42,7 @@ public class MyApp : Adw.Application {
 
 
     public void on_help_action () {
-            Gtk.show_uri(main_window, "https://github.com/leolost2605/Gradebook/wiki", 0);
+            Gtk.show_uri (main_window, "https://github.com/leolost2605/Gradebook/wiki", 0);
         }
 
 
@@ -51,10 +51,10 @@ public class MyApp : Adw.Application {
     public void on_newsubject_action () {
         var dialog = new NewSubjectDialog (main_window);
         dialog.close_request.connect (() => {
-            if(dialog.accept) {
+            if (dialog.accept) {
                 new_subject (dialog.name_entry_box.get_text (), dialog.categories);
             }
-            dialog.destroy();
+            dialog.destroy ();
  	    return true;
         });
         dialog.present ();
@@ -146,14 +146,14 @@ public class MyApp : Adw.Application {
     }
 
 
-    public void read_data() {
+    public void read_data () {
             subjects = new Subject[number_of_subjects];
 
             for (int i = 0; i < subjects.length && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
                     File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
 
-                    var parser = new SubjectParser();
-                    Subject sub = parser.to_object(read_from_file(file));
+                    var parser = new SubjectParser ();
+                    Subject sub = parser.to_object (read_from_file (file));
                     subjects[i] = sub;
                 }
 
@@ -161,19 +161,19 @@ public class MyApp : Adw.Application {
 
     public void write_data () {
         int z = 0;
-            File dir = File.new_for_path(Environment.get_user_data_dir () + "/gradebook/savedata/");
-            if(!dir.query_exists ()) {
+            File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
+            if (!dir.query_exists ()) {
                 try {
-                    dir.make_directory_with_parents();
+                    dir.make_directory_with_parents ();
                     } catch (Error e) {
-                            print(e.message);
+                            print (e.message);
                         }
                 }
             for (int i = 0; i < subjects.length && subjects[i] != null; i++) {
                     var parser = new SubjectParser ();
                     File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
 
-                    write_to_file (file, parser.to_string(subjects[i]));
+                    write_to_file (file, parser.to_string (subjects[i]));
                     z = i + 1;
                 }
             for (int i = z; i < subjects.length && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
@@ -182,10 +182,10 @@ public class MyApp : Adw.Application {
                     try {
                         file.delete ();
                     } catch (Error e) {
-                            print(e.message);
+                            print (e.message);
                     }
                 }
-            main_window.destroy();
+            main_window.destroy ();
         }
 
 
@@ -236,7 +236,7 @@ public class MyApp : Adw.Application {
 
     public void new_grade_dialog (int index) {
 
-        if(subjects[index].categories[0] != null){
+        if (subjects[index].categories[0] != null){
         var dialog = new NewGradeDialog (main_window, subjects, index);
 
         dialog.response.connect ((response_id) => {
@@ -248,10 +248,10 @@ public class MyApp : Adw.Application {
         });
         dialog.present ();
         } else {
-                var ErrorDialog = new Adw.MessageDialog(main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
-                ErrorDialog.add_css_class("error");
-                ErrorDialog.add_response("ok", _("OK"));
-                ErrorDialog.present();
+                var ErrorDialog = new Adw.MessageDialog (main_window, _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));
+                ErrorDialog.add_css_class ("error");
+                ErrorDialog.add_response ("ok", _("OK"));
+                ErrorDialog.present ();
             }
     }
 
@@ -262,7 +262,7 @@ public class MyApp : Adw.Application {
 
         dialog.close_request.connect ((response_id) => {
             if (dialog.accept) {
-                if(dialog.subject != null) {
+                if (dialog.subject != null) {
                         subjects[index] = dialog.subject;
                 } else {
                     subjects[index] = null;
@@ -304,7 +304,7 @@ public class MyApp : Adw.Application {
         	var menu_button = new Gtk.MenuButton () {
         	    icon_name = "open-menu-symbolic"
         	};
-        	header_bar.pack_end(menu_button);
+        	header_bar.pack_end (menu_button);
 
         	var menu = new Menu ();
         	var menu_section1 = new Menu ();
@@ -342,7 +342,7 @@ public class MyApp : Adw.Application {
 
         	stack_box.add_top_bar (header_bar);
 
-        	 var placeholderlabel = new Adw.StatusPage() {
+        	 var placeholderlabel = new Adw.StatusPage () {
 			vexpand = true,
 			hexpand = true,
 			title = _("No Subjects"),
@@ -353,7 +353,7 @@ public class MyApp : Adw.Application {
         } else {
 
         //Create StackPages for every subject
-        for(int i = 0; subjects[i] != null; i++)
+        for(    int i = 0; subjects[i] != null; i++)
         {
 
 	subject_boxes[i] = new Adw.ToolbarView ();
@@ -363,7 +363,7 @@ public class MyApp : Adw.Application {
         var menu_button = new Gtk.MenuButton () {
             icon_name = "open-menu-symbolic"
         };
-        header_bar.pack_end(menu_button);
+        header_bar.pack_end (menu_button);
 
         var menu = new Menu ();
         var menu_section1 = new Menu ();
@@ -424,7 +424,7 @@ public class MyApp : Adw.Application {
 	    };
     	    gtk_sw.set_child (adw_c);
             adw_c.set_child (nyttbox);
-            
+
             //TOP BOX
             var top_box = new Gtk.Box (HORIZONTAL, 0) {
                 height_request = 40,
@@ -524,7 +524,7 @@ public class MyApp : Adw.Application {
 
         main_box.set_content (stack);
     }
-    
+
 
 
 
@@ -553,13 +553,13 @@ public class MyApp : Adw.Application {
         } else {
 
 	var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
-        list_box.add_css_class("boxed-list");
+        list_box.add_css_class ("boxed-list");
         //list_box.set_sort_func (sort_list);
         //list_box.set_filter_func (filter_list);
         nyttbox.append (list_box);
 
-        for(int j = 0; subjects[i].grades[j] != null; j++) {
-            average[subjects[i].grades[j].cat] += int.parse(subjects[i].grades[j].grade);
+        for (int j = 0; subjects[i].grades[j] != null; j++) {
+            average[subjects[i].grades[j].cat] += int.parse (subjects[i].grades[j].grade);
             number_of_grades[subjects[i].grades[j].cat]++;
 
 
@@ -607,13 +607,13 @@ public class MyApp : Adw.Application {
         double percentage_divider = 0;
 
         for (int j = 0; j < subjects[i].categories.length && subjects[i].categories[j] != null; j++) {
-            if(number_of_grades[j] != 0) {
+            if (number_of_grades[j] != 0) {
                 avg_calculated[j] = average[j] / number_of_grades[j];
                 final_avg += avg_calculated[j] * subjects[i].categories[j].percentage;
                 percentage_divider += subjects[i].categories[j].percentage;
             }
         }
-        if(percentage_divider != 0) {
+        if (percentage_divider != 0) {
             string average_string = "%.2f".printf (final_avg / percentage_divider);
             avg[i].set_label (average_string);
         }
@@ -665,14 +665,14 @@ public class MyApp : Adw.Application {
  	main_window.add_breakpoint (bpoint);
 
  	window_stack_ui (0);
-        
+
         //PRESENT WINDOW
         main_window.present ();
 
 
         main_window.close_request.connect (() => {
             main_window.set_visible (false);
-            write_data();
+            write_data ();
             return true;
         });
     }
