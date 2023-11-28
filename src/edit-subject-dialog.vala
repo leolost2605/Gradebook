@@ -31,13 +31,13 @@ public Subject subject;
 	};
 
 	var cb = new Gtk.Button.with_label (_("Cancel"));
-	cb.clicked.connect(() => {
+	cb.clicked.connect (() => {
 		accept = false;
 		this.close ();
 	});
 
 	var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" } };
-	ab.clicked.connect(() => {
+	ab.clicked.connect (() => {
 		accept = true;
 		this.close ();
 	});
@@ -67,19 +67,19 @@ public Subject subject;
 
         load_list ();
 
- 	subject_delete_button = new Gtk.Button.with_label(_("Delete Subject…")) { hexpand = false, halign = Gtk.Align.START, margin_top = 20 };
-        subject_delete_button.add_css_class("destructive-action");
- 	main_box.append(subject_delete_button);
+ 	subject_delete_button = new Gtk.Button.with_label (_("Delete Subject…")) { hexpand = false, halign = Gtk.Align.START, margin_top = 20 };
+        subject_delete_button.add_css_class ("destructive-action");
+ 	main_box.append (subject_delete_button);
 
         subject_delete_button.clicked.connect (() => {
                 string n = s.name;
                 ///TRANSLATORS: %s is the name of a school subject
-                var message_dialog = new Adw.MessageDialog(this, _("Delete %s?").printf(n), null);
- 		message_dialog.set_body (_("If you delete %s, its information will be deleted permanently.").printf(n));
+                var message_dialog = new Adw.MessageDialog(    this, _("Delete %s?").printf(    n), null);
+ 		message_dialog.set_body (_("If you delete %s, its information will be deleted permanently.").printf(    n));
                 message_dialog.add_response ("0", _("Cancel"));
                 message_dialog.add_response ("1", _("Delete"));
                 message_dialog.set_response_appearance ("1", DESTRUCTIVE);
-                message_dialog.present();
+                message_dialog.present ();
                 message_dialog.response.connect ((id) => {
                         switch (id) {
                             case "0":
@@ -118,7 +118,7 @@ public Subject subject;
 
     public void add_cat (string n, double p) {
         for (int i = 0; i < categories.length; i++) {
-            if(categories[i] == null) {
+            if (categories[i] == null) {
                 categories[i] = new Category (n, p);
                 i = categories.length;
                 load_list ();
@@ -149,7 +149,7 @@ public Subject subject;
 
             dialog.response.connect ((response_id) => {
                 if (response_id == "add") {
-                    add_cat(dialog.name_entry.get_text(), dialog.percentage.get_value());
+                    add_cat (dialog.name_entry.get_text (), dialog.percentage.get_value ());
                 }
                 dialog.destroy ();
             });
@@ -159,8 +159,8 @@ public Subject subject;
 
  	cat_list_box.set_header_suffix (new_cat_button);
 
-        main_box.append(cat_list_box);
- 	main_box.append(subject_delete_button);
+        main_box.append (cat_list_box);
+ 	main_box.append (subject_delete_button);
 
         for (int i = 0; i < subject.categories.length && subject.categories[i] != null; i++) {
             var cat_row = new Adw.ActionRow () {

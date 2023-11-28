@@ -27,13 +27,13 @@ public class NewSubjectDialog : Adw.Window {
 	};
 
 	var cb = new Gtk.Button.with_label (_("Cancel"));
-	cb.clicked.connect(() => {
+	cb.clicked.connect (() => {
 		accept = false;
 		this.close ();
 	});
 
 	var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" }, sensitive = false };
-	ab.clicked.connect(() => {
+	ab.clicked.connect (() => {
 		accept = true;
 		this.close ();
 	});
@@ -102,7 +102,7 @@ public class NewSubjectDialog : Adw.Window {
 
     public void add_cat (string n, double p) {
         for (int i = 0; i < categories.length; i++) {
-            if(categories[i] == null) {
+            if (categories[i] == null) {
                 categories[i] = new Category (n, p);
                 i = categories.length;
                 categories_list_ui ();
@@ -135,7 +135,7 @@ public class NewSubjectDialog : Adw.Window {
 
             dialog.response.connect ((response_id) => {
                 if (response_id == "add") {
-                    add_cat(dialog.name_entry.get_text(), dialog.percentage.get_value());
+                    add_cat (dialog.name_entry.get_text (), dialog.percentage.get_value ());
                 }
                 dialog.destroy ();
             });
@@ -144,7 +144,7 @@ public class NewSubjectDialog : Adw.Window {
         });
 
  	cat_list_box.set_header_suffix (new_cat_button);
-        main_box.insert_child_after(cat_list_box, main_box.get_first_child ());
+        main_box.insert_child_after (cat_list_box, main_box.get_first_child ());
 
 
         for (int i = 0; i < categories.length && categories[i] != null; i++) {
@@ -152,7 +152,7 @@ public class NewSubjectDialog : Adw.Window {
                 title = categories[i].name,
                 subtitle = categories[i].percentage.to_string () + "%"
             };
-            cat_list_box.add(cat_row);
+            cat_list_box.add (cat_row);
         }
     }
 }
