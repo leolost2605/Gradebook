@@ -31,11 +31,11 @@ public class SubjectPage : Gtk.Box {
         // toggle_button.bind_property ("active", ((Window) get_root ()).split_view, "show_sidebar", BindingFlags.BIDIRECTIONAL);
         // ((Window) get_root ()).bpoint.add_setter (toggle_button, "visible", true);
 
-        // var new_menu_button = new Gtk.Button () {
-        //     icon_name = "list-add-symbolic",
-        //     action_name = "app.newsubject",
-        //     tooltip_text = _("Add a New Subject")
-        // };
+        var new_menu_button = new Gtk.Button () {
+            icon_name = "list-add-symbolic",
+            action_name = "app.newsubject",
+            tooltip_text = _("Add a New Subject")
+        };
 
         var edit_subject_button = new Gtk.Button () {
             icon_name = "document-edit-symbolic"
@@ -46,7 +46,7 @@ public class SubjectPage : Gtk.Box {
         header_bar.pack_end (edit_subject_button);
 
         header_bar.pack_start (toggle_button);
-        // header_bar.pack_start (new_menu_button);
+        header_bar.pack_start (new_menu_button);
 
         //SUBJECT BOX
         var nyttbox = new Gtk.Box (VERTICAL, 0) {
