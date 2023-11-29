@@ -182,11 +182,11 @@ public class SubjectPage : Gtk.Box {
         expander_row.set_title (grade.grade.to_string ());
         expander_row.add_suffix (delete_button);
 
- 	    // if (subjects[i].grades[j].note == "") {
-		    // expander_row.set_subtitle (subject.categories[grade.cat].name);
-	    // } else {
-        	// expander_row.set_subtitle (subject.categories[grade.cat].name + " — " + grade.note);
-        // }
+        if (grade.note == "") {
+            expander_row.set_subtitle (grade.category_name);
+        } else {
+	        expander_row.set_subtitle (grade.category_name + " — " + grade.note);
+        }
 
         delete_button.clicked.connect (() => {
 		    Adw.MessageDialog msg = new Adw.MessageDialog (

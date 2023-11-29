@@ -11,21 +11,15 @@ public class SubjectParser : Object {
 
         var result_subject = new Subject (subject_string_arr[0]);
 
-        // var cats = new Category[cat_arr_size];
-        // int j1 = 0;
-        // for (int i = 0; i < cat_string_arr.length; i++) {
-        //     result_subject.categories_by_name[cat_string_arr[j1]] = new Category (cat_string_arr[j1++], int.parse (cat_string_arr[j1++]));
-        // }
+        int j1 = 0;
+        while (j1 < cat_string_arr.length) {
+            result_subject.categories_by_name[cat_string_arr[j1]] = new Category (cat_string_arr[j1++], int.parse (cat_string_arr[j1++]));
+        }
 
-
-        // var grades = new Grade[grade_arr_size];
-        // int j2 = 0;
-        // for (int i = 0; i < grade_string_arr.length; i++) {
-        //     result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], int.parse (grade_string_arr[j2++])));
-        // }
-
-        // result_subject.categories = cats;
-        // result_subject.grades = grades;
+        int j2 = 0;
+        while (j2 < grade_string_arr.length) {
+            result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], int.parse (grade_string_arr[j2++])));
+        }
 
         return result_subject;
     }
@@ -55,7 +49,7 @@ public class SubjectParser : Object {
             }
             result = result + ((Grade) sub.grades_model.get_item (i)).grade + "#";
             result = result + ((Grade) sub.grades_model.get_item (i)).note + "#";
-            result = result + ((Grade) sub.grades_model.get_item (i)).cat.to_string () + "#";
+            result = result + ((Grade) sub.grades_model.get_item (i)).cat.to_string ();
         }
 
         return result;

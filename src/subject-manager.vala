@@ -69,6 +69,7 @@ public class SubjectManager : Object {
             File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
             //TODO: Delete old files
             write_to_file (file, parser.to_string (subject));
+            warning ("write: %s", parser.to_string (subject));
             z = i + 1;
             i++;
         }
