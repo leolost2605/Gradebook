@@ -4,6 +4,8 @@ public class SubjectManager : Object {
         return instance.once (() => new SubjectManager ());
     }
 
+    public signal void subject_added (Subject subject);
+
     public HashTable<string, Subject> subjects;
 
     construct {
@@ -50,6 +52,7 @@ public class SubjectManager : Object {
             var parser = new SubjectParser ();
             Subject sub = parser.to_object (read_from_file (file));
             subjects[sub.name] = sub;
+            subject_added (sub);
         }
     }
 
@@ -79,5 +82,11 @@ public class SubjectManager : Object {
         bool worked = false;
 
         subjects[name] = new Subject (name);
+
+        foreach (var cat in c) {
+            subjects[name].categories_by_name[cat.name] = cat;
+        }
+
+        subject_added (subjects[name]);
     }
 }

@@ -55,9 +55,7 @@ public class Window : Adw.ApplicationWindow {
 
         var subject_manager = SubjectManager.get_default ();
 
-        subject_manager.read_data ();
-
-        foreach (var subject in subject_manager.subjects.get_values ()) {
+        subject_manager.subject_added.connect ((subject) => {
             subject.notify["deleted"].connect (() => {
                 if (subject.deleted) {
                     //TODO: Remove without crash
@@ -65,12 +63,14 @@ public class Window : Adw.ApplicationWindow {
                 warning ("removed");
             });
             stack.add_titled (new SubjectPage (subject), subject.name, subject.name);
-        }
+        });
+
+        subject_manager.read_data ();
 
         close_request.connect (() => {
             set_visible (false);
             subject_manager.write_data ();
-            return true;
+            return false;
         });
     }
 }

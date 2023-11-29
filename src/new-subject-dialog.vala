@@ -1,5 +1,5 @@
 public class NewSubjectDialog : Adw.Window {
-    public Category[] categories;
+    private Category[] categories = {};
     public Gtk.Box main_box;
     public Adw.EntryRow name_entry_box;
     private Gtk.Button new_cat_button;
@@ -15,8 +15,6 @@ public class NewSubjectDialog : Adw.Window {
         width_request: 360,
         height_request: 360
     );
-
-        categories = new Category[5];
 
 	var tbv = new Adw.ToolbarView ();
 	this.set_content (tbv);
@@ -101,13 +99,12 @@ public class NewSubjectDialog : Adw.Window {
     }
 
     public void add_cat (string n, double p) {
-        for (int i = 0; i < categories.length; i++) {
-            if (categories[i] == null) {
-                categories[i] = new Category (n, p);
-                i = categories.length;
-                categories_list_ui ();
-            }
-        }
+        categories += new Category (n, p);
+        categories_list_ui ();
+    }
+
+    public Category[] get_categories () {
+        return categories;
     }
 
     public void categories_list_ui () {

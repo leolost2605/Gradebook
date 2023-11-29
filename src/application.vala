@@ -31,7 +31,7 @@ public class MyApp : Adw.Application {
         var dialog = new NewSubjectDialog (main_window);
         dialog.close_request.connect (() => {
             if (dialog.accept) {
-                SubjectManager.get_default ().new_subject (dialog.name_entry_box.get_text (), dialog.categories);
+                SubjectManager.get_default ().new_subject (dialog.name_entry_box.get_text (), dialog.get_categories ());
             }
             dialog.destroy ();
  	    return true;
