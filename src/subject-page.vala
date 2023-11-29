@@ -119,6 +119,31 @@ public class SubjectPage : Gtk.Box {
             edit_subject_dialog ();
         });
 
+        void calculate_average () {
+            if (subject.grades_model.get_n_items () == 0) {
+                avg_label.label = "0.00";
+                return;
+            }
+
+            var table = new HashTable<string, double?> (str_hash, str_equal);
+            var table2 = new HashTable<string, int?> (str_hash, str_equal);
+
+            for (int i = 0; i < subject.grades_model.get_n_items (); i++) {
+                var grade = (Grade) subject.grades_model.get_item (i);
+                table[grade.category_name] = table[grade.category_name] == null ? double.parse (grade.grade) : table[grade.category_name] + double.parse (grade.grade);
+                table2[grade.category_name] += table2[grade.category_name] == null ? 1 : table2[grade.category_name] + 1;
+            }
+
+            double percentage_divider = 0;
+            double avg = 0;
+            foreach (var cat in table.get_keys ()) {
+                avg += (table[cat] / table2[cat]) * subject.categories_by_name[cat].percentage;
+                percentage_divider += subject.categories_by_name[cat].percentage;
+            }
+
+            avg_label.label = "%.2f".printf (avg / percentage_divider);
+        }
+
         subject.grades_model.items_changed.connect (() => {
             if (subject.grades_model.get_n_items () > 0 && nyttbox.get_last_child () == status_page) {
                 nyttbox.remove (status_page);
@@ -127,21 +152,11 @@ public class SubjectPage : Gtk.Box {
                 nyttbox.remove (list_box);
                 nyttbox.append (status_page);
             }
-            // double percentage_divider = 0;
 
-            // int i = 0;
-            // for (; i < subject.grades_model.get_n_items (), i++) {
-            //     if (number_of_grades[j] != 0) {
-            //         avg_calculated[j] = average[j] / number_of_grades[j];
-            //         final_avg += avg_calculated[j] * subjects[i].categories[j].percentage;
-            //         percentage_divider += subjects[i].categories[j].percentage;
-            //     }
-            // }
-            // if (percentage_divider != 0) {
-            //     string average_string = "%.2f".printf (final_avg / percentage_divider);
-            //     avg[i].set_label (average_string);
-            // }
+            calculate_average ();
         });
+
+        calculate_average ();
     }
 
     public void new_grade_dialog () {
@@ -161,7 +176,7 @@ public class SubjectPage : Gtk.Box {
         new EditSubjectDialog ((Window) get_root (), subject).present ();
     }
 
-    private static Gtk.Widget widget_create_func (Object obj) {
+    private Gtk.Widget widget_create_func (Object obj) {
         var grade = (Grade) obj;
 
         var delete_button = new Gtk.Button () {
@@ -182,7 +197,7 @@ public class SubjectPage : Gtk.Box {
 
         delete_button.clicked.connect (() => {
 		    Adw.MessageDialog msg = new Adw.MessageDialog (
-			    null, //TODO
+			    (Window) get_root (),
 			    _("Delete Grade?"),
 			    _("If you delete this grade, its information will be deleted permanently.")
 		    );
@@ -192,7 +207,7 @@ public class SubjectPage : Gtk.Box {
 		    msg.set_close_response ("cancel");
 		    msg.response.connect ((response) => {
 			    if (response == "delete") {
-				    // delete_grade (delete_button.subject_index, delete_button.grade_index);
+				    subject.delete_grade (grade);
 			    }
 			    msg.destroy ();
 		    });

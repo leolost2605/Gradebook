@@ -75,46 +75,9 @@ public class SubjectManager : Object {
         }
     }
 
-
-
-    // public void new_grade (int index, string grade, string note, int c) {
-    //     bool worked = false;
-
-    //     for (int i = 0; i < subjects[index].grades.length; i++) {
-    //         if (subjects[index].grades[i] == null) {
-    //             subjects[index].grades[i] = new Grade (grade, note, c);
-    //             i = subjects[index].grades.length;
-    //             worked = true;
-    //         }
-    //     }
-
-
-    //     if (worked == false) {
-    //         print ("no more grades available");
-    //     } else {
-    //         window_grade_rows_ui (index);
-    //     }
-    // }
-
-
-
-
     public void new_subject (string name, Category[] c) {
         bool worked = false;
 
         subjects[name] = new Subject (name);
     }
-
-    // public void delete_grade (int sub_index, int gra_index) {
-    //     subjects[sub_index].grades[gra_index] = null;
-
-
-    //     for (int i = gra_index; i < subjects[sub_index].grades.length - 1; i++) {
-    //         subjects[sub_index].grades[i] = subjects[sub_index].grades[i + 1];
-    //     }
-
-    //     subjects[sub_index].grades[subjects[sub_index].grades.length - 1] = null;
-
-    //     window_grade_rows_ui (sub_index);
-    // }
 }

@@ -15,4 +15,11 @@ public class Subject : Object{
     public void new_grade (string grade, string note, string c) {
         grades_model.insert (0, new Grade (grade, note, c));
     }
+
+    public void delete_grade (Grade grade) {
+        uint pos;
+        if (grades_model.find (grade, out pos)) {
+            grades_model.remove (pos);
+        }
+    }
 }
