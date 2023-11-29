@@ -172,17 +172,21 @@ public class SubjectPage : Gtk.Box {
     private static Gtk.Widget widget_create_func (Object obj) {
         var grade = (Grade) obj;
 
+        var delete_button = new Gtk.Button () {
+            icon_name = "user-trash-symbolic",
+         	valign = CENTER
+        };
+        delete_button.add_css_class ("flat");
+
         var expander_row = new Adw.ActionRow ();
         expander_row.set_title (grade.grade.to_string ());
+        expander_row.add_suffix (delete_button);
 
  	    // if (subjects[i].grades[j].note == "") {
 		    // expander_row.set_subtitle (subject.categories[grade.cat].name);
 	    // } else {
         	// expander_row.set_subtitle (subject.categories[grade.cat].name + " — " + grade.note);
         // }
-
-        var delete_button = new Gtk.Button ();
-        expander_row.add_suffix (delete_button);
 
         delete_button.clicked.connect (() => {
 		    Adw.MessageDialog msg = new Adw.MessageDialog (
