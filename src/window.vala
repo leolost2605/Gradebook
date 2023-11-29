@@ -58,6 +58,12 @@ public class Window : Adw.ApplicationWindow {
         subject_manager.read_data ();
 
         foreach (var subject in subject_manager.subjects.get_values ()) {
+            subject.notify["deleted"].connect (() => {
+                if (subject.deleted) {
+                    //TODO: Remove without crash
+                }
+                warning ("removed");
+            });
             stack.add_titled (new SubjectPage (subject), subject.name, subject.name);
         }
 

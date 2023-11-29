@@ -101,9 +101,8 @@ public class EditSubjectDialog : Adw.Window {
                         case "0":
                             break;
                         case "1":
-                            subject = null;
-			                accept = true;
-                            this.close ();
+                            subject.deleted = true;
+                            close ();
                             break;
                         }
                 });
