@@ -1,21 +1,18 @@
 public class Subject : Object{
     public string name { get; set; }
-    public Grade[] grades { get; set; }
-    public ListStore grades_model { get; set; }
-    public Category[] categories { get; set; }
-    public HashTable<string, Category> categories_by_name { get; set; }
-    public int cat_arr_size = 5;
-    public int grade_arr_size = 20;
+    public ListStore grades_model { get; construct; }
+    public HashTable<string, Category> categories_by_name { get; construct; }
 
-    public Subject (string n) {
-        name = n;
-        grades = new Grade[grade_arr_size];
+    public Subject (string name) {
+        Object (name: name);
+    }
+
+    construct {
         grades_model = new ListStore (typeof (Grade));
-        categories = new Category[cat_arr_size];
         categories_by_name = new HashTable<string, Category> (str_hash, str_equal);
     }
 
-    public void new_grade (string grade, string note, int c) {
-        grades_model.append (new Grade (grade, note, c));
+    public void new_grade (string grade, string note, string c) {
+        grades_model.insert (0, new Grade (grade, note, c));
     }
 }

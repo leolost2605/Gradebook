@@ -34,8 +34,6 @@ executable(
     'src' / 'application.vala',
     'src' / 'grade.vala',
     'src' / 'subject.vala',
-    'src' / 'newgradebutton.vala',
-    'src' / 'deletebutton.vala',
     'src' / 'new-grade-dialog.vala',
     'src' / 'new-subject-dialog.vala',
     'src' / 'delete-subject-button.vala',

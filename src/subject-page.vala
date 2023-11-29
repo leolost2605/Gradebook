@@ -80,7 +80,7 @@ public class SubjectPage : Gtk.Box {
         average_box.append (avg_label);
 
         //NEW GRADE BUTTON
-        var new_grade_button = new NewGradeButton (0) {
+        var new_grade_button = new Gtk.Button () {
             icon_name = "add-list-symbolic"
         };
         new_grade_button.halign = END;
@@ -147,14 +147,6 @@ public class SubjectPage : Gtk.Box {
     public void new_grade_dialog () {
         if (subject.categories_by_name.length > 0){
             var dialog = new NewGradeDialog ((Window) get_root (), subject);
-
-            dialog.response.connect ((response_id) => {
-                if (response_id == "add") {
-		            dialog.set_variables ();
-                    subject.new_grade (dialog.get_grade (), dialog.get_note (), (int) dialog.choose_cat_row.get_selected ());
-                }
-                dialog.destroy ();
-            });
             dialog.present ();
         } else {
             var ErrorDialog = new Adw.MessageDialog ((Window) get_root (), _("Error"), _("This subject has no categories. Add at least one category in order to add a grade."));

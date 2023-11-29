@@ -18,7 +18,7 @@ public class SubjectParser : Object {
 
         int j2 = 0;
         while (j2 < grade_string_arr.length) {
-            result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], int.parse (grade_string_arr[j2++])));
+            result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], grade_string_arr[j2++]));
         }
 
         return result_subject;
@@ -49,7 +49,7 @@ public class SubjectParser : Object {
             }
             result = result + ((Grade) sub.grades_model.get_item (i)).grade + "#";
             result = result + ((Grade) sub.grades_model.get_item (i)).note + "#";
-            result = result + ((Grade) sub.grades_model.get_item (i)).cat.to_string ();
+            result = result + ((Grade) sub.grades_model.get_item (i)).category_name;
         }
 
         return result;

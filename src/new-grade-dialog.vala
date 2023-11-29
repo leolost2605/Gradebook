@@ -1,10 +1,7 @@
 public class NewGradeDialog : Adw.MessageDialog {
-    public string grade;
-    public string note;
     private Adw.SpinRow grade_spinbutton;
     private Adw.EntryRow entry;
-    //private Adw.EntryRow note_entry;
-    public Adw.ComboRow choose_cat_row;
+    private Adw.ComboRow choose_cat_row;
 
     public NewGradeDialog (Adw.ApplicationWindow parent, Subject subject) {
         Object (
@@ -40,27 +37,21 @@ public class NewGradeDialog : Adw.MessageDialog {
 		    title = _("Note")
 	    };
         var preferences_group = new Adw.PreferencesGroup ();
- 	preferences_group.add (grade_spinbutton);
+ 	    preferences_group.add (grade_spinbutton);
         preferences_group.add (choose_cat_row);
         preferences_group.add (entry);
- 	this.set_extra_child (preferences_group);
+ 	    this.set_extra_child (preferences_group);
 
-	grade_spinbutton.changed.connect (() => {
-            this.set_response_enabled ("add", true);
+        response.connect ((response_id) => {
+            if (response_id == "add") {
+                subject.new_grade (grade_spinbutton.get_value ().to_string (), (string) entry.get_text (), cat_model.get_string (choose_cat_row.get_selected ()));
+            }
+
+            destroy ();
         });
-    }
 
-    public bool set_variables () {
-        grade = grade_spinbutton.get_value ().to_string ();
-        note = (string) entry.get_text ();
-        return true;
-    }
-
-    public string get_grade () {
-        return grade;
-    }
-
-    public string get_note () {
-        return note;
+	    grade_spinbutton.changed.connect (() => {
+            set_response_enabled ("add", true);
+        });
     }
 }
