@@ -23,18 +23,18 @@ public class Window : Adw.ApplicationWindow {
             tooltip_text = _("Add a New Subject")
         };
 
-     	var header_bar = new Adw.HeaderBar () { hexpand = true };
-     	header_bar.pack_end (new_subject_button);
+        var header_bar = new Adw.HeaderBar () { hexpand = true };
+        header_bar.pack_end (new_subject_button);
 
         var stack_sidebar = new Gtk.StackSidebar () {
             stack = stack
         };
  	    stack_sidebar.set_css_classes ({ "" });
 
-     	var scrolled_window = new Gtk.ScrolledWindow () {
-     	    vexpand = true,
-     	    child = stack_sidebar
-     	};
+        var scrolled_window = new Gtk.ScrolledWindow () {
+            vexpand = true,
+            child = stack_sidebar
+        };
 
         var sidebar = new Adw.ToolbarView () {
             content = scrolled_window
@@ -46,14 +46,14 @@ public class Window : Adw.ApplicationWindow {
             content = stack
         };
 
-     	bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 530px"));
-     	bpoint.add_setter (split_view, "show_sidebar", false);
-	    bpoint.add_setter (split_view, "collapsed", true);
-     	add_breakpoint (bpoint);
+        bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 530px"));
+        bpoint.add_setter (split_view, "show_sidebar", false);
+        bpoint.add_setter (split_view, "collapsed", true);
+        add_breakpoint (bpoint);
 
-     	content = split_view;
+        content = split_view;
 
-     	var subject_manager = SubjectManager.get_default ();
+        var subject_manager = SubjectManager.get_default ();
 
         subject_manager.read_data ();
 
