@@ -1,7 +1,7 @@
 public class Subject : Object{
     public string name { get; set; }
     public ListStore grades_model { get; construct; }
-    public HashTable<string, Category> categories_by_name { get; construct; }
+    public HashTable<string, Category> categories_by_name { get; set; }
     public bool deleted { get; set; default = false; }
 
     public Subject (string name) {

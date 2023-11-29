@@ -1,8 +1,8 @@
 public class EditSubjectDialog : Adw.Window {
-    private Adw.PreferencesGroup cat_list_box;
-    public bool accept = false;
-    public Subject subject;
+    private Subject subject;
     private List<Adw.ActionRow> cat_rows;
+    private HashTable<string, Category> categories;
+    private Adw.PreferencesGroup cat_list_box;
 
     public EditSubjectDialog (Adw.ApplicationWindow parent, Subject s) {
         Object (
@@ -19,23 +19,25 @@ public class EditSubjectDialog : Adw.Window {
 
  	    cat_rows = new List<Adw.ActionRow> ();
 
+        var cb = new Gtk.Button.with_label (_("Cancel"));
+        cb.clicked.connect (() => {
+            close ();
+        });
+
+        var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" } };
+        ab.clicked.connect (() => {
+            subject.categories_by_name = categories;
+            close ();
+        });
+
+        var size_group = new Gtk.SizeGroup (BOTH);
+        size_group.add_widget (cb);
+        size_group.add_widget (ab);
+
 	    var hb = new Adw.HeaderBar () {
 		    show_end_title_buttons = false,
 		    show_start_title_buttons = false,
 	    };
-
-	    var cb = new Gtk.Button.with_label (_("Cancel"));
-	    cb.clicked.connect (() => {
-		    accept = false;
-		    this.close ();
-	    });
-
-	    var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" } };
-	    ab.clicked.connect (() => {
-		    accept = true;
-		    this.close ();
-	    });
-
 	    hb.pack_start (cb);
 	    hb.pack_end (ab);
 
@@ -77,13 +79,17 @@ public class EditSubjectDialog : Adw.Window {
 	        child = clamp
 	    };
 
-
 	    var tbv = new Adw.ToolbarView () {
 	        content = scrolled_window
 	    };
         tbv.add_top_bar (hb);
 
 	    content = tbv;
+
+	    categories = new HashTable<string, Category> (str_hash, str_equal);
+	    subject.categories_by_name.@foreach ((key, val) => {
+            categories[key] = val;
+	    });
 
         load_list ();
 
@@ -123,7 +129,7 @@ public class EditSubjectDialog : Adw.Window {
     }
 
     public void add_cat (string n, double p) {
-        subject.categories_by_name[n] = new Category (n, p);
+        categories[n] = new Category (n, p);
         load_list ();
     }
 
@@ -134,7 +140,7 @@ public class EditSubjectDialog : Adw.Window {
 
         cat_rows = new List<Adw.ActionRow> ();
 
-        foreach (var category in subject.categories_by_name.get_values ()) {
+        foreach (var category in categories.get_values ()) {
             var cat_row = new Adw.ActionRow () {
                 title = category.name,
                 subtitle = category.percentage.to_string () + "%"
