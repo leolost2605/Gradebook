@@ -1,5 +1,5 @@
 public class SubjectPage : Gtk.Box {
-    private Subject _subject;
+    private Subject? _subject = null;
     public Subject subject {
         get {
             return _subject;
@@ -9,10 +9,13 @@ public class SubjectPage : Gtk.Box {
             }
 
             _subject = value;
-            _subject.grades_model.items_changed.connect (on_items_changed);
-            list_box.bind_model (_subject.grades_model, widget_create_func);
 
-            on_items_changed ();
+            if (_subject != null) {
+                _subject.grades_model.items_changed.connect (on_items_changed);
+                list_box.bind_model (_subject.grades_model, widget_create_func);
+
+                on_items_changed ();
+            }
         }
     }
 
@@ -118,9 +121,20 @@ public class SubjectPage : Gtk.Box {
             child = adw_c
         };
 
+        var placeholder = new Adw.StatusPage () {
+            hexpand = true,
+            vexpand = true,
+            title = _("No Subjects"),
+            description = _("Add new subjects using the “+” button in the top left corner.")
+        };
+
+        var placeholder_stack = new Gtk.Stack ();
+        placeholder_stack.add_named (placeholder, "placeholder");
+        placeholder_stack.add_named (gtk_sw, "content");
+
         var toolbar_view = new Adw.ToolbarView () {
             hexpand = true,
-            content = gtk_sw
+            content = placeholder_stack
         };
         toolbar_view.add_top_bar (header_bar);
         append (toolbar_view);
@@ -130,6 +144,19 @@ public class SubjectPage : Gtk.Box {
         edit_subject_button.clicked.connect (() => {
             edit_subject_dialog ();
         });
+
+        void check_placeholder () {
+            if (subject == null) {
+                placeholder_stack.visible_child = placeholder;
+                edit_subject_button.visible = false;
+            } else {
+                placeholder_stack.visible_child = gtk_sw;
+                edit_subject_button.visible = true;
+            }
+        }
+
+        notify["subject"].connect (() => check_placeholder ());
+        check_placeholder ();
     }
 
     private void calculate_average () {
@@ -226,99 +253,4 @@ public class SubjectPage : Gtk.Box {
 
         return expander_row;
     }
-
-
-
- //    public Gtk.Box window_grade_rows_ui (int i, Gtk.Box? nyttbox = null) {
-	// nyttbox = nyttbox ?? nyabox[i];
- //        if ((nyttbox.get_first_child ().get_next_sibling ().name == "GtkListBox") || (nyttbox.get_first_child ().get_next_sibling ().name == "AdwStatusPage")) {
- //            nyttbox.remove (nyttbox.get_first_child ().get_next_sibling ());
-	// }
-
-
- //        int[] average = new int[subjects[i].categories.length];
- //        double[] number_of_grades = new double[subjects[i].categories.length];
- //        double[] avg_calculated = new double[subjects[i].categories.length];
- //        double final_avg = 0.00;
-
- //        //LIST BOX
- //        if (subjects[i].grades[0] == null) {
- //            var adw_page = new Adw.StatusPage () {
- //                title = _("No Grades"),
- //                description = _("Add new grades by clicking the “New Grade…” button."),
- //                vexpand = true
- //            };
- // 	    nyttbox.append (adw_page);
- // 	    return nyttbox;
- //        } else {
-
-	//     var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
- //        list_box.add_css_class ("boxed-list");
- //        //list_box.set_sort_func (sort_list);
- //        //list_box.set_filter_func (filter_list);
- //        nyttbox.append (list_box);
-
- //        for (int j = 0; subjects[i].grades[j] != null; j++) {
- //            average[subjects[i].grades[j].cat] += int.parse (subjects[i].grades[j].grade);
- //            number_of_grades[subjects[i].grades[j].cat]++;
-
-
-
- //            //expander row
- //            var expander_row = new Adw.ActionRow ();
- //            expander_row.set_title (subjects[i].grades[j].grade.to_string ());
- // 	    if (subjects[i].grades[j].note == "") {
-	// 	expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name);
-	//     } else {
- //            	expander_row.set_subtitle (subjects[i].categories[subjects[i].grades[j].cat].name + " — " + subjects[i].grades[j].note);
- //            }
- //            var delete_button = new DeleteButton (i, j);
- //            expander_row.add_suffix (delete_button);
-
-
-
- //            //put everything together
- //            list_box.append (expander_row);
-
-
-
- //            //CONNECT BUTTONS
- //            delete_button.clicked.connect (() => {
-	// 	Adw.MessageDialog msg = new Adw.MessageDialog (
-	// 		main_window,
-	// 		_("Delete Grade?"),
-	// 		_("If you delete this grade, its information will be deleted permanently.")
-	// 	);
-	// 	msg.add_response ("cancel", _("Cancel"));
- //                msg.add_response ("delete", _("Delete"));
-	// 	msg.set_response_appearance ("delete", DESTRUCTIVE);
-	// 	msg.set_close_response ("cancel");
-	// 	msg.response.connect ((response) => {
-	// 		if (response == "delete") {
-	// 			delete_grade (delete_button.subject_index, delete_button.grade_index);
-	// 		}
-	// 		msg.destroy ();
-	// 	});
-
-	// 	msg.present ();
- //            });
- // //        }
-
- //        double percentage_divider = 0;
-
- //        for (int j = 0; j < subjects[i].categories.length && subjects[i].categories[j] != null; j++) {
- //            if (number_of_grades[j] != 0) {
- //                avg_calculated[j] = average[j] / number_of_grades[j];
- //                final_avg += avg_calculated[j] * subjects[i].categories[j].percentage;
- //                percentage_divider += subjects[i].categories[j].percentage;
- //            }
- //        }
- //        if (percentage_divider != 0) {
- //            string average_string = "%.2f".printf (final_avg / percentage_divider);
- //            avg[i].set_label (average_string);
- //        }
-
-	//  return nyttbox;
- //        }
- //    }
 }
