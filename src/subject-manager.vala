@@ -7,9 +7,12 @@ public class SubjectManager : Object {
     public signal void subject_added (Subject subject);
 
     public HashTable<string, Subject> subjects;
+    public ListStore subjects_model;
 
     construct {
         subjects = new HashTable<string, Subject> (str_hash, str_equal);
+
+        subjects_model = new ListStore (typeof (Subject));
     }
 
     public void write_to_file (File file, string write_data) {
@@ -48,7 +51,7 @@ public class SubjectManager : Object {
             var parser = new SubjectParser ();
             Subject sub = parser.to_object (read_from_file (file));
             subjects[sub.name] = sub;
-            subject_added (sub);
+            subjects_model.append (sub);
         }
     }
 
@@ -83,6 +86,6 @@ public class SubjectManager : Object {
             subjects[name].categories_by_name[cat.name] = cat;
         }
 
-        subject_added (subjects[name]);
+        subjects_model.append (subjects[name]);
     }
 }

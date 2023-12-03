@@ -1,9 +1,25 @@
 public class SubjectPage : Gtk.Box {
-    public Subject subject { get; construct; }
+    private Subject _subject;
+    public Subject subject {
+        get {
+            return _subject;
+        } set {
+            if (_subject != null) {
+                _subject.grades_model.items_changed.disconnect (on_items_changed);
+            }
 
-    public SubjectPage (Subject subject) {
-        Object (subject: subject);
+            _subject = value;
+            _subject.grades_model.items_changed.connect (on_items_changed);
+            list_box.bind_model (_subject.grades_model, widget_create_func);
+
+            on_items_changed ();
+        }
     }
+
+    private Gtk.Label avg_label;
+    private Gtk.Box content_box;
+    private Gtk.ListBox list_box;
+    private Adw.StatusPage status_page;
 
     construct {
         var menu = new Menu ();
@@ -41,31 +57,12 @@ public class SubjectPage : Gtk.Box {
 
         header_bar.pack_start (toggle_button);
 
-        //SUBJECT BOX
-        var nyttbox = new Gtk.Box (VERTICAL, 0) {
-            vexpand = true,
-            margin_start = 1,
-            margin_end = 1
-        };
-        var gtk_sw = new Gtk.ScrolledWindow ();
-        var adw_c = new Adw.Clamp () {
-            margin_start = 19,
-            margin_end = 19,
-            margin_top = 20,
-            margin_bottom = 20,
-            maximum_size = 600,
-            tightening_threshold = 400
-        };
-        gtk_sw.set_child (adw_c);
-        adw_c.set_child (nyttbox);
-
         //TOP BOX
         var top_box = new Gtk.Box (HORIZONTAL, 0) {
             height_request = 40,
             hexpand = true,
             homogeneous = true
         };
-        nyttbox.append (top_box);
 
         //AVERAGE LABEL
         var average_box = new Gtk.Box (HORIZONTAL, 10) {
@@ -76,7 +73,7 @@ public class SubjectPage : Gtk.Box {
         var average_label = new Gtk.Label (_("Average:")) { css_classes = { "title-3" } };
         average_box.append (average_label);
 
-        var avg_label = new Gtk.Label ("0.00") { css_classes = { "title-3" } };
+        avg_label = new Gtk.Label ("0.00") { css_classes = { "title-3" } };
         average_box.append (avg_label);
 
         //NEW GRADE BUTTON
@@ -90,21 +87,36 @@ public class SubjectPage : Gtk.Box {
 
         top_box.append (new_grade_button);
 
-        var status_page = new Adw.StatusPage () {
+        status_page = new Adw.StatusPage () {
             title = _("No Grades"),
             description = _("Add new grades by clicking the “New Grade…” button."),
             vexpand = true
         };
 
-	    var list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
+	    list_box = new Gtk.ListBox () {vexpand = false, margin_top = 20};
         list_box.add_css_class ("boxed-list");
-        list_box.bind_model (subject.grades_model, widget_create_func);
 
-        if (subject.grades_model.get_n_items () > 0) {
-            nyttbox.append (list_box);
-        } else {
-            nyttbox.append (status_page);
-        }
+        content_box = new Gtk.Box (VERTICAL, 0) {
+            vexpand = true,
+            margin_start = 1,
+            margin_end = 1
+        };
+        content_box.append (top_box);
+        content_box.append (status_page);
+
+        var adw_c = new Adw.Clamp () {
+            margin_start = 19,
+            margin_end = 19,
+            margin_top = 20,
+            margin_bottom = 20,
+            maximum_size = 600,
+            tightening_threshold = 400,
+            child = content_box
+        };
+
+        var gtk_sw = new Gtk.ScrolledWindow () {
+            child = adw_c
+        };
 
         var toolbar_view = new Adw.ToolbarView () {
             hexpand = true,
@@ -118,43 +130,41 @@ public class SubjectPage : Gtk.Box {
         edit_subject_button.clicked.connect (() => {
             edit_subject_dialog ();
         });
+    }
 
-        void calculate_average () {
-            if (subject.grades_model.get_n_items () == 0) {
-                avg_label.label = "0.00";
-                return;
-            }
-
-            var table = new HashTable<string, double?> (str_hash, str_equal);
-            var table2 = new HashTable<string, int?> (str_hash, str_equal);
-
-            for (int i = 0; i < subject.grades_model.get_n_items (); i++) {
-                var grade = (Grade) subject.grades_model.get_item (i);
-                table[grade.category_name] = table[grade.category_name] == null ? double.parse (grade.grade) : table[grade.category_name] + double.parse (grade.grade);
-                table2[grade.category_name] += table2[grade.category_name] == null ? 1 : table2[grade.category_name] + 1;
-            }
-
-            double percentage_divider = 0;
-            double avg = 0;
-            foreach (var cat in table.get_keys ()) {
-                avg += (table[cat] / table2[cat]) * subject.categories_by_name[cat].percentage;
-                percentage_divider += subject.categories_by_name[cat].percentage;
-            }
-
-            avg_label.label = "%.2f".printf (avg / percentage_divider);
+    private void calculate_average () {
+        if (subject.grades_model.get_n_items () == 0) {
+            avg_label.label = "0.00";
+            return;
         }
 
-        subject.grades_model.items_changed.connect (() => {
-            if (subject.grades_model.get_n_items () > 0 && nyttbox.get_last_child () == status_page) {
-                nyttbox.remove (status_page);
-                nyttbox.append (list_box);
-            } else if (subject.grades_model.get_n_items () == 0 && nyttbox.get_last_child () == list_box) {
-                nyttbox.remove (list_box);
-                nyttbox.append (status_page);
-            }
+        var table = new HashTable<string, double?> (str_hash, str_equal);
+        var table2 = new HashTable<string, int?> (str_hash, str_equal);
 
-            calculate_average ();
-        });
+        for (int i = 0; i < subject.grades_model.get_n_items (); i++) {
+            var grade = (Grade) subject.grades_model.get_item (i);
+            table[grade.category_name] = table[grade.category_name] == null ? double.parse (grade.grade) : table[grade.category_name] + double.parse (grade.grade);
+            table2[grade.category_name] += table2[grade.category_name] == null ? 1 : table2[grade.category_name] + 1;
+        }
+
+        double percentage_divider = 0;
+        double avg = 0;
+        foreach (var cat in table.get_keys ()) {
+            avg += (table[cat] / table2[cat]) * subject.categories_by_name[cat].percentage;
+            percentage_divider += subject.categories_by_name[cat].percentage;
+        }
+
+        avg_label.label = "%.2f".printf (avg / percentage_divider);
+    }
+
+    private void on_items_changed () {
+        if (subject.grades_model.get_n_items () > 0 && content_box.get_last_child () == status_page) {
+            content_box.remove (status_page);
+            content_box.append (list_box);
+        } else if (subject.grades_model.get_n_items () == 0 && content_box.get_last_child () == list_box) {
+            content_box.remove (list_box);
+            content_box.append (status_page);
+        }
 
         calculate_average ();
     }
@@ -170,7 +180,6 @@ public class SubjectPage : Gtk.Box {
             ErrorDialog.present ();
         }
     }
-
 
     public void edit_subject_dialog () {
         new EditSubjectDialog ((Window) get_root (), subject).present ();

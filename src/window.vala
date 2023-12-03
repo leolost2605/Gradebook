@@ -1,7 +1,7 @@
 public class Window : Adw.ApplicationWindow {
     public Adw.OverlaySplitView split_view;
     public Adw.Breakpoint bpoint;
-    private Gtk.Stack stack;
+    private SubjectPage subject_page;
 
     public Window (MyApp app) {
         Object (
@@ -15,7 +15,7 @@ public class Window : Adw.ApplicationWindow {
     }
 
     construct {
-        stack = new Gtk.Stack ();
+        var subject_manager = SubjectManager.get_default ();
 
         var new_subject_button = new Gtk.Button () {
             icon_name = "list-add-symbolic",
@@ -28,14 +28,16 @@ public class Window : Adw.ApplicationWindow {
         };
         header_bar.pack_end (new_subject_button);
 
-        var stack_sidebar = new Gtk.StackSidebar () {
-            stack = stack
-        };
- 	    stack_sidebar.set_css_classes ({ "" });
+        var navigation_sidebar = new Gtk.ListBox ();
+ 	    navigation_sidebar.add_css_class ("navigation-sidebar");
+ 	    navigation_sidebar.bind_model (subject_manager.subjects_model, (obj) => {
+ 	        var sub = (Subject) obj;
+ 	        return new Gtk.Label (sub.name) { xalign = 0 };
+ 	    });
 
         var scrolled_window = new Gtk.ScrolledWindow () {
             vexpand = true,
-            child = stack_sidebar
+            child = navigation_sidebar
         };
 
         var sidebar = new Adw.ToolbarView () {
@@ -43,9 +45,11 @@ public class Window : Adw.ApplicationWindow {
         };
         sidebar.add_top_bar (header_bar);
 
+        subject_page = new SubjectPage ();
+
         split_view = new Adw.OverlaySplitView () {
             sidebar = sidebar,
-            content = stack
+            content = subject_page
         };
 
         bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 530px"));
@@ -55,17 +59,19 @@ public class Window : Adw.ApplicationWindow {
 
         content = split_view;
 
-        var subject_manager = SubjectManager.get_default ();
-
-        subject_manager.subject_added.connect ((subject) => {
-            subject.notify["deleted"].connect (() => {
-                if (subject.deleted) {
-                    //TODO: Remove without crash
-                }
-                warning ("removed");
-            });
-            stack.add_titled (new SubjectPage (subject), subject.name, subject.name);
+        navigation_sidebar.row_activated.connect ((row) => {
+            subject_page.subject = (Subject) subject_manager.subjects_model.get_item (row.get_index ());
         });
+
+        // subject_manager.subject_added.connect ((subject) => {
+        //     subject.notify["deleted"].connect (() => {
+        //         if (subject.deleted) {
+        //             //TODO: Remove without crash
+        //         }
+        //         warning ("removed");
+        //     });
+        //     stack.add_titled (new SubjectPage (), subject.name, subject.name);
+        // });
 
         subject_manager.read_data ();
 
