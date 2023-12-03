@@ -30,7 +30,7 @@ public class Window : Adw.ApplicationWindow {
 
         var navigation_sidebar = new Gtk.ListBox ();
  	    navigation_sidebar.add_css_class ("navigation-sidebar");
- 	    navigation_sidebar.bind_model (subject_manager.subjects_model, (obj) => {
+ 	    navigation_sidebar.bind_model (subject_manager.subjects, (obj) => {
  	        var sub = (Subject) obj;
  	        return new Gtk.Label (sub.name) { xalign = 0 };
  	    });
@@ -60,18 +60,8 @@ public class Window : Adw.ApplicationWindow {
         content = split_view;
 
         navigation_sidebar.row_activated.connect ((row) => {
-            subject_page.subject = (Subject) subject_manager.subjects_model.get_item (row.get_index ());
+            subject_page.subject = (Subject) subject_manager.subjects.get_item (row.get_index ());
         });
-
-        // subject_manager.subject_added.connect ((subject) => {
-        //     subject.notify["deleted"].connect (() => {
-        //         if (subject.deleted) {
-        //             //TODO: Remove without crash
-        //         }
-        //         warning ("removed");
-        //     });
-        //     stack.add_titled (new SubjectPage (), subject.name, subject.name);
-        // });
 
         subject_manager.read_data ();
 

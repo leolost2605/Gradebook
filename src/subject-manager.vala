@@ -4,15 +4,10 @@ public class SubjectManager : Object {
         return instance.once (() => new SubjectManager ());
     }
 
-    public signal void subject_added (Subject subject);
-
-    public HashTable<string, Subject> subjects;
-    public ListStore subjects_model;
+    public ListStore subjects { get; construct; }
 
     construct {
-        subjects = new HashTable<string, Subject> (str_hash, str_equal);
-
-        subjects_model = new ListStore (typeof (Subject));
+        subjects = new ListStore (typeof (Subject));
     }
 
     public void write_to_file (File file, string write_data) {
@@ -50,13 +45,11 @@ public class SubjectManager : Object {
 
             var parser = new SubjectParser ();
             Subject sub = parser.to_object (read_from_file (file));
-            subjects[sub.name] = sub;
-            subjects_model.append (sub);
+            add_subject (sub);
         }
     }
 
     public void write_data () {
-        int z = 0;
         File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
         if (!dir.query_exists ()) {
             try {
@@ -65,27 +58,35 @@ public class SubjectManager : Object {
                 print (e.message);
             }
         }
-        int i = 0;
-        foreach (var subject in subjects.get_values ()) {
+
+        for (int i = 0; i < subjects.get_n_items (); i++) {
+            var subject = (Subject) subjects.get_item (i);
+
             var parser = new SubjectParser ();
             File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
             //TODO: Delete old files
             write_to_file (file, parser.to_string (subject));
             warning ("write: %s", parser.to_string (subject));
-            z = i + 1;
-            i++;
         }
     }
 
     public void new_subject (string name, Category[] c) {
-        bool worked = false;
-
-        subjects[name] = new Subject (name);
+        var subject = new Subject (name);
 
         foreach (var cat in c) {
-            subjects[name].categories_by_name[cat.name] = cat;
+            subject.categories_by_name[cat.name] = cat;
         }
 
-        subjects_model.append (subjects[name]);
+        add_subject (subject);
+    }
+
+    private void add_subject (Subject subject) {
+        subjects.append (subject);
+        subject.notify["deleted"].connect (() => {
+            uint pos;
+            if (subjects.find (subject, out pos)) {
+                subjects.remove (pos);
+            }
+        });
     }
 }
