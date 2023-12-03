@@ -22,11 +22,7 @@ public class SubjectManager : Object {
         }
     }
 
-
-
-
-    public string read_from_file (File file)
-    {
+    public string read_from_file (File file) {
         try {
             string file_content = "";
             uint8[] contents;

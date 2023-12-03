@@ -74,28 +74,6 @@ public class NewSubjectDialog : Adw.Window {
         });
 
         categories_list_ui ();
-        /*var cat_list_box = new Gtk.ListBox ();
-        cat_list_box.add_css_class("boxed-list");
-
-        var scroll_container = new Gtk.ScrolledWindow () {
-            margin_bottom = 20,
-            margin_top = 20,
-            margin_start = 20,
-            margin_end = 20,
-            hexpand = true,
-            vexpand = true
-        };
-        scroll_container.set_child(cat_list_box);
-        main_box.append(scroll_container);
-
-
-        for (int i = 0; i < subject.categories.length && subject.categories[i] != null; i++) {
-            var cat_row = new Adw.ActionRow () {
-                title = subject.categories[i].name,
-                subtitle = subject.categories[i].percentage.to_string () + "%"
-            };
-            cat_list_box.append(cat_row);
-        }*/
     }
 
     public void add_cat (string n, double p) {

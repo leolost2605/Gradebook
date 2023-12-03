@@ -23,7 +23,9 @@ public class Window : Adw.ApplicationWindow {
             tooltip_text = _("Add a New Subject")
         };
 
-        var header_bar = new Adw.HeaderBar () { hexpand = true };
+        var header_bar = new Adw.HeaderBar () {
+            hexpand = true
+        };
         header_bar.pack_end (new_subject_button);
 
         var stack_sidebar = new Gtk.StackSidebar () {

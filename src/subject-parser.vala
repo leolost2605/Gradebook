@@ -24,7 +24,20 @@ public class SubjectParser : Object {
         return result_subject;
     }
 
+    public string to_json (Subject subject) {
+        var node = Json.gobject_serialize (subject);
+
+        var generator = new Json.Generator () {
+            root = node,
+            pretty = true
+        };
+
+        print (generator.to_data (null));
+        return "";
+    }
+
     public string to_string (Subject sub) {
+        to_json (sub);
         string result = sub.name + "%";
 
         bool first = true;
