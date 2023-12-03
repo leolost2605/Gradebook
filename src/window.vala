@@ -63,6 +63,10 @@ public class Window : Adw.ApplicationWindow {
             subject_page.subject = (Subject) subject_manager.subjects.get_item (row.get_index ());
         });
 
+        subject_manager.subjects.items_changed.connect ((pos, rem, added) => {
+            subject_page.subject = (Subject) subject_manager.subjects.get_item (pos);
+        });
+
         subject_manager.read_data ();
 
         close_request.connect (() => {
