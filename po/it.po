@@ -34,7 +34,7 @@ msgid ""
 "grade."
 msgstr ""
 "Questo argomento non ha categorie. Aggiungi almeno una categoria per "
-"aggiungere un "
+"aggiungere un voto."
 
 #: src/application.vala:253
 msgid "OK"
@@ -62,7 +62,7 @@ msgstr "Nessun argomento"
 
 #: src/application.vala:349
 msgid "Add new subjects using the “+” button in the top left corner."
-msgstr "Aggiungi nuovi argomenti utilizzando il pulsante "+" nell'angolo in alto a sinistra."
+msgstr "Aggiungi nuovi argomenti utilizzando il pulsante “+“ nell'angolo in alto a sinistra."
 
 #: src/application.vala:442
 msgid "Average:"
@@ -203,7 +203,7 @@ msgstr "Se elimini %s, le sue informazioni verranno eliminate permanentemente."
 #~ msgstr "Ok"
 
 #~ msgid "It's empty in here..."
-#~ msgstr "Qui  vuoto..."
+#~ msgstr "Qui è vuoto..."
 
 #~ msgid "You haven't added any subjects yet!"
 #~ msgstr "Non hai ancora aggiunto argomenti!"
