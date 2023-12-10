@@ -71,8 +71,10 @@ public class Window : Adw.ApplicationWindow {
 
         close_request.connect (() => {
             set_visible (false);
-            subject_manager.write_data ();
-            return false;
+            subject_manager.write_data_new.begin (() => {
+                destroy ();
+            });
+            return Gdk.EVENT_STOP;
         });
     }
 }

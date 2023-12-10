@@ -6,15 +6,18 @@ public class SubjectManager : Object {
 
     public ListStore subjects { get; construct; }
 
+    private ListStore deleted_subjects;
+
     construct {
         subjects = new ListStore (typeof (Subject));
+        deleted_subjects = new ListStore (typeof (Subject));
     }
 
-    public void write_to_file (File file, string write_data) {
+    public async void write_to_file (File file, string write_data) {
         uint8[] write_bytes = (uint8[]) write_data.to_utf8 ();
 
         try {
-            file.replace_contents (write_bytes, null, false, FileCreateFlags.NONE, null, null);
+            yield file.replace_contents_async (write_bytes, null, false, FileCreateFlags.NONE, null, null);
         } catch (Error e) {
             print (e.message);
         }
@@ -49,7 +52,7 @@ public class SubjectManager : Object {
         }
     }
 
-    public void write_data () {
+    public void writes_data () {
         File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
         if (!dir.query_exists ()) {
             try {
@@ -70,6 +73,37 @@ public class SubjectManager : Object {
         }
     }
 
+    public async void write_data_new () {
+        File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
+        if (!dir.query_exists ()) {
+            try {
+                dir.make_directory_with_parents ();
+            } catch (Error e) {
+                critical ("Failed to save subjects: Failed to create savedata directory: %s", e.message);
+            }
+        }
+
+        var parser = new SubjectParser ();
+        for (int i = 0; i < subjects.get_n_items (); i++) {
+            var subject = (Subject) subjects.get_item (i);
+
+            var file = dir.get_child (subject.name);
+            yield write_to_file (file, parser.to_string (subject));
+        }
+
+        for (int i = 0; i < deleted_subjects.get_n_items (); i++) {
+            var subject = (Subject) subjects.get_item (i);
+
+            var file = dir.get_child (subject.name);
+
+            try {
+                yield file.delete_async ();
+            } catch (Error e) {
+                warning ("Failed to delete save file for subject '%s': %s", subject.name, e.message);
+            }
+        }
+    }
+
     public void new_subject (string name, Category[] c) {
         var subject = new Subject (name);
 
@@ -87,6 +121,7 @@ public class SubjectManager : Object {
             if (subjects.find (subject, out pos)) {
                 subjects.remove (pos);
             }
+            deleted_subjects.append (subject);
         });
     }
 }
