@@ -37,15 +37,25 @@
   </screenshots>
 
   <releases>
-  <release version="1.1.1" date="2022-12-25" urgency="medium">
-    <description>
-      <p>Changes:</p>
-      <ul>
-        <li>Translations for additional languages were added</li>
-        <li>Some minor UI improvements</li>
-      </ul>
-    </description>
-  </release>
+    <release version="1.2" date="2023-12-24" urgency="medium">
+      <description>
+        <p>This release brings a completely refreshed UI, updating it to the latest GNOME 45 HIG. Huge thanks to skøldis (gradebook@turtle.garden) for making this possible! Since this is such a massive change be sure to report any issues you discover at https://github.com/leolost2605/Gradebook/issues</p>
+        <p>More improvements:</p>
+        <ul>
+          <li>Lots of backend improvements, so be on the lookout for new features coming soon!</li>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.1" date="2022-12-25" urgency="medium">
+      <description>
+        <p>Changes:</p>
+        <ul>
+          <li>Translations for additional languages were added</li>
+          <li>Some minor UI improvements</li>
+        </ul>
+      </description>
+    </release>
   </releases>
 
   <url type="homepage">https://github.com/leolost2605/Gradebook</url>
