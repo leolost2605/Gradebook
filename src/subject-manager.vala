@@ -44,7 +44,7 @@ public class SubjectManager : Object {
 
     public async void read_data () {
         yield read_data_legacy ();
-        
+
         var keyfile = new KeyFile ();
 
         try {
@@ -70,7 +70,6 @@ public class SubjectManager : Object {
     public async void write_data () {
         var keyfile = new KeyFile ();
 
-        var parser = new SubjectParser ();
         for (int i = 0; i < subjects.get_n_items (); i++) {
             var subject = (Subject) subjects.get_item (i);
 

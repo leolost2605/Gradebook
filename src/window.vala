@@ -71,10 +71,10 @@ public class Window : Adw.ApplicationWindow {
             navigation_sidebar.select_row (navigation_sidebar.get_row_at_index ((int) pos));
         });
 
-        subject_manager.read_data ();
+        subject_manager.read_data.begin ();
 
         close_request.connect (() => {
-            set_visible (false);
+            visible = false;
             subject_manager.write_data.begin (() => {
                 destroy ();
             });
