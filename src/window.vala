@@ -68,13 +68,14 @@ public class Window : Adw.ApplicationWindow {
 
         subject_manager.subjects.items_changed.connect ((pos, rem, added) => {
             subject_page.subject = (Subject) subject_manager.subjects.get_item (pos);
+            navigation_sidebar.select_row (navigation_sidebar.get_row_at_index ((int) pos));
         });
 
         subject_manager.read_data ();
 
         close_request.connect (() => {
             set_visible (false);
-            subject_manager.write_data_new.begin (() => {
+            subject_manager.write_data.begin (() => {
                 destroy ();
             });
             return Gdk.EVENT_STOP;

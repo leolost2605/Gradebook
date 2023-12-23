@@ -6,21 +6,8 @@ public class SubjectManager : Object {
 
     public ListStore subjects { get; construct; }
 
-    private ListStore deleted_subjects;
-
     construct {
         subjects = new ListStore (typeof (Subject));
-        deleted_subjects = new ListStore (typeof (Subject));
-    }
-
-    public async void write_to_file (File file, string write_data) {
-        uint8[] write_bytes = (uint8[]) write_data.to_utf8 ();
-
-        try {
-            yield file.replace_contents_async (write_bytes, null, false, FileCreateFlags.NONE, null, null);
-        } catch (Error e) {
-            print (e.message);
-        }
     }
 
     public string read_from_file (File file) {
@@ -45,86 +32,54 @@ public class SubjectManager : Object {
         for (int i = 0; i < 20 && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
             File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
 
-            var parser = new SubjectParser ();
-            Subject sub = parser.to_object (read_from_file (file));
+            Subject sub = SubjectParser.to_object (read_from_file (file));
             add_subject (sub);
         }
     }
 
     public async void read_data () {
-        File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
-        if (!dir.query_exists ()) {
-            try {
-                dir.make_directory_with_parents ();
-            } catch (Error e) {
-                critical ("Failed to save subjects: Failed to create savedata directory: %s", e.message);
-            }
+        var keyfile = new KeyFile ();
+
+        try {
+            keyfile.load_from_file (Environment.get_user_data_dir () + "/gradebook/subjects", NONE);
+        } catch (Error e) {
+            warning ("Failed to load keyfile: %s", e.message);
+            return;
         }
 
         try {
-            var enumerator = yield dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
-            FileInfo info;
-			while ((info = enumerator.next_file (null)) != null) {
-                var file = dir.get_child (info.get_name ());
+            foreach (var group in keyfile.get_groups ()) {
+                var subject = new Subject (group);
+                SubjectParser.load_categories (subject, keyfile.get_string_list (group, "categories"));
+                SubjectParser.load_grades (subject, keyfile.get_string_list (group, "grades"));
 
-                var parser = new SubjectParser ();
-                var subject = parser.to_object (read_from_file (file));
                 add_subject (subject);
-			}
+            }
         } catch (Error e) {
-            warning ("Failed to read data: %s", e.message);
+            critical ("Failed to read data: %s", e.message);
         }
     }
 
-    public void writes_data () {
-        File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
-        if (!dir.query_exists ()) {
-            try {
-                dir.make_directory_with_parents ();
-            } catch (Error e) {
-                print (e.message);
-            }
-        }
-
-        for (int i = 0; i < subjects.get_n_items (); i++) {
-            var subject = (Subject) subjects.get_item (i);
-
-            var parser = new SubjectParser ();
-            File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
-            //TODO: Delete old files
-            write_to_file (file, parser.to_string (subject));
-            warning ("write: %s", parser.to_string (subject));
-        }
-    }
-
-    public async void write_data_new () {
-        File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
-        if (!dir.query_exists ()) {
-            try {
-                dir.make_directory_with_parents ();
-            } catch (Error e) {
-                critical ("Failed to save subjects: Failed to create savedata directory: %s", e.message);
-            }
-        }
+    public async void write_data () {
+        var keyfile = new KeyFile ();
 
         var parser = new SubjectParser ();
         for (int i = 0; i < subjects.get_n_items (); i++) {
             var subject = (Subject) subjects.get_item (i);
 
-            var file = dir.get_child (subject.name);
-            yield write_to_file (file, parser.to_string (subject));
+            if (subject.deleted) {
+                continue;
+            }
+
+            keyfile.set_string (subject.name, "name", subject.name);
+            keyfile.set_string_list (subject.name, "categories", SubjectParser.categories_to_string_list (subject));
+            keyfile.set_string_list (subject.name, "grades", SubjectParser.grades_to_string_list (subject));
         }
 
-        for (int i = 0; i < deleted_subjects.get_n_items (); i++) {
-            var subject = (Subject) subjects.get_item (i);
-
-            var file = dir.get_child (subject.name);
-
-            try {
-                yield file.delete_async ();
-            } catch (Error e) {
-                warning ("Failed to delete save file for subject '%s': %s", subject.name, e.message);
-            }
+        try {
+            keyfile.save_to_file (Environment.get_user_data_dir () + "/gradebook/subjects");
+        } catch (Error e) {
+            critical ("Failed to save keyfile: %s", e.message);
         }
     }
 
@@ -145,7 +100,6 @@ public class SubjectManager : Object {
             if (subjects.find (subject, out pos)) {
                 subjects.remove (pos);
             }
-            deleted_subjects.append (subject);
         });
     }
 }

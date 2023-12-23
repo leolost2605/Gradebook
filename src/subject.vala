@@ -13,8 +13,16 @@ public class Subject : Object{
         categories_by_name = new HashTable<string, Category> (str_hash, str_equal);
     }
 
-    public void new_grade (string grade, string note, string c) {
-        grades_model.insert (0, new Grade (grade, note, c));
+    public void new_grade (string grade, string note, string category) {
+        grades_model.insert (0, new Grade (grade, note, category));
+    }
+
+    public void add_grade (Grade grade) {
+        grades_model.insert (0, grade);
+    }
+
+    public void add_category (Category category) {
+        categories_by_name[category.name] = category;
     }
 
     public void delete_grade (Grade grade) {
