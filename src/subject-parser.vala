@@ -80,7 +80,6 @@ public class SubjectParser : Object {
                 root = node
             };
             result += generator.to_data (null);
-            print (generator.to_data (null));
         }
 
         return result;

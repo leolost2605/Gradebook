@@ -28,16 +28,23 @@ public class SubjectManager : Object {
         return "-1";
     }
 
-    public void read_data_legacy () {
+    public async void read_data_legacy () {
         for (int i = 0; i < 20 && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
             File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
 
-            Subject sub = SubjectParser.to_object (read_from_file (file));
+            Subject sub = SubjectParser.legacy_to_object (read_from_file (file));
             add_subject (sub);
+            try {
+                yield file.delete_async ();
+            } catch (Error e) {
+                warning ("Failed to delete old save file: %s", e.message);
+            }
         }
     }
 
     public async void read_data () {
+        yield read_data_legacy ();
+        
         var keyfile = new KeyFile ();
 
         try {
@@ -71,7 +78,6 @@ public class SubjectManager : Object {
                 continue;
             }
 
-            keyfile.set_string (subject.name, "name", subject.name);
             keyfile.set_string_list (subject.name, "categories", SubjectParser.categories_to_string_list (subject));
             keyfile.set_string_list (subject.name, "grades", SubjectParser.grades_to_string_list (subject));
         }
