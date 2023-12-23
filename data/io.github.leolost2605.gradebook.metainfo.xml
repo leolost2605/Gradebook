@@ -10,8 +10,15 @@
   
   <description>
     <p>
-      A simple tool to keep track of your grades! It supports numerical grading systems as well as percentage grades.
+      Gradebook is a simple tool that helps you keep track of your grades. This way you always know how you are doing in your courses.
     </p>
+    <p>Features:</p>
+      <ul>
+        <li>Support for numerical and percentage systems</li>
+        <li>Assign your grades to categories with different weighting</li>
+        <li>Add notes to your grades so that you later know how you could improve</li>
+        <li>Your average is calculated automatically taking the weighting of the different categories into account</li>
+      </ul>
   </description>
   
   <developer_name>Leonhard Kargl</developer_name>
