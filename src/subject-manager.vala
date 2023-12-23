@@ -41,14 +41,37 @@ public class SubjectManager : Object {
         return "-1";
     }
 
-
-    public void read_data () {
+    public void read_data_legacy () {
         for (int i = 0; i < 20 && FileUtils.test (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i", FileTest.EXISTS); i++) {
             File file = File.new_for_path (Environment.get_user_data_dir () + @"/gradebook/savedata/subjectsave$i");
 
             var parser = new SubjectParser ();
             Subject sub = parser.to_object (read_from_file (file));
             add_subject (sub);
+        }
+    }
+
+    public async void read_data () {
+        File dir = File.new_for_path (Environment.get_user_data_dir () + "/gradebook/savedata/");
+        if (!dir.query_exists ()) {
+            try {
+                dir.make_directory_with_parents ();
+            } catch (Error e) {
+                critical ("Failed to save subjects: Failed to create savedata directory: %s", e.message);
+            }
+        }
+
+        try {
+            var enumerator = yield dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+            FileInfo info;
+			while ((info = enumerator.next_file (null)) != null) {
+				print ("%s\n", info.get_name ());
+				print ("\t%s\n", info.get_file_type ().to_string ());
+				print ("\t%s\n", info.get_is_symlink ().to_string ());
+				print ("\t%s\n", info.get_is_hidden ().to_string ());
+				print ("\t%s\n", info.get_is_backup ().to_string ());
+				print ("\t%"+int64.FORMAT+"\n", info.get_size ());
+			}
         }
     }
 
