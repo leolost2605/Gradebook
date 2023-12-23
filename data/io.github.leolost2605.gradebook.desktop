@@ -1,9 +1,9 @@
 [Desktop Entry]
-Version=1.0
+Version=1.2
 Type=Application
 
 Name=Gradebook
-Comment=A simple tool to keep track of your grades!
+Comment=A simple tool to keep track of your grades
 Categories=Education;
 
 Icon=io.github.leolost2605.gradebook
