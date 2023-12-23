@@ -55,9 +55,12 @@ public class Window : Adw.ApplicationWindow {
         bpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 530px"));
         bpoint.add_setter (split_view, "show_sidebar", false);
         bpoint.add_setter (split_view, "collapsed", true);
+        bpoint.add_setter (subject_page.toggle_button, "visible", true);
         add_breakpoint (bpoint);
 
         content = split_view;
+
+        subject_page.toggle_button.bind_property ("active", split_view, "show-sidebar", BIDIRECTIONAL);
 
         navigation_sidebar.row_activated.connect ((row) => {
             subject_page.subject = (Subject) subject_manager.subjects.get_item (row.get_index ());

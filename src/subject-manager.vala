@@ -36,7 +36,7 @@ public class SubjectManager : Object {
 
             return file_content;
         } catch (Error e) {
-            print ("Error: %s\n", e.message);
+            warning ("Error: %s\n", e.message);
         }
         return "-1";
     }

@@ -19,6 +19,8 @@ public class SubjectPage : Gtk.Box {
         }
     }
 
+    public Gtk.ToggleButton toggle_button { get; construct; }
+
     private Gtk.Label avg_label;
     private Gtk.Box content_box;
     private Gtk.ListBox list_box;
@@ -42,13 +44,11 @@ public class SubjectPage : Gtk.Box {
             menu_model = menu
         };
 
-        var toggle_button = new Gtk.ToggleButton () {
+        toggle_button = new Gtk.ToggleButton () {
             icon_name =  "dock-left-symbolic",
             tooltip_text = _("Toggle Sidebar"),
             visible = false
         };
-        // toggle_button.bind_property ("active", ((Window) get_root ()).split_view, "show_sidebar", BindingFlags.BIDIRECTIONAL);
-        // ((Window) get_root ()).bpoint.add_setter (toggle_button, "visible", true);
 
         var edit_subject_button = new Gtk.Button () {
             icon_name = "document-edit-symbolic"
