@@ -50,7 +50,7 @@ public class SubjectParser : Object {
     //     return result_subject;
     // }
 
-    public static Subject? to_object (string str) {
+    public static Subject? legacy_to_object (string str) {
         var subject_string_arr = str.split_set ("%");
         var cat_string_arr = subject_string_arr[1].split_set ("#");
         var grade_string_arr = subject_string_arr[2].split_set ("#");
@@ -64,7 +64,8 @@ public class SubjectParser : Object {
 
         int j2 = 0;
         while (j2 < grade_string_arr.length) {
-            result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], grade_string_arr[j2++]));
+            result_subject.grades_model.append (new Grade (grade_string_arr[j2++], grade_string_arr[j2++], cat_string_arr[int.parse (grade_string_arr[j2++]) * 2]));
+            j2 += 3; //SKIP OLD DATE FORMATTING
         }
 
         return result_subject;
