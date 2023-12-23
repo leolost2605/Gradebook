@@ -6,66 +6,70 @@ public class NewSubjectDialog : Adw.Window {
     public bool accept;
 
     public NewSubjectDialog (Adw.ApplicationWindow parent) {
-    Object (
-        modal: true,
-        title: _("New Subject"),
-        transient_for: parent,
-        default_height: 400,
-        default_width: 500,
-        width_request: 360,
-        height_request: 360
-    );
+        Object (
+            modal: true,
+            title: _("New Subject"),
+            transient_for: parent,
+            default_height: 400,
+            default_width: 500,
+            width_request: 360,
+            height_request: 360
+        );
 
-	var tbv = new Adw.ToolbarView ();
-	this.set_content (tbv);
-
-	var hb = new Adw.HeaderBar () {
-		show_end_title_buttons = false,
-		show_start_title_buttons = false,
-	};
-
-	var cb = new Gtk.Button.with_label (_("Cancel"));
-	cb.clicked.connect (() => {
-		accept = false;
-		this.close ();
-	});
-
-	var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" }, sensitive = false };
-	ab.clicked.connect (() => {
-		accept = true;
-		this.close ();
-	});
-
-	hb.pack_start (cb);
-	hb.pack_end (ab);
-
-	tbv.add_top_bar (hb);
-
-        Adw.Clamp ac = new Adw.Clamp () {
-		margin_start = 19,
-		margin_end = 19,
-		maximum_size = 500,
-		tightening_threshold = 400
-	};
-
-	var sw = new Gtk.ScrolledWindow ();
-        main_box = new Gtk.Box (VERTICAL, 0) {
-		margin_top = 20,
-		margin_bottom = 20
-	};
-	tbv.set_content (sw);
-
+        var tbv = new Adw.ToolbarView ();
         this.set_content (tbv);
- 	sw.set_child (ac);
-	ac.set_child (main_box);
 
-	Gtk.ListBox lisbox = new Gtk.ListBox () {margin_start = 1, margin_end = 1};
-	lisbox.add_css_class ("boxed-list");
-        name_entry_box = new Adw.EntryRow () {
-		input_hints = Gtk.InputHints.SPELLCHECK,
-		title = _("Subject Title"),
-	};
-	lisbox.append (name_entry_box);
+        var hb = new Adw.HeaderBar () {
+            show_end_title_buttons = false,
+            show_start_title_buttons = false,
+        };
+
+        var cb = new Gtk.Button.with_label (_("Cancel"));
+        cb.clicked.connect (() => {
+            accept = false;
+            this.close ();
+        });
+
+        var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" }, sensitive = false };
+        ab.clicked.connect (() => {
+            accept = true;
+            this.close ();
+        });
+
+        hb.pack_start (cb);
+        hb.pack_end (ab);
+
+        var size_group = new Gtk.SizeGroup (BOTH);
+        size_group.add_widget (cb);
+        size_group.add_widget (ab);
+
+        tbv.add_top_bar (hb);
+
+            Adw.Clamp ac = new Adw.Clamp () {
+            margin_start = 19,
+            margin_end = 19,
+            maximum_size = 500,
+            tightening_threshold = 400
+        };
+
+        var sw = new Gtk.ScrolledWindow ();
+            main_box = new Gtk.Box (VERTICAL, 0) {
+            margin_top = 20,
+            margin_bottom = 20
+        };
+        tbv.set_content (sw);
+
+            this.set_content (tbv);
+        sw.set_child (ac);
+        ac.set_child (main_box);
+
+        Gtk.ListBox lisbox = new Gtk.ListBox () {margin_start = 1, margin_end = 1};
+        lisbox.add_css_class ("boxed-list");
+            name_entry_box = new Adw.EntryRow () {
+            input_hints = Gtk.InputHints.SPELLCHECK,
+            title = _("Subject Title"),
+        };
+        lisbox.append (name_entry_box);
         main_box.append (lisbox);
 
 
