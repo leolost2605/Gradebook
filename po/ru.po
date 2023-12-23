@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 23:47+0100\n"
+"POT-Creation-Date: 2023-12-23 16:14+0100\n"
 "PO-Revision-Date: 2022-12-28 10:28+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,20 +21,150 @@ msgstr ""
 "X-Poedit-Basepath: ../src\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/application.vala:71
+#: src/add-category-dialog.vala:7 src/edit-subject-dialog.vala:46
+#: src/new-subject-dialog.vala:104
+#, fuzzy
+msgid "Add New Category"
+msgstr "Добавить новую категорию"
+
+#. BUTTONS
+#: src/add-category-dialog.vala:12 src/edit-subject-dialog.vala:22
+#: src/edit-subject-dialog.vala:101 src/new-grade-dialog.vala:14
+#: src/new-subject-dialog.vala:27 src/subject-page.vala:240
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/add-category-dialog.vala:13 src/new-grade-dialog.vala:15
+msgid "Add"
+msgstr "Добавить"
+
+#: src/add-category-dialog.vala:22
+#, fuzzy
+msgid "Category Name"
+msgstr "Категория:"
+
+#: src/add-category-dialog.vala:28
+#, fuzzy
+msgid "Category Percent"
+msgstr "Категория:"
+
+#: src/application.vala:47
 msgid "translator-credits"
 msgstr "Alex Kryuchkov"
 
-#: src/application.vala:72 src/application.vala:352 src/application.vala:648
+#: src/application.vala:48 src/window.vala:12
 #, fuzzy
 msgid "Gradebook"
 msgstr "О Gradebook"
 
-#: src/application.vala:251
+#: src/edit-subject-dialog.vala:10
+msgid "Edit Subject"
+msgstr "Редактировать предмет"
+
+#: src/edit-subject-dialog.vala:27 src/new-subject-dialog.vala:33
+msgid "Save"
+msgstr ""
+
+#: src/edit-subject-dialog.vala:55 src/new-subject-dialog.vala:99
+#, fuzzy
+msgid "Subject Categories"
+msgstr "Категории этого предмета:"
+
+#: src/edit-subject-dialog.vala:59
+#, fuzzy
+msgid "Delete Subject…"
+msgstr "Удалить предмет"
+
+#. /TRANSLATORS: %s is the name of a school subject
+#: src/edit-subject-dialog.vala:99
+#, fuzzy, c-format
+msgid "Delete %s?"
+msgstr "Удалить"
+
+#: src/edit-subject-dialog.vala:100
+#, c-format
+msgid "If you delete %s, its information will be deleted permanently."
+msgstr ""
+
+#: src/edit-subject-dialog.vala:102 src/subject-page.vala:241
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/new-grade-dialog.vala:8
+#, fuzzy
+msgid "Add New Grade"
+msgstr "Новая оценка"
+
+#: src/new-grade-dialog.vala:29
+#, fuzzy
+msgid "Grade"
+msgstr "Оценка:"
+
+#: src/new-grade-dialog.vala:32
+#, fuzzy
+msgid "Category"
+msgstr "Категория:"
+
+#: src/new-grade-dialog.vala:37
+msgid "Note"
+msgstr ""
+
+#: src/new-subject-dialog.vala:11
+msgid "New Subject"
+msgstr "Новый предмет"
+
+#: src/new-subject-dialog.vala:66
+msgid "Subject Title"
+msgstr ""
+
+#: src/subject-page.vala:36
+#, fuzzy
+msgid "_Help"
+msgstr "Помощь"
+
+#: src/subject-page.vala:39
+#, fuzzy
+msgid "_About Gradebook"
+msgstr "О Gradebook"
+
+#: src/subject-page.vala:49
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: src/subject-page.vala:76
+#, fuzzy
+msgid "Average:"
+msgstr "Ваш средний уровень:"
+
+#: src/subject-page.vala:87
+#, fuzzy
+msgid "New Grade…"
+msgstr "Новая оценка"
+
+#: src/subject-page.vala:94
+#, fuzzy
+msgid "No Grades"
+msgstr "Новая оценка"
+
+#: src/subject-page.vala:95
+msgid "Add new grades by clicking the “New Grade…” button."
+msgstr ""
+
+#: src/subject-page.vala:127
+#, fuzzy
+msgid "No Subjects"
+msgstr "Новый предмет"
+
+#: src/subject-page.vala:128
+#, fuzzy
+msgid "Add new subjects using the “+” button in the top left corner."
+msgstr "Добавляйте новые предметы с помощью + в левом верхнем углу!"
+
+#: src/subject-page.vala:204
 msgid "Error"
 msgstr "Ошибка"
 
-#: src/application.vala:251
+#: src/subject-page.vala:204
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
@@ -42,153 +172,23 @@ msgstr ""
 "У этого предмета нет категорий. Добавьте хотя бы одну категорию, чтобы "
 "добавить оценку."
 
-#: src/application.vala:253
+#: src/subject-page.vala:206
 msgid "OK"
 msgstr ""
 
-#: src/application.vala:315 src/application.vala:374
-#, fuzzy
-msgid "_Help"
-msgstr "Помощь"
-
-#: src/application.vala:318 src/application.vala:377
-#, fuzzy
-msgid "_About Gradebook"
-msgstr "О Gradebook"
-
-#: src/application.vala:327 src/application.vala:386
-msgid "Toggle Sidebar"
-msgstr ""
-
-#: src/application.vala:338 src/application.vala:397
-#, fuzzy
-msgid "Add a New Subject"
-msgstr "Добавить новый предмет"
-
-#: src/application.vala:348
-#, fuzzy
-msgid "No Subjects"
-msgstr "Новый предмет"
-
-#: src/application.vala:349
-#, fuzzy
-msgid "Add new subjects using the “+” button in the top left corner."
-msgstr "Добавляйте новые предметы с помощью + в левом верхнем углу!"
-
-#: src/application.vala:442
-#, fuzzy
-msgid "Average:"
-msgstr "Ваш средний уровень:"
-
-#: src/application.vala:455
-#, fuzzy
-msgid "New Grade…"
-msgstr "Новая оценка"
-
-#: src/application.vala:547
-#, fuzzy
-msgid "No Grades"
-msgstr "Новая оценка"
-
-#: src/application.vala:548
-msgid "Add new grades by clicking the “New Grade…” button."
-msgstr ""
-
-#: src/application.vala:589
+#: src/subject-page.vala:237
 #, fuzzy
 msgid "Delete Grade?"
 msgstr "Новая оценка"
 
-#: src/application.vala:590
+#: src/subject-page.vala:238
 msgid "If you delete this grade, its information will be deleted permanently."
 msgstr ""
 
-#. BUTTONS
-#: src/application.vala:592 src/new-subject-dialog.vala:29
-#: src/new-grade-dialog.vala:17 src/add-category-dialog.vala:12
-#: src/edit-subject-dialog.vala:33 src/edit-subject-dialog.vala:79
-msgid "Cancel"
-msgstr "Отмена"
-
-#: src/application.vala:593 src/edit-subject-dialog.vala:80
-msgid "Delete"
-msgstr "Удалить"
-
-#: src/new-subject-dialog.vala:11
-msgid "New Subject"
-msgstr "Новый предмет"
-
-#: src/new-subject-dialog.vala:35 src/edit-subject-dialog.vala:39
-msgid "Save"
-msgstr ""
-
-#: src/new-subject-dialog.vala:68
-msgid "Subject Title"
-msgstr ""
-
-#: src/new-subject-dialog.vala:124 src/edit-subject-dialog.vala:138
+#: src/window.vala:23
 #, fuzzy
-msgid "Subject Categories"
-msgstr "Категории этого предмета:"
-
-#: src/new-subject-dialog.vala:129 src/add-category-dialog.vala:7
-#: src/edit-subject-dialog.vala:143
-#, fuzzy
-msgid "Add New Category"
-msgstr "Добавить новую категорию"
-
-#: src/new-grade-dialog.vala:11
-#, fuzzy
-msgid "Add New Grade"
-msgstr "Новая оценка"
-
-#: src/new-grade-dialog.vala:18 src/add-category-dialog.vala:13
-msgid "Add"
-msgstr "Добавить"
-
-#: src/new-grade-dialog.vala:32
-#, fuzzy
-msgid "Grade"
-msgstr "Оценка:"
-
-#: src/new-grade-dialog.vala:35
-#, fuzzy
-msgid "Category"
-msgstr "Категория:"
-
-#: src/new-grade-dialog.vala:40
-msgid "Note"
-msgstr ""
-
-#: src/add-category-dialog.vala:22
-#, fuzzy
-msgid "Category Name"
-msgstr "Категория:"
-
-#: src/add-category-dialog.vala:27
-#, fuzzy
-msgid "Category Percent"
-msgstr "Категория:"
-
-#: src/edit-subject-dialog.vala:13
-msgid "Edit Subject"
-msgstr "Редактировать предмет"
-
-#: src/edit-subject-dialog.vala:70
-#, fuzzy
-msgid "Delete Subject…"
-msgstr "Удалить предмет"
-
-#. /TRANSLATORS: %s is the name of a school subject
-#: src/edit-subject-dialog.vala:77
-#, fuzzy, c-format
-msgid "Delete %s?"
-msgstr "Удалить"
-
-#: src/edit-subject-dialog.vala:78
-#, c-format
-msgid "If you delete %s, its information will be deleted permanently."
-msgstr ""
+msgid "Add a New Subject"
+msgstr "Добавить новый предмет"
 
 #, fuzzy
 #~ msgid "Keep track of your grades"
