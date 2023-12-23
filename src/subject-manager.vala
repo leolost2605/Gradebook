@@ -65,13 +65,14 @@ public class SubjectManager : Object {
             var enumerator = yield dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
             FileInfo info;
 			while ((info = enumerator.next_file (null)) != null) {
-				print ("%s\n", info.get_name ());
-				print ("\t%s\n", info.get_file_type ().to_string ());
-				print ("\t%s\n", info.get_is_symlink ().to_string ());
-				print ("\t%s\n", info.get_is_hidden ().to_string ());
-				print ("\t%s\n", info.get_is_backup ().to_string ());
-				print ("\t%"+int64.FORMAT+"\n", info.get_size ());
+                var file = dir.get_child (info.get_name ());
+
+                var parser = new SubjectParser ();
+                var subject = parser.to_object (read_from_file (file));
+                add_subject (subject);
 			}
+        } catch (Error e) {
+            warning ("Failed to read data: %s", e.message);
         }
     }
 
