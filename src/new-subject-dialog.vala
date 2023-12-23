@@ -1,5 +1,5 @@
 public class NewSubjectDialog : Adw.Window {
-    public Category[] categories;
+    private Category[] categories = {};
     public Gtk.Box main_box;
     public Adw.EntryRow name_entry_box;
     private Gtk.Button new_cat_button;
@@ -15,8 +15,6 @@ public class NewSubjectDialog : Adw.Window {
         width_request: 360,
         height_request: 360
     );
-
-        categories = new Category[5];
 
 	var tbv = new Adw.ToolbarView ();
 	this.set_content (tbv);
@@ -76,38 +74,15 @@ public class NewSubjectDialog : Adw.Window {
         });
 
         categories_list_ui ();
-        /*var cat_list_box = new Gtk.ListBox ();
-        cat_list_box.add_css_class("boxed-list");
-
-        var scroll_container = new Gtk.ScrolledWindow () {
-            margin_bottom = 20,
-            margin_top = 20,
-            margin_start = 20,
-            margin_end = 20,
-            hexpand = true,
-            vexpand = true
-        };
-        scroll_container.set_child(cat_list_box);
-        main_box.append(scroll_container);
-
-
-        for (int i = 0; i < subject.categories.length && subject.categories[i] != null; i++) {
-            var cat_row = new Adw.ActionRow () {
-                title = subject.categories[i].name,
-                subtitle = subject.categories[i].percentage.to_string () + "%"
-            };
-            cat_list_box.append(cat_row);
-        }*/
     }
 
     public void add_cat (string n, double p) {
-        for (int i = 0; i < categories.length; i++) {
-            if (categories[i] == null) {
-                categories[i] = new Category (n, p);
-                i = categories.length;
-                categories_list_ui ();
-            }
-        }
+        categories += new Category (n, p);
+        categories_list_ui ();
+    }
+
+    public Category[] get_categories () {
+        return categories;
     }
 
     public void categories_list_ui () {
