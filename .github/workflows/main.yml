@@ -12,7 +12,7 @@ jobs:
 
     # This job runs in a special container designed for building Flatpaks for AppCenter
     container:
-      image: ghcr.io/elementary/flatpak-platform/runtime:6
+      image: bilelmoussaoui/flatpak-github-actions:gnome-45
       options: --privileged
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -26,12 +26,12 @@ jobs:
         # This is the name of the Bundle file we're building and can be anything you like
         bundle: Gradebook.flatpak
         # This uses your app's RDNN ID
-        manifest-path: io.github.leolost2605.gradebook.yml
+        manifest-path: io.github.leolost2605.gradebook.json
 
         # You can automatically run any of the tests you've created as part of this workflow
         run-tests: true
 
         # These lines specify the location of the elementary Runtime and Sdk
-        repository-name: appcenter
-        repository-url: https://flatpak.elementary.io/repo.flatpakrepo
+        repository-name: flathub
+        repository-url: https://dl.flathub.org/repo/flathub.flatpakrepo
         cache-key: "flatpak-builder-${{ github.sha }}"
