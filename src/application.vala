@@ -10,7 +10,6 @@ public class MyApp : Adw.Application {
 
     construct {
         ActionEntry[] action_entries = {
-            { "test", this.on_test_action },
             { "help", this.on_help_action },
             { "about", this.on_about_action },
             { "newsubject", this.on_newsubject_action},
@@ -18,13 +17,9 @@ public class MyApp : Adw.Application {
         this.add_action_entries (action_entries, this);
     }
 
-    public void on_test_action () {
-        print ("test_action");
-    }
-
-
     public void on_help_action () {
-        Gtk.show_uri (main_window, "https://github.com/leolost2605/Gradebook/wiki", 0);
+        var uri_launcher = new Gtk.UriLauncher ("https://github.com/leolost2605/Gradebook/wiki");
+        uri_launcher.launch.begin (main_window, null);
     }
 
     public void on_newsubject_action () {
@@ -34,7 +29,7 @@ public class MyApp : Adw.Application {
                 SubjectManager.get_default ().new_subject (dialog.name_entry_box.get_text (), dialog.get_categories ());
             }
             dialog.destroy ();
- 	    return true;
+ 	        return true;
         });
         dialog.present ();
     }
@@ -47,7 +42,7 @@ public class MyApp : Adw.Application {
             translator_credits = _("translator-credits"),
             application_name = _("Gradebook"),
             application_icon = "io.github.leolost2605.gradebook",
-            version = "1.1.1",
+            version = "1.2",
             license_type = GPL_3_0,
             website = "https://github.com/leolost2605/Gradebook",
             issue_url = "https://github.com/leolost2605/Gradebook/issues",
