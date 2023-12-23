@@ -1,5 +1,12 @@
-src/application.vala
-src/new-subject-dialog.vala
-src/new-grade-dialog.vala
 src/add-category-dialog.vala
+src/application.vala
+src/category.vala
 src/edit-subject-dialog.vala
+src/grade.vala
+src/new-grade-dialog.vala
+src/new-subject-dialog.vala
+src/subject-manager.vala
+src/subject-page.vala
+src/subject-parser.vala
+src/subject.vala
+src/window.vala
