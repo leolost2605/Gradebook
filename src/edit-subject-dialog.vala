@@ -1,22 +1,26 @@
 public class EditSubjectDialog : Adw.Window {
-    private Subject subject;
+    public Subject? subject { get; construct; }
     private List<Adw.ActionRow> cat_rows;
     private HashTable<string, Category> categories;
     private Adw.PreferencesGroup cat_list_box;
 
-    public EditSubjectDialog (Adw.ApplicationWindow parent, Subject s) {
+    private string subject_name;
+
+    public EditSubjectDialog (Adw.ApplicationWindow parent, Subject? subject) {
         Object (
             modal: true,
-            title: _("Edit Subject"),
+            title: subject == null ?  _("New Subject") : _("Edit Subject"),
             transient_for: parent,
             default_height: 400,
             default_width: 500,
             width_request: 360,
-            height_request: 360
+            height_request: 360,
+            subject: subject
         );
+    }
 
- 	    subject = s;
-
+    construct {
+        categories = new HashTable<string, Category> (str_hash, str_equal);
  	    cat_rows = new List<Adw.ActionRow> ();
 
         var cb = new Gtk.Button.with_label (_("Cancel"));
@@ -24,9 +28,19 @@ public class EditSubjectDialog : Adw.Window {
             close ();
         });
 
-        var ab = new Gtk.Button.with_label (_("Save")) { css_classes = { "suggested-action" } };
+        var ab = new Gtk.Button.with_label (_("Save")) {
+            sensitive = false,
+            css_classes = { "suggested-action" } 
+        };
         ab.clicked.connect (() => {
-            subject.categories_by_name = categories;
+            if (subject == null) {
+                subject = new Subject (subject_name);
+                subject.categories_by_name = categories;
+                SubjectManager.get_default ().add_subject (subject);
+            } else {
+                subject.name = subject_name;
+                subject.categories_by_name = categories;
+            }
             close ();
         });
 
@@ -41,6 +55,18 @@ public class EditSubjectDialog : Adw.Window {
 	    hb.pack_start (cb);
 	    hb.pack_end (ab);
 
+        var name_entry_row = new Adw.EntryRow () {
+            input_hints = SPELLCHECK,
+            title = _("Subject Title"),
+        };
+
+        var name_list_box = new Gtk.ListBox () {
+            margin_start = 1, 
+            margin_end = 1
+        };
+        name_list_box.add_css_class ("boxed-list");
+        name_list_box.append (name_entry_row);
+
  	    var new_cat_button = new Gtk.Button () {
             icon_name = "list-add-symbolic",
             tooltip_text = _("Add New Category"),
@@ -48,6 +74,7 @@ public class EditSubjectDialog : Adw.Window {
         };
 
         cat_list_box = new Adw.PreferencesGroup () {
+            margin_top = 20,
             margin_start = 1,
             margin_end = 1,
             hexpand = true,
@@ -56,13 +83,19 @@ public class EditSubjectDialog : Adw.Window {
         };
  	    cat_list_box.set_header_suffix (new_cat_button);
 
- 	    var subject_delete_button = new Gtk.Button.with_label (_("Delete Subject…")) { hexpand = false, halign = Gtk.Align.START, margin_top = 20 };
+ 	    var subject_delete_button = new Gtk.Button.with_label (_("Delete Subject…")) { 
+            hexpand = false, 
+            halign = START, 
+            margin_top = 20,
+            visible = subject != null
+        };
         subject_delete_button.add_css_class ("destructive-action");
 
         var main_box = new Gtk.Box (VERTICAL, 0) {
 		    margin_top = 20,
 		    margin_bottom = 20
 	    };
+        main_box.append (name_list_box);
         main_box.append (cat_list_box);
  	    main_box.append (subject_delete_button);
 
@@ -86,15 +119,22 @@ public class EditSubjectDialog : Adw.Window {
 
 	    content = tbv;
 
-	    categories = new HashTable<string, Category> (str_hash, str_equal);
-	    subject.categories_by_name.@foreach ((key, val) => {
-            categories[key] = val;
-	    });
+        name_entry_row.changed.connect (() => {
+            subject_name = name_entry_row.text;
+            ab.sensitive = subject_name.strip () != ""; //TODO: check whether another subject with the same name exists
+        });
+
+        if (subject != null) {
+            name_entry_row.text = subject.name;
+            subject.categories_by_name.@foreach ((key, val) => {
+                categories[key] = val;
+            });
+        }
 
         load_list ();
 
         subject_delete_button.clicked.connect (() => {
-            string n = s.name;
+            string n = subject.name;
             ///TRANSLATORS: %s is the name of a school subject
             var message_dialog = new Adw.MessageDialog(this, _("Delete %s?").printf(    n), null);
 	        message_dialog.set_body (_("If you delete %s, its information will be deleted permanently.").printf(    n));

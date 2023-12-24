@@ -23,15 +23,7 @@ public class MyApp : Adw.Application {
     }
 
     public void on_newsubject_action () {
-        var dialog = new NewSubjectDialog (main_window);
-        dialog.close_request.connect (() => {
-            if (dialog.accept) {
-                SubjectManager.get_default ().new_subject (dialog.name_entry_box.get_text (), dialog.get_categories ());
-            }
-            dialog.destroy ();
- 	        return true;
-        });
-        dialog.present ();
+        new EditSubjectDialog (main_window, null).present ();
     }
 
     public void on_about_action () {

@@ -4,7 +4,6 @@ src/category.vala
 src/edit-subject-dialog.vala
 src/grade.vala
 src/new-grade-dialog.vala
-src/new-subject-dialog.vala
 src/subject-manager.vala
 src/subject-page.vala
 src/subject-parser.vala
