@@ -88,17 +88,7 @@ public class SubjectManager : Object {
         }
     }
 
-    public void new_subject (string name, Category[] c) {
-        var subject = new Subject (name);
-
-        foreach (var cat in c) {
-            subject.categories_by_name[cat.name] = cat;
-        }
-
-        add_subject (subject);
-    }
-
-    private void add_subject (Subject subject) {
+    public void add_subject (Subject subject) {
         subjects.append (subject);
         subject.notify["deleted"].connect (() => {
             uint pos;

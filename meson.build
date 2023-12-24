@@ -35,7 +35,6 @@ executable(
     'src' / 'grade.vala',
     'src' / 'subject.vala',
     'src' / 'new-grade-dialog.vala',
-    'src' / 'new-subject-dialog.vala',
     'src' / 'category.vala',
     'src' / 'edit-subject-dialog.vala',
     'src' / 'add-category-dialog.vala',

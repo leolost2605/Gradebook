@@ -31,8 +31,10 @@ public class Window : Adw.ApplicationWindow {
         var navigation_sidebar = new Gtk.ListBox ();
  	    navigation_sidebar.add_css_class ("navigation-sidebar");
  	    navigation_sidebar.bind_model (subject_manager.subjects, (obj) => {
- 	        var sub = (Subject) obj;
- 	        return new Gtk.Label (sub.name) { xalign = 0 };
+ 	        var subject = (Subject) obj;
+            var label = new Gtk.Label (subject.name) { xalign = 0 };
+            subject.notify["name"].connect (() => label.label = subject.name);
+ 	        return label;
  	    });
 
         var scrolled_window = new Gtk.ScrolledWindow () {
