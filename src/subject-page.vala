@@ -152,7 +152,7 @@ public class SubjectPage : Gtk.Box {
             if (subject == null) {
                 placeholder_stack.visible_child = placeholder;
                 edit_subject_button.visible = false;
-                title_label.title = _("No Subject Selected");
+                title_label.title = "";
             } else {
                 placeholder_stack.visible_child = gtk_sw;
                 edit_subject_button.visible = true;
