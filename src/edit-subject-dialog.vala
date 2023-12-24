@@ -56,7 +56,11 @@ public class EditSubjectDialog : Adw.Window {
         };
  	    cat_list_box.set_header_suffix (new_cat_button);
 
- 	    var subject_delete_button = new Gtk.Button.with_label (_("Delete Subject…")) { hexpand = false, halign = Gtk.Align.START, margin_top = 20 };
+ 	    var subject_delete_button = new Gtk.Button.with_label (_("Delete Subject…")) { 
+            hexpand = false, 
+            halign = START, 
+            margin_top = 20
+        };
         subject_delete_button.add_css_class ("destructive-action");
 
         var main_box = new Gtk.Box (VERTICAL, 0) {
