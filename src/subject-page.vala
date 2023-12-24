@@ -54,10 +54,13 @@ public class SubjectPage : Gtk.Box {
             icon_name = "document-edit-symbolic"
         };
 
-        var header_bar = new Adw.HeaderBar ();
+        var title_label = new Adw.WindowTitle ("", "");
+
+        var header_bar = new Adw.HeaderBar () {
+            title_widget = title_label
+        };
         header_bar.pack_end (menu_button);
         header_bar.pack_end (edit_subject_button);
-
         header_bar.pack_start (toggle_button);
 
         //TOP BOX
@@ -149,9 +152,11 @@ public class SubjectPage : Gtk.Box {
             if (subject == null) {
                 placeholder_stack.visible_child = placeholder;
                 edit_subject_button.visible = false;
+                title_label.title = _("No Subject Selected");
             } else {
                 placeholder_stack.visible_child = gtk_sw;
                 edit_subject_button.visible = true;
+                title_label.title = subject.name;
             }
         }
 
