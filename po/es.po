@@ -1,0 +1,173 @@
+# Spanish translations for io.github.leolost2605.gradebook package.
+# Copyright (C) 2023 THE io.github.leolost2605.gradebook'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the io.github.leolost2605.gradebook package.
+# Óscar Fernández Díaz <oscfdezdz@tuta.io>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: io.github.leolost2605.gradebook\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-24 10:32+0100\n"
+"PO-Revision-Date: 2023-12-24 10:40+0100\n"
+"Last-Translator: Óscar Fernández Díaz <oscfdezdz@tuta.io>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 45.3\n"
+
+#: src/add-category-dialog.vala:7 src/edit-subject-dialog.vala:46
+#: src/new-subject-dialog.vala:104
+msgid "Add New Category"
+msgstr "Añadir categoría nueva"
+
+#. BUTTONS
+#: src/add-category-dialog.vala:12 src/edit-subject-dialog.vala:22
+#: src/edit-subject-dialog.vala:101 src/new-grade-dialog.vala:14
+#: src/new-subject-dialog.vala:27 src/subject-page.vala:240
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/add-category-dialog.vala:13 src/new-grade-dialog.vala:15
+msgid "Add"
+msgstr "Añadir"
+
+#: src/add-category-dialog.vala:22
+msgid "Category Name"
+msgstr "Nombre de la categoría"
+
+#: src/add-category-dialog.vala:28
+msgid "Category Percent"
+msgstr "Porcentaje de la categoría"
+
+#: src/application.vala:42
+msgid "translator-credits"
+msgstr "Óscar Fernández Díaz <oscfdezdz@tuta.io>"
+
+#: src/application.vala:43 src/window.vala:12
+msgid "Gradebook"
+msgstr "Libro de calificaciones"
+
+#: src/edit-subject-dialog.vala:10
+msgid "Edit Subject"
+msgstr "Editar materia"
+
+#: src/edit-subject-dialog.vala:27 src/new-subject-dialog.vala:33
+msgid "Save"
+msgstr "Guardar"
+
+#: src/edit-subject-dialog.vala:55 src/new-subject-dialog.vala:99
+msgid "Subject Categories"
+msgstr "Categorías de la materia"
+
+#: src/edit-subject-dialog.vala:59
+msgid "Delete Subject…"
+msgstr "Eliminar materia…"
+
+#. /TRANSLATORS: %s is the name of a school subject
+#: src/edit-subject-dialog.vala:99
+#, c-format
+msgid "Delete %s?"
+msgstr "¿Eliminar %s?"
+
+#: src/edit-subject-dialog.vala:100
+#, c-format
+msgid "If you delete %s, its information will be deleted permanently."
+msgstr "Si elimina %s, su información se borrará permanentemente."
+
+#: src/edit-subject-dialog.vala:102 src/subject-page.vala:241
+msgid "Delete"
+msgstr "Eliminar"
+
+#: src/new-grade-dialog.vala:8
+msgid "Add New Grade"
+msgstr "Añadir calificación nueva"
+
+#: src/new-grade-dialog.vala:29
+msgid "Grade"
+msgstr "Calificación"
+
+#: src/new-grade-dialog.vala:32
+msgid "Category"
+msgstr "Categoría"
+
+#: src/new-grade-dialog.vala:37
+msgid "Note"
+msgstr "Nota"
+
+#: src/new-subject-dialog.vala:11
+msgid "New Subject"
+msgstr "Materia nueva"
+
+#: src/new-subject-dialog.vala:66
+msgid "Subject Title"
+msgstr "Título de la materia"
+
+#: src/subject-page.vala:36
+msgid "_Help"
+msgstr "A_yuda"
+
+#: src/subject-page.vala:39
+msgid "_About Gradebook"
+msgstr "_Acerca de Libro de calificaciones"
+
+#: src/subject-page.vala:49
+msgid "Toggle Sidebar"
+msgstr "Conmutar barra lateral"
+
+#: src/subject-page.vala:76
+msgid "Average:"
+msgstr "Media:"
+
+#: src/subject-page.vala:87
+msgid "New Grade…"
+msgstr "Calificación nueva…"
+
+#: src/subject-page.vala:94
+msgid "No Grades"
+msgstr "No hay calificaciones"
+
+#: src/subject-page.vala:95
+msgid "Add new grades by clicking the “New Grade…” button."
+msgstr ""
+"Añada calificaciones nuevas haciendo clic en el botón “Calificación nueva…”"
+
+#: src/subject-page.vala:127
+msgid "No Subjects"
+msgstr "No hay materias"
+
+#: src/subject-page.vala:128
+msgid "Add new subjects using the “+” button in the top left corner."
+msgstr ""
+"Añada materias nuevas usando el botón “+” en la esquina superior izquierda."
+
+#: src/subject-page.vala:204
+msgid "Error"
+msgstr "Error"
+
+#: src/subject-page.vala:204
+msgid ""
+"This subject has no categories. Add at least one category in order to add a "
+"grade."
+msgstr ""
+"Esta materia no tiene categorías. Añada al menos una categoría para poder "
+"añadir una calificación."
+
+#: src/subject-page.vala:206
+msgid "OK"
+msgstr "De acuerdo"
+
+#: src/subject-page.vala:237
+msgid "Delete Grade?"
+msgstr "¿Eliminar calificación?"
+
+#: src/subject-page.vala:238
+msgid "If you delete this grade, its information will be deleted permanently."
+msgstr ""
+"Si elimina esta calificación, su información se borrará de forma permanente."
+
+#: src/window.vala:23
+msgid "Add a New Subject"
+msgstr "Añadir una materia nueva"
