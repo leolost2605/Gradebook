@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-24 12:50+0100\n"
+"POT-Creation-Date: 2024-01-10 19:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: data/io.github.leolost2605.gradebook.desktop.in:6
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:5
+#: src/application.vala:35 src/window.vala:12
+msgid "Gradebook"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.desktop.in:7
+msgid "A simple tool to keep track of your grades"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:6
+msgid "Keep track of your grades"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:12
+msgid ""
+"Gradebook is a simple tool that helps you keep track of your grades. This "
+"way you always know how you are doing in your courses."
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:15
+msgid "Features:"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:17
+msgid "Support for numerical and percentage systems"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:18
+msgid "Assign your grades to categories with different weighting"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:19
+msgid "Add notes to your grades so that you later know how you could improve"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:20
+msgid ""
+"Your average is calculated automatically taking the weighting of the "
+"different categories into account"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:30
+msgid "The start page of the app"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:34
+msgid "Example for a subject"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:38
+msgid "Menu for the addition of a subject"
+msgstr ""
+
+#: data/io.github.leolost2605.gradebook.metainfo.xml.in:42
+msgid "Gradebook showing its adaptive mode"
+msgstr ""
+
 #: src/add-category-dialog.vala:7 src/edit-subject-dialog.vala:72
 msgid "Add New Category"
 msgstr ""
@@ -24,7 +82,7 @@ msgstr ""
 #. BUTTONS
 #: src/add-category-dialog.vala:12 src/edit-subject-dialog.vala:26
 #: src/edit-subject-dialog.vala:141 src/new-grade-dialog.vala:14
-#: src/subject-page.vala:240
+#: src/subject-page.vala:245
 msgid "Cancel"
 msgstr ""
 
@@ -42,10 +100,6 @@ msgstr ""
 
 #: src/application.vala:34
 msgid "translator-credits"
-msgstr ""
-
-#: src/application.vala:35 src/window.vala:12
-msgid "Gradebook"
 msgstr ""
 
 #: src/edit-subject-dialog.vala:12
@@ -83,7 +137,7 @@ msgstr ""
 msgid "If you delete %s, its information will be deleted permanently."
 msgstr ""
 
-#: src/edit-subject-dialog.vala:142 src/subject-page.vala:241
+#: src/edit-subject-dialog.vala:142 src/subject-page.vala:246
 msgid "Delete"
 msgstr ""
 
@@ -115,49 +169,49 @@ msgstr ""
 msgid "Toggle Sidebar"
 msgstr ""
 
-#: src/subject-page.vala:76
+#: src/subject-page.vala:79
 msgid "Average:"
 msgstr ""
 
-#: src/subject-page.vala:87
+#: src/subject-page.vala:90
 msgid "New Grade…"
 msgstr ""
 
-#: src/subject-page.vala:94
+#: src/subject-page.vala:97
 msgid "No Grades"
 msgstr ""
 
-#: src/subject-page.vala:95
+#: src/subject-page.vala:98
 msgid "Add new grades by clicking the “New Grade…” button."
 msgstr ""
 
-#: src/subject-page.vala:127
+#: src/subject-page.vala:130
 msgid "No Subjects"
 msgstr ""
 
-#: src/subject-page.vala:128
+#: src/subject-page.vala:131
 msgid "Add new subjects using the “+” button in the top left corner."
 msgstr ""
 
-#: src/subject-page.vala:204
+#: src/subject-page.vala:209
 msgid "Error"
 msgstr ""
 
-#: src/subject-page.vala:204
+#: src/subject-page.vala:209
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
 msgstr ""
 
-#: src/subject-page.vala:206
+#: src/subject-page.vala:211
 msgid "OK"
 msgstr ""
 
-#: src/subject-page.vala:237
+#: src/subject-page.vala:242
 msgid "Delete Grade?"
 msgstr ""
 
-#: src/subject-page.vala:238
+#: src/subject-page.vala:243
 msgid "If you delete this grade, its information will be deleted permanently."
 msgstr ""
 
