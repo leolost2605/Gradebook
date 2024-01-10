@@ -13,6 +13,7 @@
         {
             "name": "gradebook",
             "buildsystem": "meson",
+            "run-tests": true,
             "sources": [
                 {
                     "type": "dir",

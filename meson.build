@@ -1,6 +1,8 @@
 # project name and programming language
 project('io.github.leolost2605.gradebook', 'vala', 'c')
 
+i18n = import('i18n')
+
 subdir ('po')
 
 conf = configuration_data()
@@ -51,15 +53,41 @@ executable(
     install: true
 )
 
-install_data (
-'data' / 'io.github.leolost2605.gradebook.desktop',
-install_dir: get_option('datadir') / 'applications'
+# Create desktop file
+desktop_file = i18n.merge_file(
+  input: 'data/io.github.leolost2605.gradebook.desktop.in',
+  output: 'io.github.leolost2605.gradebook.desktop',
+  type: 'desktop',
+  po_dir: './po',
+  install: true,
+  install_dir: join_paths(get_option('datadir'), 'applications')
 )
 
-install_data (
-'data' / 'io.github.leolost2605.gradebook.metainfo.xml',
-install_dir: get_option('datadir') / 'metainfo'
+# Validate desktop file
+desktop_utils = find_program('desktop-file-validate', required: false)
+if desktop_utils.found()
+  test('Validate desktop file', desktop_utils,
+    args: [desktop_file]
+  )
+endif
+
+# Create appdata file
+appdata_file = i18n.merge_file(
+  input: 'data/io.github.leolost2605.gradebook.metainfo.xml.in',
+  output: 'io.github.leolost2605.gradebook.metainfo.xml',
+  po_dir: './po',
+  install: true,
+  install_dir: join_paths(get_option('datadir'), 'metainfo')
 )
+
+# Validate appdata file
+appstreamcli = find_program('appstreamcli', required: false)
+if appstreamcli.found()
+  test('Validate appdata file', appstreamcli,
+    args: ['validate', '--no-net', '--explain', appdata_file.full_path()],
+    workdir: meson.current_build_dir()
+  )
+endif
 
 # Install our icons in all the required sizes
 icon_sizes = ['16', '24', '32', '48', '64', '128']
