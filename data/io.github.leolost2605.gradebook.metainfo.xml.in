@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>io.github.leolost2605.gradebook</id>
-  
+
   <name>Gradebook</name>
   <summary>Keep track of your grades</summary>
-  
+
   <metadata_license>CC-BY-4.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  
+
   <description>
     <p>
       Gradebook is a simple tool that helps you keep track of your grades. This way you always know how you are doing in your courses.
@@ -20,10 +20,11 @@
         <li>Your average is calculated automatically taking the weighting of the different categories into account</li>
       </ul>
   </description>
-  
-  <developer_name>Leonhard Kargl</developer_name>
+
+  <developer_name translatable="no">Leonhard Kargl</developer_name>
 
   <launchable type="desktop-id">io.github.leolost2605.gradebook.desktop</launchable>
+  <translation type="gettext">io.github.leolost2605.gradebook</translation>
   <screenshots>
     <screenshot type="default">
       <caption>The start page of the app</caption>
@@ -45,7 +46,7 @@
 
   <releases>
     <release version="1.2" date="2023-12-24" urgency="medium">
-      <description>
+      <description translatable="no">
         <p>This release brings a completely refreshed UI, updating it to the latest GNOME 45 HIG. Huge thanks to skøldis (gradebook@turtle.garden) for making this possible! Since this is such a massive change be sure to report any issues you discover.</p>
         <p>More improvements:</p>
         <ul>
@@ -55,7 +56,7 @@
       </description>
     </release>
     <release version="1.1.1" date="2022-12-25" urgency="medium">
-      <description>
+      <description translatable="no">
         <p>Changes:</p>
         <ul>
           <li>Translations for additional languages were added</li>
@@ -66,6 +67,9 @@
   </releases>
 
   <url type="homepage">https://github.com/leolost2605/Gradebook</url>
+  <url type="bugtracker">https://github.com/leolost2605/Gradebook/issues</url>
+  <url type="vcs-browser">https://github.com/leolost2605/Gradebook</url>
+  <url type="translate">https://github.com/leolost2605/Gradebook/tree/main/po</url>
 
-  <content_rating type="oars-1.0" />
+  <content_rating type="oars-1.1" />
 </component>

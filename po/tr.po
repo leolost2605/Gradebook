@@ -1,220 +1,229 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the io.github.leolost2605.gradebook package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Turkish translation for Gradebook.
+# Copyright (C) 2024 Gradebook's COPYRIGHT HOLDER
+# This file is distributed under the same license as the Gradebook package.
 #
-#, fuzzy
+# Sabri Ünal <libreajans@gmail.com>, 2024.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: io.github.leolost2605.gradebook\n"
+"Project-Id-Version: Gradebook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 19:37+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2024-01-10 19:23+0300\n"
+"PO-Revision-Date: 2024-01-10 19:40+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"Language-Team: Türkçe <takim@gnome.org.tr>\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/io.github.leolost2605.gradebook.desktop.in:6
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:5
 #: src/application.vala:35 src/window.vala:12
 msgid "Gradebook"
-msgstr ""
+msgstr "Not Defteri"
 
 #: data/io.github.leolost2605.gradebook.desktop.in:7
 msgid "A simple tool to keep track of your grades"
-msgstr ""
+msgstr "Notlarınızı takip etmek için basit bir araç"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:6
 msgid "Keep track of your grades"
-msgstr ""
+msgstr "Notlarınızı takip edin"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:12
 msgid ""
 "Gradebook is a simple tool that helps you keep track of your grades. This "
 "way you always know how you are doing in your courses."
 msgstr ""
+"Not Defteri, notlarınızı takip etmenize yardımcı olan basit bir araçtır. Bu "
+"şekilde derslerinizde nasıl olduğunuzu her zaman bilirsiniz."
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:15
 msgid "Features:"
-msgstr ""
+msgstr "Özellikler:"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:17
 msgid "Support for numerical and percentage systems"
-msgstr ""
+msgstr "Sayısal ve yüzde sistemlerini destekler"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:18
 msgid "Assign your grades to categories with different weighting"
-msgstr ""
+msgstr "Notlarınızı farklı ağırlıklara sahip kategorilere atayın"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:19
 msgid "Add notes to your grades so that you later know how you could improve"
 msgstr ""
+"Notlarınıza notlar ekleyin, böylece daha sonra nasıl geliştirebileceğinizi "
+"bilebilirsiniz"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:20
 msgid ""
 "Your average is calculated automatically taking the weighting of the "
 "different categories into account"
 msgstr ""
+"Ortalamanız, farklı kategorilerin ağırlıklandırılması dikkate alınarak "
+"kendiliğinden hesaplanır"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:30
 msgid "The start page of the app"
-msgstr ""
+msgstr "Uygulamanın başlangıç sayfası"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:34
 msgid "Example for a subject"
-msgstr ""
+msgstr "Konu örneği"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:38
 msgid "Menu for the addition of a subject"
-msgstr ""
+msgstr "Konu ekleme menüsü"
 
 #: data/io.github.leolost2605.gradebook.metainfo.xml.in:42
 msgid "Gradebook showing its adaptive mode"
-msgstr ""
+msgstr "Uyarlanabilir kipiyle not defteri görünümü"
 
 #: src/add-category-dialog.vala:7 src/edit-subject-dialog.vala:72
 msgid "Add New Category"
-msgstr ""
+msgstr "Yeni Kategori Ekle"
 
 #. BUTTONS
 #: src/add-category-dialog.vala:12 src/edit-subject-dialog.vala:26
 #: src/edit-subject-dialog.vala:141 src/new-grade-dialog.vala:14
 #: src/subject-page.vala:245
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: src/add-category-dialog.vala:13 src/new-grade-dialog.vala:15
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: src/add-category-dialog.vala:22
 msgid "Category Name"
-msgstr ""
+msgstr "Kategori Adı"
 
 #: src/add-category-dialog.vala:28
 msgid "Category Percent"
-msgstr ""
+msgstr "Kategori Yüzdesi"
 
 #: src/application.vala:34
 msgid "translator-credits"
-msgstr ""
+msgstr "Sabri Ünal <libreajans@gmail.com>"
 
 #: src/edit-subject-dialog.vala:12
 msgid "New Subject"
-msgstr ""
+msgstr "Yeni Konu"
 
 #: src/edit-subject-dialog.vala:12
 msgid "Edit Subject"
-msgstr ""
+msgstr "Konuyu Düzenle"
 
 #: src/edit-subject-dialog.vala:31
 msgid "Save"
-msgstr ""
+msgstr "Kaydet"
 
 #: src/edit-subject-dialog.vala:60
 msgid "Subject Title"
-msgstr ""
+msgstr "Konu Başlığı"
 
 #: src/edit-subject-dialog.vala:82
 msgid "Subject Categories"
-msgstr ""
+msgstr "Konu Kategorileri"
 
 #: src/edit-subject-dialog.vala:86
 msgid "Delete Subject…"
-msgstr ""
+msgstr "Konuyu Sil…"
 
 #. /TRANSLATORS: %s is the name of a school subject
 #: src/edit-subject-dialog.vala:139
 #, c-format
 msgid "Delete %s?"
-msgstr ""
+msgstr "%s silinsin mi?"
 
 #: src/edit-subject-dialog.vala:140
 #, c-format
 msgid "If you delete %s, its information will be deleted permanently."
-msgstr ""
+msgstr "Eğer %s silerseniz, bilgileri kalıcı olarak silinir."
 
 #: src/edit-subject-dialog.vala:142 src/subject-page.vala:246
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: src/new-grade-dialog.vala:8
 msgid "Add New Grade"
-msgstr ""
+msgstr "Yeni Not Ekle"
 
 #: src/new-grade-dialog.vala:29
 msgid "Grade"
-msgstr ""
+msgstr "Not"
 
 #: src/new-grade-dialog.vala:32
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 #: src/new-grade-dialog.vala:37
 msgid "Note"
-msgstr ""
+msgstr "Not"
 
 #: src/subject-page.vala:36
 msgid "_Help"
-msgstr ""
+msgstr "_Yardım"
 
 #: src/subject-page.vala:39
 msgid "_About Gradebook"
-msgstr ""
+msgstr "Not Defteri _Hakkında"
 
 #: src/subject-page.vala:49
 msgid "Toggle Sidebar"
-msgstr ""
+msgstr "Kenar Çubuğunu Aç/Kapat"
 
 #: src/subject-page.vala:79
 msgid "Average:"
-msgstr ""
+msgstr "Ortalama:"
 
 #: src/subject-page.vala:90
 msgid "New Grade…"
-msgstr ""
+msgstr "Yeni Not…"
 
 #: src/subject-page.vala:97
 msgid "No Grades"
-msgstr ""
+msgstr "Not Yok"
 
 #: src/subject-page.vala:98
 msgid "Add new grades by clicking the “New Grade…” button."
-msgstr ""
+msgstr "“Yeni Not…” düğmesine tıklayarak yeni notlar ekleyin."
 
 #: src/subject-page.vala:130
 msgid "No Subjects"
-msgstr ""
+msgstr "Konu Yok"
 
 #: src/subject-page.vala:131
 msgid "Add new subjects using the “+” button in the top left corner."
-msgstr ""
+msgstr "Sol üst köşedeki “+” düğmesini kullanarak yeni konular ekleyin."
 
 #: src/subject-page.vala:209
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: src/subject-page.vala:209
 msgid ""
 "This subject has no categories. Add at least one category in order to add a "
 "grade."
 msgstr ""
+"Bu konunun kategorisi yok. Not eklemek için en az bir kategori ekleyin."
 
 #: src/subject-page.vala:211
 msgid "OK"
-msgstr ""
+msgstr "Tamam"
 
 #: src/subject-page.vala:242
 msgid "Delete Grade?"
-msgstr ""
+msgstr "Not Silinsin Mi?"
 
 #: src/subject-page.vala:243
 msgid "If you delete this grade, its information will be deleted permanently."
-msgstr ""
+msgstr "Bu notu silerseniz, bilgileri kalıcı olarak silinir."
 
 #: src/window.vala:23
 msgid "Add a New Subject"
-msgstr ""
+msgstr "Yeni Konu Ekle"
